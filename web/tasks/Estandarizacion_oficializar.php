@@ -1,6 +1,6 @@
 ﻿<?php
 $serverName = "192.168.3.1"; //serverName\instanceName
-$connectionInfo = array( "Database"=>"estandarizacion", "UID"=>"estdrzn", "PWD"=>"4wq+Lf-@dBd");
+$connectionInfo = array( "Database"=>"estandarizacion", "UID"=>"estdrzn00404", "PWD"=>"000000000004");
 $conn = sqlsrv_connect( $serverName, $connectionInfo);
 
 if( $conn ) {
