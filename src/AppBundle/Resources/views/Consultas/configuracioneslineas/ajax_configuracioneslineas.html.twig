@@ -1,0 +1,37 @@
+<div id="ajax_ConfiguracionesLineas">
+
+<form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu"> 
+    <div class="container-fluid" style="margin-top: 20px;">
+    <div class="row justify-content-center">
+    <div class="col-md-12 col-md-offset-12">
+      <table class="table table-sm">
+        <tbody>
+          <td>
+          <div id="ajax_ops">
+          </div>
+        </td>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    <input type="hidden" name='operarios' id="operarios"  value="">
+    <input type="hidden" name='idConfiguracionLinea' id="idConfiguracionLinea"  value="{{idConfiguracionLinea}}">
+  </div>
+</form>
+
+</div>
+
+{% block javascripts %}
+  <script type="text/javascript">  
+    $(document).ready(function(){
+          var idConfiguracionLinea = $('input[name="idConfiguracionLinea"]').val();
+          var operarios = document.getElementById("operarios").value;   
+          $('#ajax_ops').load('{{ path('app_ajax_ops_configuracioneslineas')}}',{'idConfiguracionLinea': idConfiguracionLinea, 'operarios': operarios});
+      
+      function goBack() {
+        window.history.back();
+      }
+
+});
+  </script>
+{% endblock %}

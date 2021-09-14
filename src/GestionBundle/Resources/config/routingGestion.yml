@@ -1,0 +1,716 @@
+app_gestion:
+    path: /lang/{_locale}
+    controller: GestionBundle\Controller\GestionController::langAction
+
+app_cambio_gestion:
+    path: /cambio_gestion
+    controller: GestionBundle\Controller\GestionController::cambioAction
+
+# planta 
+app_index_planta:
+    path: /admin/index_planta/lang/{_locale}/{page}
+    defaults: { _controller: GestionBundle\Controller\PlantaController::indexAction, page:1}
+
+app_create_planta:
+    path: /admin/create_planta
+    controller: GestionBundle\Controller\PlantaController::createAction
+
+app_edit_planta:
+    path: /admin/edit_planta
+    controller: GestionBundle\Controller\PlantaController::editAction
+
+app_details_planta:
+    path: /admin/details_planta
+    controller: GestionBundle\Controller\PlantaController::detailsAction
+
+app_delete_planta:
+    path: /admin/delete_planta
+    controller: GestionBundle\Controller\PlantaController::deleteAction
+
+
+
+# modelo
+app_index_modelo:
+    path: /index_modelo/lang/{_locale}/{page}
+    defaults: { _controller: GestionBundle\Controller\ModeloController::indexAction, page:1}
+
+app_create_modelo:
+    path: /create_modelo
+    controller: GestionBundle\Controller\ModeloController::createAction
+
+app_edit_modelo:
+    path: /edit_modelo
+    controller: GestionBundle\Controller\ModeloController::editAction
+
+app_details_modelo:
+    path: /details_modelo
+    controller: GestionBundle\Controller\ModeloController::detailsAction
+
+app_filter_modelo:
+    path: /filter_modelo
+    defaults: { _controller: GestionBundle\Controller\ModeloController::searchByPlanta}
+
+app_delete_modelo:
+    path: /delete_modelo
+    controller: GestionBundle\Controller\ModeloController::deleteAction
+
+
+
+# submodelo
+app_index_submodelo:
+    path: /index_submodelo/lang/{_locale}/{page}
+    defaults: { _controller: GestionBundle\Controller\SubmodeloController::indexAction, page:1}
+
+app_create_submodelo:
+    path: /create_submodelo
+    controller: GestionBundle\Controller\SubmodeloController::createAction
+
+app_edit_submodelo:
+    path: /edit_submodelo
+    controller: GestionBundle\Controller\SubmodeloController::editAction
+
+app_details_submodelo:
+    path: /details_submodelo
+    controller: GestionBundle\Controller\SubmodeloController::detailsAction
+
+app_filter_submodelo:
+    path: /filter_submodelo
+    defaults: { _controller: GestionBundle\Controller\SubmodeloController::searchByPlanta}
+
+app_delete_submodelo:
+    path: /delete_submodelo
+    controller: GestionBundle\Controller\SubmodeloController::deleteAction
+
+
+
+# modelosubmodelo
+app_index_modelosubmodelo:
+    path: /index_modelosubmodelo/lang/{_locale}/
+    defaults: { _controller: GestionBundle\Controller\ModeloSubmodeloController::indexAction}
+
+app_create_modelosubmodelo:
+    path: /create_modelosubmodelo
+    defaults: { _controller: GestionBundle\Controller\ModeloSubmodeloController::createAction}
+
+app_fetch_modelosubmodelo:
+    path: /getModSubmodelos
+    defaults: { _controller: GestionBundle\Controller\ModeloSubmodeloController::getModSubmodelos}
+    methods: [GET]
+
+app_ajax_modelosubmodelo:
+    path: /ajax_modelosubmodelo
+    defaults: { _controller: GestionBundle\Controller\ModeloSubmodeloController::ajaxAction}
+
+
+
+
+# linea
+app_index_linea:
+    path: /index_linea/lang/{_locale}/{page}
+    defaults: { _controller: GestionBundle\Controller\LineaController::indexAction, page:1}
+
+app_create_linea:
+    path: /create_linea
+    controller: GestionBundle\Controller\LineaController::createAction
+
+app_edit_linea:
+    path: /edit_linea
+    controller: GestionBundle\Controller\LineaController::editAction
+
+app_details_linea:
+    path: /details_linea
+    controller: GestionBundle\Controller\LineaController::detailsAction
+
+app_filter_linea:
+    path: /filter_linea
+    defaults: { _controller: GestionBundle\Controller\LineaController::searchByPlanta}
+
+app_delete_linea:
+    path: /delete_linea
+    controller: GestionBundle\Controller\LineaController::deleteAction
+
+
+
+# proceso
+app_index_proceso:
+    path: /index_proceso/lang/{_locale}/{page}
+    defaults: { _controller: GestionBundle\Controller\ProcesoController::indexAction, page:1}
+
+app_create_proceso:
+    path: /create_proceso
+    controller: GestionBundle\Controller\ProcesoController::createAction
+
+app_edit_proceso:
+    path: /edit_proceso
+    controller: GestionBundle\Controller\ProcesoController::editAction
+
+app_details_proceso:
+    path: /details_proceso
+    controller: GestionBundle\Controller\ProcesoController::detailsAction
+
+app_filter_proceso:
+    path: /filter_proceso
+    defaults: { _controller: GestionBundle\Controller\ProcesoController::searchByPlanta}
+
+app_delete_proceso:
+    path: /delete_proceso
+    controller: GestionBundle\Controller\ProcesoController::deleteAction
+
+
+
+# opbasica
+app_index_opbasica:
+    path: /index_opbasica/lang/{_locale}/{page}
+    defaults: { _controller: GestionBundle\Controller\OpbasicaController::indexAction, page:1}
+
+app_create_opbasica:
+    path: /create_opbasica
+    controller: GestionBundle\Controller\OpbasicaController::createAction
+
+app_edit_opbasica:
+    path: /edit_opbasica
+    controller: GestionBundle\Controller\OpbasicaController::editAction
+
+app_details_opbasica:
+    path: /details_opbasica
+    controller: GestionBundle\Controller\OpbasicaController::detailsAction
+
+app_filter_opbasica:
+    path: /filter_opbasica
+    defaults: { _controller: GestionBundle\Controller\OpbasicaController::searchByProceso}
+
+app_delete_opbasica:
+    path: /delete_opbasica
+    controller: GestionBundle\Controller\OpbasicaController::deleteAction
+
+
+
+# tarea
+app_index_tarea:
+    path: /index_tarea/lang/{_locale}/{page}
+    defaults: { _controller: GestionBundle\Controller\TareaController::indexAction, page:1}
+
+app_create_tarea:
+    path: /create_tarea
+    controller: GestionBundle\Controller\TareaController::createAction
+
+app_edit_tarea:
+    path: /edit_tarea
+    controller: GestionBundle\Controller\TareaController::editAction
+
+app_details_tarea:
+    path: /details_tarea
+    controller: GestionBundle\Controller\TareaController::detailsAction
+
+app_filter_tarea:
+    path: /filter_tarea
+    defaults: { _controller: GestionBundle\Controller\TareaController::searchByPlanta}
+
+app_delete_tarea:
+    path: /delete_tarea
+    controller: GestionBundle\Controller\TareaController::deleteAction
+
+
+
+# conscalidad
+app_index_conscalidad:
+    path: /index_conscalidad/lang/{_locale}/{page}
+    defaults: { _controller: GestionBundle\Controller\ConscalidadController::indexAction, page:1}
+
+app_create_conscalidad:
+    path: /create_conscalidad
+    controller: GestionBundle\Controller\ConscalidadController::createAction
+
+app_edit_conscalidad:
+    path: /edit_conscalidad
+    controller: GestionBundle\Controller\ConscalidadController::editAction
+
+app_details_conscalidad:
+    path: /details_conscalidad
+    controller: GestionBundle\Controller\ConscalidadController::detailsAction
+
+app_filter_conscalidad:
+    path: /filter_conscalidad
+    defaults: { _controller: GestionBundle\Controller\ConscalidadController::searchByPlanta}
+
+app_delete_conscalidad:
+    path: /delete_conscalidad
+    controller: GestionBundle\Controller\ConscalidadController::deleteAction
+
+
+
+# asignarproceso
+app_index_asignarproceso:
+    path: /index_asignarproceso/lang/{_locale}/
+    defaults: { _controller: GestionBundle\Controller\AsignarprocesoController::indexAction}
+    methods: [GET]
+    
+app_fetch_asignarproceso:
+    path: /getSubmodelos
+    defaults: { _controller: GestionBundle\Controller\AsignarprocesoController::getSubmodelos}
+    methods: [GET]
+
+app_filterplanta_asignarproceso:
+    path: /filterplanta_asignarproceso
+    defaults: { _controller: GestionBundle\Controller\AsignarprocesoController::asignadosAction}
+
+app_create_asignarproceso:
+    path: /create_asignarproceso
+    defaults: { _controller: GestionBundle\Controller\AsignarprocesoController::createAction}
+
+app_delete_asignarproceso:
+    path: /delete_asignarproceso
+    controller: GestionBundle\Controller\AsignarprocesoController::deleteAction
+
+
+
+# tareaasignada
+app_index_tareaasignada:
+    path: /index_tareaasignada/lang/{_locale}/
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::indexAction}
+
+
+app_fetch_tareaasignada:
+    path: /getTAsigModelos
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getTAsigModelos}
+    methods: [GET]
+
+app_fetch2_tareaasignada:
+    path: /getTAsigSubmodelos
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getTAsigSubmodelos}
+    methods: [GET]
+
+app_fetch3_tareaasignada:
+    path: /getTAsigLineas
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getTAsigLineas}
+    methods: [GET]
+
+app_fetch4_tareaasignada:
+    path: /getTAsigProcesos
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getTAsigProcesos}
+    methods: [GET]
+
+app_fetch5_tareaasignada:
+    path: /getTAsigSubmodelos2
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getTAsigSubmodelos2}
+    methods: [GET]
+    
+app_fetch6_tareaasignada:
+    path: /getTLts
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getTLts}
+    methods: [GET]
+
+app_fetch7_tareaasignada:
+    path: /getEstados
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getEstados}
+    methods: [GET]
+
+app_fetch8_tareaasignada:
+    path: /getAmfes
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getAmfes}
+    methods: [GET]
+
+app_drag_tareaasignada:
+    path: /drag_tareaasignada
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::dragAction}
+
+app_sort_tareaasignada:
+    path: /sort_tareaasignada
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::updateAction}
+
+app_create_tareaasignada:
+    path: /create_tareaasignada
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::newTareaAction}
+
+app_create_ext_tareaasignada:
+    path: /create_ext_tareaasignada
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::newExtAction}
+
+app_delete_tareaasignada:
+    path: /delete_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::deleteAction
+
+app_filter_tareaasignada:
+    path: /filter_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::filterAction
+
+app_ajax_tareaasignada:
+    path: /ajax_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::ajaxTarea
+
+app_ajax_ext_tareaasignada:
+    path: /ajax_ext_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::ajaxExtTarea
+
+app_version_tareaasignada:
+    path: /version_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::newVersion
+
+app_lt_tareaasignada:
+    path: /lt_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::newLT
+
+app_deletelt_tareaasignada:
+    path: /deletelt_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::deleteLTAction
+
+app_oficializar_tareaasignada:
+    path: /oficializar_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::oficializarLT
+
+app_fecha_tareaasignada:
+    path: /fecha_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::getFecha
+
+app_edit_tareaasignada:
+    path: /edit_tareaasignada
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::editAction}
+
+app_sort2_tareaasignada:
+    path: /sort2_tareaasignada
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::update2Action}
+
+app_asignar_tareaasignada:
+    path: /asignar_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::asignarLT
+
+app_edit2_tareaasignada:
+    path: /edit2_tareaasignada
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::editCamposAction}
+
+app_index_editlt_tareaasignada:
+    path: /index_editlt_tareaasignada
+    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::index_editltAction}
+
+app_setamfes_tareaasignada:
+    path: /setamfes_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::setAmfesAction
+
+app_new_copy_lt_tareaasignada:
+    path: /new_copy_lt_tareaasignada
+    controller: GestionBundle\Controller\TareaAsignadaController::newCopyLtAction
+
+
+# APARTADO DE EDICION DE LTS... POR SEPARADO... DE MOMENTO SE DETIENE EL CAMBIO
+#app_fetch8_tareaasignada:
+#    path: /getEditTAsigProcesos
+#    defaults: { _controller: GestionBundle\Controller\TareaAsignadaController::getEditTAsigProcesos}
+#    methods: [GET]
+
+#app_filter2_tareaasignada:
+#    path: /filter2_tareaasignada
+#    controller: GestionBundle\Controller\TareaAsignadaController::filter2Action
+
+
+
+# operacionasignada
+app_index_operacionasignada:
+    path: /index_operacionasignada/lang/{_locale}/
+    defaults: { _controller: GestionBundle\Controller\OperacionAsignadaController::indexAction}
+
+app_sort_operacionasignada:
+    path: /sort_operacionasignada
+    defaults: { _controller: GestionBundle\Controller\OperacionAsignadaController::updateAction}
+
+app_create_operacionasignada:
+    path: /create_operacionasignada
+    defaults: { _controller: GestionBundle\Controller\OperacionAsignadaController::newOPBAsignadaAction}
+
+app_create_desperdicio:
+    path: /create_desperdicio
+    defaults: { _controller: GestionBundle\Controller\OperacionAsignadaController::newDESAction}
+
+app_edit_operacionasignada:
+    path: /edit_operacionasignada
+    controller: GestionBundle\Controller\OperacionAsignadaController::editAction
+
+app_delete_operacionasignada:
+    path: /delete_operacionasignada
+    controller: GestionBundle\Controller\OperacionAsignadaController::deleteAction
+
+app_ajax_operacionasignada:
+    path: /ajax_operacionasignada
+    controller: GestionBundle\Controller\OperacionAsignadaController::ajaxAction
+
+app_create_desperdicionecesario:
+    path: /create_desperdicionecesario
+    defaults: { _controller: GestionBundle\Controller\OperacionAsignadaController::newDNECAction}
+
+app_create_tiempoprograma:
+    path: /create_tiempoprograma
+    defaults: { _controller: GestionBundle\Controller\OperacionAsignadaController::newTPROGAction}
+    
+
+
+# configuracionlinea
+app_index_configuracionlinea:
+    path: /index_configuracionlinea/lang/{_locale}/
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::indexAction}
+
+app_fetch_configuracionlinea:
+    path: /getConfModelos
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::getConfModelos}
+    methods: [GET]
+
+app_fetch2_configuracionlinea:
+    path: /getConfSubmodelos
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::getConfSubmodelos}
+    methods: [GET]
+
+app_fetch3_configuracionlinea:
+    path: /getConfLineas
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::getConfLineas}
+    methods: [GET]
+
+app_fetch4_configuracionlinea:
+    path: /getConfProcesos
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::getConfProcesos}
+    methods: [GET]
+
+app_search_configuracionlinea:
+    path: /searchConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::searchAction}
+
+app_details_configuracionlinea:
+    path: /deatailsConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::detailsAction}
+
+app_create_configuracionlinea:
+    path: /createConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::createAction}
+
+app_ajax_configuracionlinea:
+    path: /ajaxConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::ajaxAction}
+
+app_sort_configuracionlinea:
+    path: /sortConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::updateAction}
+
+app_edit_configuracionlinea:
+    path: /editConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::editAction}
+
+app_lts_configuracionlinea:
+    path: /ltsConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::ltsAction}
+
+app_duplicate_configuracionlinea:
+    path: /duplicateConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::duplicateAction}
+
+app_oficializar_configuracionlinea:
+    path: /oficializarConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::oficializarConfiguracion}
+
+app_fecha_configuracionlinea:
+    path: /fechaConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::getFecha}
+
+app_duplicate2_configuracionlinea:
+    path: /duplicate2Configuracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::duplicate2Action}
+
+app_delete_configuracionlinea:
+    path: /deleteConfiguracion
+    defaults: { _controller: GestionBundle\Controller\ConfiguracionLineaController::deleteAction}
+
+
+
+# asignarconsideracion
+app_index_asignarconsideracion:
+    path: /index_asignarconsideracion/lang/{_locale}/
+    defaults: { _controller: GestionBundle\Controller\AsignarConsideracionController::indexAction}
+    
+app_create_asignarconsideracion:
+    path: /create_asignarconsideracion
+    defaults: { _controller: GestionBundle\Controller\AsignarConsideracionController::createAction}
+
+app_fetch_asignarconsideracion:
+    path: /getConsCalidad
+    defaults: { _controller: GestionBundle\Controller\AsignarConsideracionController::getConsCalidad}
+    methods: [GET]
+
+app_ajax_asignarconsideracion:
+    path: /ajax_asignarconsideracion
+    defaults: { _controller: GestionBundle\Controller\AsignarConsideracionController::ajaxAction}
+
+
+# operacionesbasicas
+app_index_operacionesbasicas:
+    path: /app_index_operacionesbasicas
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::indexAction}
+
+app_fetch_operacionesbasicas:
+    path: /getOpbsSubmodelos
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::getOpbsSubmodelos}
+    methods: [GET]
+
+app_fetch2_operacionesbasicas:
+    path: /getOpbsLineas
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::getOpbsLineas}
+    methods: [GET]
+
+app_fetch3_operacionesbasicas:
+    path: /getOpbsListados
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::getOpbsListados}
+    methods: [GET]
+
+app_filter_operacionesbasicas:
+    path: /filterOperacionesBasicas
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::filterAction}
+
+app_export_operacionesbasicas:
+    path: /exportOperacionesBasicas
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::exportAction}
+
+app_fetch4_operacionesbasicas:
+    path: /getOpbsProcesos
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::getOpbsProcesos}
+    methods: [GET]
+
+app_area_operacionesbasicas:
+    path: /app_area_operacionesbasicas
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::areaAction}
+
+app_gama_operacionesbasicas:
+    path: /app_gama_operacionesbasicas
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasController::gamaAction}
+
+
+# operacionesbasicasconf
+app_index_operacionesbasicasconf:
+    path: /app_index_operacionesbasicasconf
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::indexAction}
+
+app_fetch_operacionesbasicasconf:
+    path: /getOpbsConfSubmodelos
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::getOpbsConfSubmodelos}
+    methods: [GET]
+
+app_fetch2_operacionesbasicasconf:
+    path: /getOpbsConfLineas
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::getOpbsConfLineas}
+    methods: [GET]
+
+app_fetch3_operacionesbasicasconf:
+    path: /getOpbsConfiguraciones
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::getOpbsConfiguraciones}
+    methods: [GET]
+
+app_filter_operacionesbasicasconf:
+    path: /filterOperacionesBasicasConf
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::filterAction}
+
+app_export_operacionesbasicasconf:
+    path: /exportOperacionesBasicasConf
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::exportAction}
+
+app_fetch4_operacionesbasicasconf:
+    path: /getOpbsConfProcesos
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::getOpbsConfProcesos}
+    methods: [GET]
+
+app_area_operacionesbasicasconf:
+    path: /app_area_operacionesbasicasconf
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::areaAction}
+
+app_gama_operacionesbasicasconf:
+    path: /app_gama_operacionesbasicasconf
+    defaults: { _controller: AppBundle\Controller\OperacionesBasicasConfController::gamaAction}
+
+
+# amfe
+app_index_amfe:
+    path: /index_amfe
+    defaults: { _controller: GestionBundle\Controller\AmfeController::indexAction}
+
+app_create_amfe:
+    path: /create_amfe
+    controller: GestionBundle\Controller\AmfeController::createAction
+
+app_edit_amfe:
+    path: /edit_amfe
+    controller: GestionBundle\Controller\AmfeController::editAction
+
+app_create_detalle_amfe:
+    path: /create_detalle_amfe
+    controller: GestionBundle\Controller\AmfeController::createDetalleAction
+
+app_edit_detalle_amfe:
+    path: /edit_detalle_amfe
+    controller: GestionBundle\Controller\AmfeController::editDetalleAction
+
+app_delete_detalle_amfe:
+    path: /delete_detalle_amfe
+    controller: GestionBundle\Controller\AmfeController::deleteDetalleAction
+
+app_index_amfepart:
+    path: /index_amfepart
+    defaults: { _controller: GestionBundle\Controller\AmfeController::indexAmfepartAction}
+
+app_fetch_amfepart:
+    path: /getAmfepartModelos
+    defaults: { _controller: GestionBundle\Controller\AmfeController::getAmfepartModelos}
+    methods: [GET]
+
+app_fetch2_amfepart:
+    path: /getAmfepartSubmodelos
+    defaults: { _controller: GestionBundle\Controller\AmfeController::getAmfepartSubmodelos}
+    methods: [GET]
+
+app_fetch3_amfepart:
+    path: /getAmfepartLineas
+    defaults: { _controller: GestionBundle\Controller\AmfeController::getAmfepartLineas}
+    methods: [GET]
+
+app_fetch4_amfepart:
+    path: /getAmfepartProcesos
+    defaults: { _controller: GestionBundle\Controller\AmfeController::getAmfepartProcesos}
+    methods: [GET]
+
+app_fetch5_amfepart:
+    path: /getAmfepartListados
+    defaults: { _controller: GestionBundle\Controller\AmfeController::getAmfepartListados}
+    methods: [GET]
+
+app_fetch6_amfepart:
+    path: /getAmfepartTarea
+    defaults: { _controller: GestionBundle\Controller\AmfeController::getAmfepartTareas}
+    methods: [GET]
+
+app_create_amfepart:
+    path: /create_amfepart
+    controller: GestionBundle\Controller\AmfeController::createAmfepartAction
+
+app_edit_amfepart:
+    path: /edit_amfepart
+    controller: GestionBundle\Controller\AmfeController::editAmfepartAction
+
+app_create_detalle_amfepart:
+    path: /create_detalle_amfepart
+    controller: GestionBundle\Controller\AmfeController::createDetalleAmfepartAction
+
+app_edit_detalle_amfepart:
+    path: /edit_detalle_amfepart
+    controller: GestionBundle\Controller\AmfeController::editDetalleAmfepartAction
+
+app_delete_detalle_amfepart:
+    path: /delete_detalle_amfepart
+    controller: GestionBundle\Controller\AmfeController::deleteDetalleAmfepartAction
+
+app_edit_nombre_amfe:
+    path: /edit_nombre_amfe
+    controller: GestionBundle\Controller\AmfeController::editNombreAction
+
+app_index_segamfe:
+    path: /index_segamfe
+    defaults: { _controller: GestionBundle\Controller\AmfeController::indexSegamfeAction}
+
+app_filter_segamfe:
+    path: /filter_segamfe
+    defaults: { _controller: GestionBundle\Controller\AmfeController::filterSegamfeAction}
+
+app_edit_segamfe:
+    path: /edit_segamfe
+    defaults: { _controller: GestionBundle\Controller\AmfeController::editSegamfeAction}

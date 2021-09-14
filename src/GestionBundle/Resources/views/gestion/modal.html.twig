@@ -1,0 +1,35 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<!--Modal: modalNewLT-->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-notify" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">AVISO</p>
+      </div>
+
+        <form method="post" action="{{ path('app_version_tareaasignada')}}" enctype="multipart/form-data" name="nuevo_menu2" id="nuevo_menu2">
+          <!--Body-->
+          <div class="modal-body">
+
+            <a href="">OPERACIÓN REALIZADA CON ÉXITO</a>
+
+          </div>
+
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a type="button" class="btn  btn-success waves-effect" data-dismiss="modal">OK</a>
+          </div>
+        </form>
+      </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalNewLT-->
+
+{% endblock %}

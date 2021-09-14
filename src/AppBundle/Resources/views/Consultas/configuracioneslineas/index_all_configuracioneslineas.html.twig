@@ -1,0 +1,401 @@
+{% extends 'AppBundle::main.html.twig' %}
+
+{% block contenido %}
+<div class="page-wrapper">
+    <div class="content">
+    <br>
+    <h2>&nbsp;&nbsp;{% trans %}configuraciones_linea{% endtrans %}</h2>
+    <br>
+    <br>
+    <h4 style="color:blue;">&nbsp;&nbsp;{{ area|trans }} / {{ gama.nombre }}</h4>
+    <br>
+
+        <div class="card border-dark">
+            <table class="table table-borderless">
+                <tr>
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <h4>{% trans %}buscar{% endtrans %}</h4>
+                        </div>
+                    </th>
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <select class="form-control input sm" id="tipoSelected">
+                                <option value="" disabled selected hidden>MODELO / LÍNEA</option>
+                                <option value="1">{% trans %}por_modelo{% endtrans %}</option>
+                                <option value="0">{% trans %}por_linea{% endtrans %}</option>
+                            </select>
+                        </div>
+                    </th>
+                    <th class="align-middle" scope="col" width="80%"></th>
+                </tr>
+            </table>
+        </div>
+
+
+        <div id="porModeloDiv" style="display:none;" class="card border-dark">
+            <table class="table table-borderless">
+                <tr>
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <select class="form-control input sm" name="submodelo" id="submodelo" required="">
+                                <option value="" disabled selected hidden>{% trans %}modelo{% endtrans %}</option>
+                                  {% for submodelo in submodelos %}
+                                      <option value="{{ submodelo.id }}">{{ submodelo.nombre }}</option>
+                                  {% endfor %}
+                            </select>
+                        </div>
+                    </th>
+
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <select class="form-control input sm" name="linea" id="linea" required="">
+                                <option value="" disabled selected hidden>{% trans %}linea{% endtrans %}</option>
+                            </select>
+                        </div>
+                    </th>
+
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <select class="form-control input sm" name="proceso" id="proceso" required="">
+                                <option value="" disabled selected hidden>{% trans %}proceso{% endtrans %}</option>
+                            </select>
+                        </div>
+                    </th>
+
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <input type="submit" id="aceptar" value="{% trans %}ver{% endtrans %}" class="btn btn-success" />
+                        </div> 
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+    <input type="hidden" name='area' id="area"  value="{{area}}">
+    <input type="hidden" name='gama' id="gama"  value="{{gama.id}}">
+
+
+        <div id="porLineaDiv" style="display:none;" class="card border-dark">
+            <table class="table table-borderless">
+                <tr>
+                    
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <select class="form-control input sm" name="linea2" id="linea2" required="">
+                                <option value="" disabled selected hidden>{% trans %}linea{% endtrans %}</option>
+                                    {% for linea in lineas %}
+                                        <option value="{{ linea.id }}">{{ linea.nombre }}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                    </th>
+
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <select class="form-control input sm" name="submodelo2" id="submodelo2" required="">
+                                <option value="" disabled selected hidden>{% trans %}modelo{% endtrans %}</option>
+                            </select>
+                        </div>
+                    </th>
+
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <select class="form-control input sm" name="proceso2" id="proceso2" required="">
+                                <option value="" disabled selected hidden>{% trans %}proceso{% endtrans %}</option>
+                            </select>
+                        </div>
+                    </th>
+
+                    <th class="align-middle" scope="col">
+                        <div class="form-group">
+                            <input type="submit" id="aceptar2" value="{% trans %}ver{% endtrans %}" class="btn btn-success" />
+                        </div> 
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+        <br>
+        <div id="ajax_configuracionLinea">
+        </div>
+
+        <br>
+        <br>
+            <form action="{{ path('app_area_configuracioneslineas')}}" method="post">
+                <button action="{{ path('app_index_configuracioneslineas')}}" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+                <input type="hidden" name='area' id="area"  value="{{area}}">
+            </form></a>
+        <br>
+        <br>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tipoSelected").on("change",function(){"1"===$(this).val()?$("#porModeloDiv").show():$("#porModeloDiv").hide()});
+    $("#tipoSelected").on("change",function(){"0"===$(this).val()?$("#porLineaDiv").show():$("#porLineaDiv").hide()});
+   
+</script>
+
+<script type="text/javascript"> 
+  $(document).ready(function(){
+
+    var back = {{back}};
+    var submodelo = $('input[name="submodelo"]').val();
+    var linea = $('input[name="linea"]').val();
+    var proceso = $('input[name="proceso"]').val();
+    var area = $('input[name="area"]').val();
+    var gama = $('input[name="gama"]').val();
+
+
+    // BOTON VOLVER A INDEX //
+    if (back == 1) {
+
+      $('#ajax_configuracionLinea').load('{{ path('app_search_configuracioneslineas')}}',{submodelo: submodelo, linea: linea, proceso: proceso, area:area, gama: gama});
+
+
+    $('#submodelo').on('change', function(){
+      var submodelo_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch2_configuracioneslineas')}}',
+        data:{'id':submodelo_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}linea{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) {
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    $('#linea').empty();
+    $('#linea').append(options);
+
+    if (($('#linea > option').length-1) == 1) {
+      $('select#linea option:nth-child(2)').attr('selected', 'selected');
+      $('#linea').trigger('change');
+      $('#linea').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#linea').on('change', function(){
+      var linea_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch5_configuracioneslineas')}}',
+        data:{'id':linea_id, 'submodelo': jQuery('#submodelo').val()},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}proceso{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) {
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+
+    $('#proceso').empty();
+    $('#proceso').append(options);
+
+    if (($('#proceso > option').length-1) == 1) {
+      $('select#proceso option:nth-child(2)').attr('selected', 'selected');
+      $('#proceso').trigger('change');
+      $('#proceso').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+      $('#linea2').on('change', function(){
+      var linea_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch_configuracioneslineas')}}',
+        data:{'id':linea_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}modelo{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) {
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+
+    $('#submodelo2').empty();
+    $('#submodelo2').append(options);
+
+    if (($('#submodelo2 > option').length-1) == 1) {
+      $('select#submodelo2 option:nth-child(2)').attr('selected', 'selected');
+      $('#submodelo2').trigger('change');
+      $('#submodelo2').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+  $('#submodelo2').on('change', function(){
+      var submodelo_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch5_configuracioneslineas')}}',
+        data:{'submodelo':submodelo_id, 'id': jQuery('#linea2').val()},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}proceso{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) {
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+
+    $('#proceso2').empty();
+    $('#proceso2').append(options);
+
+    if (($('#proceso2 > option').length-1) == 1) {
+      $('select#proceso2 option:nth-child(2)').attr('selected', 'selected');
+      $('#proceso2').trigger('change');
+      $('#proceso2').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#aceptar').click(function(){
+    $('#ajax_configuracionLinea').load('{{ path('app_search_configuracioneslineas')}}',{submodelo:$('#submodelo').val(), linea:$('#linea').val(), proceso:$('#proceso').val(), area:area, gama:gama});
+    });
+
+    $('#aceptar2').click(function(){
+    $('#ajax_configuracionLinea').load('{{ path('app_search_configuracioneslineas')}}',{submodelo:$('#submodelo2').val(), linea:$('#linea2').val(), proceso:$('#proceso2').val(), area:area, gama:gama});
+    });
+
+    // INDEX //
+    } else {
+    
+    $('#submodelo').on('change', function(){
+      var submodelo_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch2_configuracioneslineas')}}',
+        data:{'id':submodelo_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}linea{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) {
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    
+    $('#linea').empty();
+    $('#linea').append(options);
+
+    if (($('#linea > option').length-1) == 1) {
+      $('select#linea option:nth-child(2)').attr('selected', 'selected');
+      $('#linea').trigger('change');
+      $('#linea').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#linea').on('change', function(){
+      var linea_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch5_configuracioneslineas')}}',
+        data:{'id':linea_id, 'submodelo': jQuery('#submodelo').val()},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}proceso{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) {
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    
+    $('#proceso').empty();
+    $('#proceso').append(options);
+
+    if (($('#proceso > option').length-1) == 1) {
+      $('select#proceso option:nth-child(2)').attr('selected', 'selected');
+      $('#proceso').trigger('change');
+      $('#proceso').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+
+      $('#linea2').on('change', function(){
+      var linea_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch_configuracioneslineas')}}',
+        data:{'id':linea_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}modelo{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) {
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    
+    $('#submodelo2').empty();
+    $('#submodelo2').append(options);
+
+    if (($('#submodelo2 > option').length-1) == 1) {
+      $('select#submodelo2 option:nth-child(2)').attr('selected', 'selected');
+      $('#submodelo2').trigger('change');
+      $('#submodelo2').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#submodelo2').on('change', function(){
+      var submodelo_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch5_configuracioneslineas')}}',
+        data:{'submodelo':submodelo_id, 'id': jQuery('#linea2').val()},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}proceso{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) {
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    
+    $('#proceso2').empty();
+    $('#proceso2').append(options);
+
+    if (($('#proceso2 > option').length-1) == 1) {
+      $('select#proceso2 option:nth-child(2)').attr('selected', 'selected');
+      $('#proceso2').trigger('change');
+      $('#proceso2').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#aceptar').click(function(){
+    $('#ajax_configuracionLinea').load('{{ path('app_search_configuracioneslineas')}}',{submodelo:$('#submodelo').val(), linea:$('#linea').val(), proceso:$('#proceso').val(), area:area, gama:gama});
+    });
+
+    $('#aceptar2').click(function(){
+    $('#ajax_configuracionLinea').load('{{ path('app_search_configuracioneslineas')}}',{submodelo:$('#submodelo2').val(), linea:$('#linea2').val(), proceso:$('#proceso2').val(), area:area, gama:gama});
+    });
+
+  }
+
+});
+  
+</script>
+{% endblock %}

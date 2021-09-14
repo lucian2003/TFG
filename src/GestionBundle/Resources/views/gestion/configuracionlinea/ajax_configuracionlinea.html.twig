@@ -1,0 +1,223 @@
+
+<div id="ajax_ConfiguracionLinea">
+
+<form method="post" enctype="multipart/form-data" name="tabla_op" id="tabla_op">
+  <div id="sticky-anchor" class="col-md-12 col-md-offset-12"></div>
+    <div id="sticky">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-md-offset-12">
+        <table class="table table-sm table-stripped table-hover table-bordered">
+          <thead>
+            {% for key, item in tiempo_operarios %} 
+            
+              <th scope="col" width="" class="text-center align-middle"><strong>OPERARIO {{ key + 1 }}</strong></th>
+            {% endfor %}
+            
+          </thead>
+        
+
+          {% for key, item in tiempo_operarios %} 
+            <td scope="col" width="" class="text-center align-middle"><strong>{{ item|date('H:i:s', '+00:00 GMT') }}</strong></td>
+           
+           {% endfor %}
+        
+      </table>
+    </div>
+  </div>
+  </div>
+</form>
+</div>
+
+
+
+<form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu">
+    <div class="container-fluid" style="margin-top: 20px;">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-md-offset-12">
+            <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
+            <br>
+        <table class="table table-sm table-hover table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" width="" class="text-center align-middle">EST</th>
+              <th scope="col" width="" class="text-center align-middle">OP</th>
+              {% if permiso == 1 %}
+              <th scope="col" width="10%" class="text-center align-middle">{% trans %}editar{% endtrans %}</th>
+              {% endif %}
+              <th scope="col" width="" class="text-left align-middle">{% trans %}tareas{% endtrans %}</th>
+              <th scope="col" width="6%" class="text-left align-middle">{% trans %}tiempo{% endtrans %}</th>
+              <th scope="col" width="" class="text-center align-middle">POS</th>
+              <th scope="col" width="" class="text-center align-middle">LT</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+            
+            {% for detalleconfiguracion in detalleconfiguracions %}
+              
+                <tr data-index='{{ detalleconfiguracion.id }}' data-position='{{ detalleconfiguracion.position }}'>
+                    <td id="estacion" class="text-center align-middle"><strong>{{ detalleconfiguracion.estacion }}</strong></td>
+                    <td id="operario" class="text-center align-middle"><strong>{{ detalleconfiguracion.operario }}</strong></td>
+                    {% if permiso == 1 %}
+                    <td class="text-center align-middle"><button type="button" class="btn btn-sm btn-secondary waves-effect waves-light text-center" id="boton" onclick="edit(this);"><strong>{% trans %}editar{% endtrans %}</strong></button></td>
+                    {% endif %}
+                    <td class="text-left align-middle"><strong>{{ detalleconfiguracion.idTareaAsignada.idTarea.nombreES }}</strong></td>
+                    <td class="text-left align-middle"><strong>{{ detalleconfiguracion.idTareaAsignada.tiempo|date('H:i:s', '+00:00 GMT') }}</strong></td>
+                    <td id="position" class="text-center align-middle"><strong>{{ detalleconfiguracion.position }}</strong></td>
+                    <td class="text-left align-middle">{{ detalleconfiguracion.idTareaAsignada.idAsignarprocesoversion.nombreLT }}</td>
+                </tr>
+                
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+      <input type="hidden" name='idConfiguracionLinea' id="idConfiguracionLinea"  value="{{idConfiguracionLinea}}">
+      <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+    </div>
+  </div>
+</form>
+</div>
+
+{% block stylesheets %}
+<style>
+#sticky {
+  position:relative;
+  padding: 0.5ex;
+  font-size: 2em;
+  text-align:center;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+}
+#sticky.stick {
+  position: fixed;
+  top: 0;
+  left:0;
+  right:0;
+  z-index: 10000;
+}
+</style>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+
+          $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+          });
+
+    var permiso = $('input[name="permiso"]').val();
+
+    if (permiso == 1) {
+
+           $('table tbody').sortable({
+               update: function (event, ui) {
+                   $(this).children().each(function (index) {
+                        if ($(this).attr('data-position') != (index+1)) {
+                            $(this).attr('data-position', (index+1)).addClass('updated');
+                        }
+                   });
+
+                   saveNewPositions();
+                   var idConfiguracionLinea = $('input[name="idConfiguracionLinea"]').val();
+           $('#ajax_ConfiguracionLinea').load('{{ path('app_ajax_configuracionlinea')}}',{'idConfiguracionLinea': idConfiguracionLinea});
+               }
+           });
+
+
+        function saveNewPositions() {
+            var positions = [];
+            var idConfiguracionLinea = $('input[name="idConfiguracionLinea"]').val();
+            $('.updated').each(function () {
+               positions.push([$(this).attr('data-index'), $(this).attr('data-position')]);
+               $(this).removeClass('updated');
+            });
+
+            $.ajax({
+               url:'{{ path('app_sort_configuracionlinea')}}',
+               method: 'POST',
+               dataType: 'text',
+               data: {
+                   update: 1,
+                   positions: positions,
+                   idConfiguracionLinea: idConfiguracionLinea
+               }, success: function (response) {
+                //document.location.reload(true);
+               }
+            });
+        }
+
+    } //endif permiso
+
+        function edit(element){
+            var tr = jQuery(element).parent().parent();
+                if(!tr.hasClass("editing")) {
+                    tr.addClass("editing");
+                    
+                    
+                     // if(!jQuery(tr.find("td[id='estacion']")).hasClass("action")){
+                          var value_estacion = jQuery(tr.find("td[id='estacion']")).text();
+                          jQuery(tr.find("td[id='estacion']")).text("");
+                          jQuery(tr.find("td[id='estacion']")).append('<input type="number" value="'+value_estacion+'" min="1" max="50" style="width: 3em;"/>');
+                      //}
+
+                          var value_operario = jQuery(tr.find("td[id='operario']")).text();
+                          jQuery(tr.find("td[id='operario']")).text("");
+                          jQuery(tr.find("td[id='operario']")).append('<input type="number" value="'+value_operario+'" min="1" max="50" style="width: 3em;"/>');
+
+
+                      jQuery(tr.find("button[id='boton']")).text("{% trans %}crear{% endtrans %}");
+                      
+                    
+              
+                } else {
+                    tr.removeClass("editing");
+                    
+                    
+                        var value_estacion = jQuery(tr.find("td[id='estacion']")).find("INPUT").val();
+
+                        var value_operario = jQuery(tr.find("td[id='operario']")).find("INPUT").val();
+
+                        var value_position = jQuery(tr.find("td[id='position']")).text();
+                        
+                        jQuery(tr.find("td[id='estacion']")).text(value_estacion);
+                        jQuery(tr.find("td[id='estacion']")).find("INPUT").remove();
+
+                        jQuery(tr.find("td[id='operario']")).text(value_operario);
+                        jQuery(tr.find("td[id='operario']")).find("INPUT").remove();
+
+                        var idConfiguracionLinea = $('input[name="idConfiguracionLinea"]').val();
+
+                        $('#ajax_ConfiguracionLinea').load('{{ path('app_edit_configuracionlinea')}}',{'idConfiguracionLinea': idConfiguracionLinea, 'value_estacion': value_estacion, 'value_operario': value_operario, 'value_position': value_position});
+                        
+                    
+                    jQuery(tr.find("button[id='boton']")).text("{% trans %}editar{% endtrans %}");
+                    
+                
+            }
+        }
+
+    function sticky_relocate() {
+      var window_top = $(window).scrollTop();
+      var div_top = $('#sticky-anchor').offset().top;
+      if (window_top > div_top) {
+        $('#sticky').addClass('stick');
+      } else {
+        $('#sticky').removeClass('stick');
+      }
+    }
+
+    $(function() {
+      $(window).scroll(sticky_relocate);
+      sticky_relocate();
+    });
+
+    $(function () {
+  $('table tbody').multiSelect();
+})
+</script>
+{% endblock %}

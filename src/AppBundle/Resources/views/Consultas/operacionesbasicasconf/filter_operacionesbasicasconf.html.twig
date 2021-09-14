@@ -1,0 +1,55 @@
+<div id="ajax_OperacionesBasicasConf">
+	<div class="row justify-content-center">
+      <div class="col-md-12 col-md-offset-12">
+        <table class="table table-sm table-hover table-bordered" id="tab1">
+          <thead>
+            <tr>
+              <th scope="col" width="85%" class="text-left align-left"><strong>{% trans %}tarea{% endtrans %}</strong></th>
+              <th scope="col" width="5%" class="text-left align-left"><strong>Nº EST</strong></th>
+              <th scope="col" width="5%" class="text-left align-left"><strong>Nº OPS</strong></th>
+              <th scope="col" width="5%" class="text-center align-middle"><strong>REP</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for tarea in tareas %}
+              <tr>
+
+                {% if repeticiones[loop.index0] == 0 %}
+                	<td class="text-left align-left">{{ tarea[0]['nombre_es'] }}</td>
+                  <td class="text-center align-middle"> {{ estaciones[loop.index0]['estacion'] }}</td>
+                  <td class="text-center align-middle"> {{ operarios[loop.index0]['operario'] }}</td>
+                	<td class="text-center align-middle"> {{ repeticiones[loop.index0] }}</td>
+                {% else %}
+                	<td class="text-left align-left" style="background-color:#D5F5E3">{{ tarea[0]['nombre_es'] }}</td>
+                  <td class="text-center align-middle" style="background-color:#D5F5E3"> {{ estaciones[loop.index0]['estacion'] }}</td>
+                  <td class="text-center align-middle" style="background-color:#D5F5E3"> {{ operarios[loop.index0]['operario'] }}</td>
+                	<td class="text-center align-middle" style="background-color:#D5F5E3"> {{ repeticiones[loop.index0] }}</td>
+                {% endif %}
+        
+              {% endfor %}
+          </tbody>
+        </table>
+
+        <table class="table table-sm table-hover table-bordered" id="tab1">
+          <thead>
+            <tr>
+              <th scope="col" width="95%" class="text-left align-left" style="background-color:#58D68D"><strong>TOTAL OPERACIONES BÁSICAS</strong></th>
+              <th scope="col" width="5%" class="text-center align-middle" style="background-color:#58D68D"><strong>{{ suma }}</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+      <div style="text-align:center;">
+        <form method="post" action="{{ path('app_export_operacionesbasicasconf')}}">
+
+          <input type="hidden" name='id_configuracion' id="id_configuracion"  value="{{id_configuracion}}">
+          <input type="hidden" name='id_opbasica' id="id_opbasica"  value="{{id_opbasica}}">
+          <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+          <input type='submit' name='submit' value="EXPORTAR DATOS" class="btn btn-lg btn-info"/> 
+        </form> 
+      </div>      
+</div>
+

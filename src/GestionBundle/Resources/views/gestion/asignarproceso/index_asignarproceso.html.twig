@@ -1,0 +1,126 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}asignar_procesos{% endtrans %}</h2>
+  <br>
+  <br>
+
+  <div class="card border-dark">
+  <table class="table table-borderless">
+        <tr>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <select class="form-control input sm" name="category" id="category">
+              <option value="" disabled selected>{% trans %}planta{% endtrans %}</option>
+              {% for planta in plantas %}
+              <option value="{{ planta.id }}">{{ planta.nombre }}</option>
+              {% endfor %}
+              </select>
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <select class="form-control input sm" name="subcategory" id="subcategory">
+              <option value="" disabled selected>{% trans %}submodelo{% endtrans %}</option>
+              <option value=""></option>
+              </select>
+            </div>
+          </th>
+          
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <select class="form-control input sm" name="linea" id="linea">
+              <option value="" selected>{% trans %}linea{% endtrans %}</option>
+              {% for linea in lineas %}
+              <option value="{{ linea.id }}">{{ linea.nombre }}</option>
+              {% endfor %}
+              </select>
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <select class="form-control input sm" name="proceso" id="proceso">
+              <option value="" disabled selected>{% trans %}proceso{% endtrans %}</option>
+              {% for proceso in procesos %}
+              <option value="{{ proceso.id }}">{{ proceso.nombre }}</option>
+              {% endfor %}
+              </select>
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <input type="submit" id="add" value="+" class="btn btn-success"/>
+            </div>
+          </th>
+        </tr>
+    </table>
+
+    <input type="hidden" name='category' id="category"  value="">
+    <input type="hidden" name='subcategory' id="subcategory"  value="">
+  </div>
+
+  <br>
+
+  <div id="ajax_selectedPlanta">
+  </div>
+
+  <br>
+  <br>
+  <br>
+</div>
+</div>
+
+
+<script type="text/javascript"> 
+  $(document).ready(function(){
+    $('#category').on('change', function(){
+       //console.log("hmm its change");
+      var planta_id=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch_asignarproceso')}}',
+        data:{'id':planta_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+
+            options += '<option value="0" selected disabled>{% trans %}submodelo{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    // Append to the html
+    $('#subcategory').empty();
+    $('#subcategory').append(options);
+        
+        $('#subcategory').on('change', function(){
+      
+            $('#ajax_selectedPlanta').load('{{ path('app_filterplanta_asignarproceso')}}',{planta_id:$('#category').val(),submodelo_id:$('#subcategory').val()});
+        })   
+      }
+    })
+  });
+
+  $('#add').click(function(){
+    if (!$('#linea')[0].value) {
+         linea.focus();
+          } else if (!$('#proceso')[0].value) {
+            proceso.focus();
+                } else {
+    $('#ajax_selectedPlanta').load('{{ path('app_create_asignarproceso')}}',{planta:$('#category').val(), submodelo:$('#subcategory').val(), linea:$('#linea').val(), proceso:$('#proceso').val()});
+  }
+    });
+
+  });
+
+</script>
+</div>
+{% endblock %}

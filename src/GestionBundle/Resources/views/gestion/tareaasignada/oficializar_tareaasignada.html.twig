@@ -1,0 +1,71 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+    <br>
+    <h2>&nbsp;&nbsp;{% trans %}oficializar{% endtrans %} LT</h2>
+    <br>
+    <br>
+
+  <p style="color:blue;">&nbsp;&nbsp;{{asignarproceso.IdSubmodelo.nombre}} / {{asignarproceso.IdLinea.nombre}} / {{asignarproceso.IdProceso.nombre}} / {% trans %}version{% endtrans %} {{asignarprocesoversion.version.nombre}}</p>
+
+  <div class="card border-dark">
+    <form method="post" action="{{ path('app_fecha_tareaasignada')}}" enctype="multipart/form-data" name="nuevatarea" id="nuevatarea"> 
+      <table class="table table-borderless">
+        <tr>
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <h6><strong>{% trans %}elegir_fecha_oficializar{% endtrans %}</strong></h6>
+            </div>
+          </th>
+          
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <input type="date" id="fecha" name="fecha">
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <h6><strong>{% trans %}comentario{% endtrans %}:</strong></h6>
+            </div>
+          </th>  
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">  
+              <input type="text" name="comentario" id="comentario" value=""/>
+            </div>
+          </th>
+          
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <input type="submit" id="add" value="{% trans %}oficializar{% endtrans %}" class="btn btn-success"/>
+            </div>
+          </th>
+        </tr>
+      </table>
+
+      <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+      <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+      <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+      <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+
+    </form>
+  </div>
+
+  <br>
+  <form action="{{ path('app_index_tareaasignada')}}" method="post">
+    <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+    <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+  </form></a>
+  <br>
+  <br>
+</div>
+</div>
+
+{% endblock %}

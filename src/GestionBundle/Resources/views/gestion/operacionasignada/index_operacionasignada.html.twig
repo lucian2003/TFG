@@ -1,0 +1,372 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <script type="text/javascript">
+    function actualizarIdOPBAsignada(id) {
+          $('input[name=idOPBAsignada]').val(id);
+        }
+  </script>
+
+  <br>
+
+  <h2>&nbsp;&nbsp;{% trans %}listado_opbasicas{% endtrans %}</h2>
+  <br>
+  <br>
+  <p style="color:blue;">&nbsp;&nbsp;{{asignarproceso.IdSubmodelo.nombre}} / {{asignarproceso.IdLinea.nombre}} / {{asignarproceso.IdProceso.nombre}} / {% trans %}version{% endtrans %} {{asignarprocesoversion.version.nombre}} / {{tarea.NombreES}}</p>
+{% if permiso == 1 %}
+  <div class="card border-dark">
+  <table class="table table-borderless">
+        <tr>
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <h4>{% trans %}aniadir{% endtrans %} {% trans %}OPB{% endtrans %} / {% trans %}DES{% endtrans %}</h4>
+            </div>
+          </th>
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <select class="form-control input sm" id="tipoSelected">
+      			<option value="" disabled selected>{% trans %}tipo{% endtrans %}</option>
+      			<option value="1">{% trans %}OPB{% endtrans %}</option>
+      			<option value="0">{% trans %}DES{% endtrans %}</option>
+            <option value="2">{% trans %}DNEC{% endtrans %}</option>
+            {% if asignarproceso.IdProceso.nombre == "BANCO PRUEBAS" %}
+            <option value="3">{% trans %}TPROG{% endtrans %}</option>
+            {% endif %}
+  			</select>
+            </div>
+          </th>
+      </tr>
+  </table>
+  </div>
+{% endif %}
+
+
+  <div id="OPBDiv" style="display:none;" class="card border-dark">
+  	<form method="post" action="{{ path('app_create_operacionasignada')}}" enctype="multipart/form-data" name="tareaasignada" id="tareaasignada"> 
+  		<table class="table table-borderless">
+  	      <tr>
+
+            <th class="align-middle" scope="col" width="15%">
+              <div class="form-group form-control-lg">
+                <input type="text" name="SearchBox" id="SearchBox" placeholder="Buscar.." />
+              </div>
+            </th>
+
+  	        <th class="align-middle" scope="col" width="25%">
+  	          <div class="form-group">
+  	            <select class="form-control input sm" name="opbasica" id="opbasica" required="">
+  	            <option value="" disabled selected hidden>{% trans %}OPB{% endtrans %}</option>
+  	            {% for opbasica in opbasicas %}
+  	            <option value="{{ opbasica.id }}">{{ opbasica.nombreES }} - {{ opbasica.tiempo|date('H:i:s', '+00:00 GMT') }}</option>
+  	            {% endfor %}
+  	            </select>
+  	          </div>
+  	        </th>
+
+            <th class="align-middle" scope="col" width="15%">
+              <div class="form-group">
+                  <a><strong>REPS:</strong></a>
+                  <input type="number" name='reps_opb' id="reps_opb" value="" min="1" max="999" style="width: 4em;" required=""/>
+              </div>
+            </th>
+
+          	<th class="align-middle" scope="col" width="30%">
+            		<div class="form-group">
+              		<label for="comentario_oa">{% trans %}comentario{% endtrans %}</label>
+              		<input type="text" name="comentario_oa" id="comentario_oa" value="" required="" />
+            		</div>
+          	</th>
+
+          	<th class="align-middle" scope="col">
+            		<div class="form-group">
+              		<input type="submit" id="add" value="{% trans %}aniadir{% endtrans %} {% trans %}OPB{% endtrans %}" class="btn btn-success"/>
+            		</div>
+          	</th>
+        	  </tr>
+    		</table>
+    		<input type="hidden" name='idTareaAsignada' id="idTareaAsignada"  value="{{idTareaAsignada}}">
+        <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+        <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso.id}}">
+        <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+        <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+        <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+        <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+    	</form>
+  </div>
+
+
+
+  <div id="DESDiv" style="display:none;" class="card border-dark">
+      <form method="post" action="{{ path('app_create_desperdicio')}}" enctype="multipart/form-data" name="nuevodesperdicio" id="nuevodesperdicio">  
+  		<table class="table table-borderless">
+  	      <tr>
+  	        <th class="align-middle" scope="col" width="25%">
+            		<div class="form-group">
+              		<label for="nombreES">NOMBRE *</label>
+              		<input type="text" name="nombreES" id="nombreES" value="" required="" />
+            		</div>
+          	</th>
+
+          	<th class="align-middle" scope="col" width="25%">
+            		<div class="form-group">
+              		<label for="nombreEN">NAME</label>
+              		<input type="text" name="nombreEN" id="nombreEN" value=""/>
+            		</div>
+          	</th>
+
+            <th class="align-middle" scope="col" width="5%">
+                <div class="form-group">
+                  <label for="nombreEN">TIEMPO</label>
+                </div>
+            </th>
+
+          	<th class="align-middle" scope="col" width="7%">
+  	          <div class="form-group">
+  	            <select class="form-control input sm" name="min" id="min" required="">
+  	            <option value="" id="a" disabled selected>mm</option>
+  	            {% for i in 0..60 %}
+  	            <option>{{ i }}</option>
+  	            {% endfor %}
+  	            </select>
+  	          </div>
+          	</th>
+
+          	<th class="align-middle" scope="col" width="7%">
+  	          <div class="form-group">
+  	            <select class="form-control input sm" name="sec" id="sec" required="">
+  	            <option value="" id="a" disabled selected>ss</option>
+  	            {% for i in 0..60 %}
+  	            <option>{{ i }}</option>
+  	            {% endfor %}
+  	            </select>
+  	          </div>
+          	</th>
+
+          	<th class="align-middle" scope="col">
+            		<div class="form-group">
+              		<input type="submit" id="add" value="{% trans %}aniadir{% endtrans %} {% trans %}DES{% endtrans %}" class="btn btn-success"/>
+            		</div>
+          	</th>
+        	  </tr>
+    		</table>
+        <input type="hidden" name='idTareaAsignada' id="idTareaAsignada"  value="{{idTareaAsignada}}">
+        <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+        <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso.id}}">
+        <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+        <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+        <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+        <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+    	</form>
+  </div>
+
+
+
+  <div id="DNECDiv" style="display:none;" class="card border-dark">
+    <form method="post" action="{{ path('app_create_desperdicionecesario')}}" enctype="multipart/form-data" name="tareaasignada" id="tareaasignada"> 
+      <table class="table table-borderless">
+          <tr>
+
+            <th class="align-middle" scope="col" width="15%">
+              <div class="form-group form-control-lg">
+                <input type="text" name="SearchBox" id="SearchBox" placeholder="Buscar.." />
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col" width="25%">
+              <div class="form-group">
+                <select class="form-control input sm" name="opbasica" id="opbasica" required="">
+                <option value="" disabled selected hidden>{% trans %}DNEC{% endtrans %}</option>
+                {% for opbasica in opbasicas %}
+                <option value="{{ opbasica.id }}">{{ opbasica.nombreES }} - {{ opbasica.tiempo|date('H:i:s', '+00:00 GMT') }}</option>
+                {% endfor %}
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col" width="15%">
+              <div class="form-group">
+                  <a><strong>REPS:</strong></a>
+                  <input type="number" name='reps_opb' id="reps_opb" value="" min="1" max="999" style="width: 4em;" required=""/>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col" width="30%">
+                <div class="form-group">
+                  <label for="comentario_oa">{% trans %}comentario{% endtrans %}</label>
+                  <input type="text" name="comentario_oa" id="comentario_oa" value="" required="" />
+                </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+                <div class="form-group">
+                  <input type="submit" id="add" value="{% trans %}aniadir{% endtrans %} {% trans %}DNEC{% endtrans %}" class="btn btn-success"/>
+                </div>
+            </th>
+            </tr>
+        </table>
+        <input type="hidden" name='idTareaAsignada' id="idTareaAsignada"  value="{{idTareaAsignada}}">
+        <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+        <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso.id}}">
+        <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+        <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+        <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+        <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+      </form>
+  </div>
+
+  <div id="TPROGDiv" style="display:none;" class="card border-dark">
+      <form method="post" action="{{ path('app_create_tiempoprograma')}}" enctype="multipart/form-data" name="nuevodesperdicio" id="nuevodesperdicio">  
+      <table class="table table-borderless">
+          <tr>
+            <th class="align-middle" scope="col" width="25%">
+                <div class="form-group">
+                  <label for="nombreES">NOMBRE *</label>
+                  <input type="text" name="nombreES" id="nombreES" value="" required="" />
+                </div>
+            </th>
+
+            <th class="align-middle" scope="col" width="25%">
+                <div class="form-group">
+                  <label for="nombreEN">NAME</label>
+                  <input type="text" name="nombreEN" id="nombreEN" value=""/>
+                </div>
+            </th>
+
+            <th class="align-middle" scope="col" width="5%">
+                <div class="form-group">
+                  <label for="nombreEN">TIEMPO</label>
+                </div>
+            </th>
+
+            <th class="align-middle" scope="col" width="7%">
+              <div class="form-group">
+                <select class="form-control input sm" name="min" id="min" required="">
+                <option value="" id="a" disabled selected>mm</option>
+                {% for i in 0..60 %}
+                <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col" width="7%">
+              <div class="form-group">
+                <select class="form-control input sm" name="sec" id="sec" required="">
+                <option value="" id="a" disabled selected>ss</option>
+                {% for i in 0..60 %}
+                <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+                <div class="form-group">
+                  <input type="submit" id="add" value="{% trans %}aniadir{% endtrans %} {% trans %}TPROG{% endtrans %}" class="btn btn-success"/>
+                </div>
+            </th>
+            </tr>
+        </table>
+        <input type="hidden" name='idTareaAsignada' id="idTareaAsignada"  value="{{idTareaAsignada}}">
+        <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+        <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso.id}}">
+        <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+        <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+        <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+        <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+      </form>
+  </div>
+
+
+  <div id="ajax_OPBAsignada">
+  </div>
+
+  <br>
+  <form action="{{ path('app_drag_tareaasignada')}}" method="post">
+    <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+    <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+    <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+  </form></a>
+  <br>
+  <br>
+
+</div>
+</div>
+
+<script type="text/javascript">
+    $("#tipoSelected").on("change",function(){"1"===$(this).val()?$("#OPBDiv").show():$("#OPBDiv").hide()});
+    $("#tipoSelected").on("change",function(){"0"===$(this).val()?$("#DESDiv").show():$("#DESDiv").hide()});
+    $("#tipoSelected").on("change",function(){"2"===$(this).val()?$("#DNECDiv").show():$("#DNECDiv").hide()});
+    $("#tipoSelected").on("change",function(){"3"===$(this).val()?$("#TPROGDiv").show():$("#TPROGDiv").hide()});
+</script>
+
+<script
+            src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script
+            src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+      var showOnlyOptionsSimilarToText = function (selectionEl, str, isCaseSensitive) {
+        if (typeof isCaseSensitive == 'undefined')
+            isCaseSensitive = true;
+        if (isCaseSensitive)
+            str = str.toLowerCase();
+
+        var $el = $(selectionEl);
+
+        $el.children("option:selected").removeAttr('selected');
+        $el.val('');
+        $el.children("option").hide();
+
+        $el.children("option").filter(function () {
+            var text = $(this).text();
+            if (isCaseSensitive)
+                text = text.toLowerCase();
+
+            if (text.indexOf(str) > -1)
+                return true;
+
+            return false;
+        }).show();
+
+    };
+
+
+
+
+        $(document).ready(function () {
+
+          var timeout;
+  $("#SearchBox").on("keyup", function () {
+    var userInput = $("#SearchBox").val();
+    window.clearTimeout(timeout);
+    timeout = window.setTimeout(function() {
+      showOnlyOptionsSimilarToText($("#opbasica"), userInput, true);
+    }, 500);
+
+  });
+
+           var asignarproceso = $('input[name="asignarproceso"]').val();
+           var idTareaAsignada = $('input[name="idTareaAsignada"]').val();
+           var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+           var planta = $('input[name="planta"]').val();
+           var submodelo = $('input[name="submodelo"]').val();
+           var linea = $('input[name="linea"]').val();
+           var proceso = $('input[name="proceso"]').val();
+           $('#ajax_OPBAsignada').load('{{ path('app_ajax_operacionasignada')}}',{'idAsignarprocesoversion': idAsignarprocesoversion, 'idTareaAsignada': idTareaAsignada, 'asignarproceso': asignarproceso, 'planta': planta, 'submodelo': submodelo, 'linea': linea, 'proceso': proceso});
+          });
+
+    </script>
+</div>
+{% endblock %}

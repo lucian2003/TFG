@@ -1,0 +1,64 @@
+
+<div id="ajax">
+<form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu"> 
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col"><strong>{% trans %}submodelos{% endtrans %}</strong></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for submodelo in submodelos %}
+      <tr>
+        <td class="align-middle">{{submodelo.nombre}}</td>
+        <td></td>
+        <td></td>
+        <td width="40%">
+          <input type="submit" class="btn btn-success waves-effect waves-light" value="{% trans %}ver{% endtrans %}" onclick ="actualizarIdSubmodelo({{submodelo.id}});this.form.action = '{{ path('app_details_submodelo')}}'"/>
+          <input type="submit" class="btn btn-secondary waves-effect waves-light" value="{% trans %}editar{% endtrans %}" onclick ="actualizarIdSubmodelo({{submodelo.id}});this.form.action = '{{ path('app_edit_submodelo')}}'"/>
+          <button type="button" class="btn btn-danger waves-effect waves-light" data-toggle="modal"  data-target = "#modalConfirmDelete" onclick ="actualizarIdSubmodelo({{submodelo.id}})">{% trans %}eliminar{% endtrans %}</button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <input type="hidden" name='idSubmodelo' id="idSubmodelo"  value="">
+
+<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">{% trans %}eliminar?{% endtrans %}</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+
+        <i class="fas fa-times fa-4x animated rotateIn"></i>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <input type="submit" class="btn  btn-outline-danger" value="{% trans %}si{% endtrans %}" onclick ="this.form.action = '{{ path('app_delete_submodelo')}}'"/>
+        <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmDelete-->
+  
+</form>
+
+<br>
+<a class="btn btn-secondary" href="{{ path('app_index_submodelo')}}">{% trans %}volver{% endtrans %}</a>
+<br>
+<br>

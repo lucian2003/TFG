@@ -1,0 +1,19 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="content">
+<br>
+<h2>{% trans %}aniadir{% endtrans %} {% trans %}tarea{% endtrans %}</h2>
+<br>
+
+{{form_start(form)}}
+{{form_widget(form)}}
+{{form_end(form)}}
+
+<br>
+<a class="btn btn-info" href="{{ path('app_index_tarea')}}">{% trans %}volver{% endtrans %}</a>
+<br>
+<br>
+</div>
+{% endblock %}

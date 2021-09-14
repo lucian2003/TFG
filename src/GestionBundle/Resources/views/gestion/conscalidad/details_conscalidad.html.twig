@@ -1,0 +1,39 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}conscalidad{% endtrans %}</h2>
+  <br>
+
+  <table class="table">
+  	<thead>
+  		<tr>
+  			<th scope="col"><strong>ID</strong></th>
+          	<th scope="col"><strong>{% trans %}planta{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}descripcionES{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}descripcionEN{% endtrans %}</strong></th>
+          	<th scope="col"></th>
+          	<th scope="col"></th>
+        	</tr>
+      </thead>
+      <tbody>
+          <tr>
+          	<th scope="row">{{conscalidad.id}}</th>
+            	<td>{{conscalidad.idPlanta.nombre}}</td>
+            	<td>{{conscalidad.descripcionES}}</td>
+            	<td>{{conscalidad.descripcionEN}}</td>
+            	<td></td>
+          </tr>
+      </tbody>
+  </table>
+
+
+  <a class="btn btn-secondary" href="{{ path('app_index_conscalidad')}}">{% trans %}volver{% endtrans %}</a>
+  <br>
+  <br>
+  </div>
+</div>
+{% endblock %}

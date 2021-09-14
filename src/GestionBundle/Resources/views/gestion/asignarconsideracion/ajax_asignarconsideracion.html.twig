@@ -1,0 +1,19 @@
+
+<div id="ajax">
+   <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col"><strong>{% trans %}opbasicas{% endtrans %}</strong></th>
+              <th scope="col"><strong>{% trans %}conscalidads{% endtrans %}</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for consasignada in consasignadas %}
+            <tr>
+              <td class="align-middle">{{consasignada.idOperacionbasica.nombreES}}</td>
+              <td class="align-middle">{{consasignada.idConsideracioncalidad.descripcionES}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+   </table>
+</div>

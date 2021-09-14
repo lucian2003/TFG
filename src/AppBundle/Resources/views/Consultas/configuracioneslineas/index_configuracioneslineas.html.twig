@@ -1,0 +1,133 @@
+{% extends 'AppBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+	<div class="content">
+	<br>
+	<h2>&nbsp;&nbsp;{% trans %}configuraciones_linea{% endtrans %}</h2>
+	<br>
+	<br>
+	    <div class="container-fluid">
+	        <div class="row el-element-overlay">
+	            <div class="col-lg-3 col-md-6">
+		                <div class="card">
+		                    <div class="el-card-item">
+		                    	<a href="{{path('app_area_configuracioneslineas',{'area':'FV'})}}" class="custom-card">
+			                        <div class="el-card-avatar el-overlay-1"><img src="{{ asset('images/fv.png') }}"/>
+			                            <div class="el-overlay">
+			                                <ul class="list-style-none el-info">
+			                                </ul> 
+			                            </div>
+			                        </div>
+			                    </a>
+		                        <div class="el-card-content">
+		                            <h4 class="m-b-0">ENERGÍA SOLAR FOTOVOLTAICA</h4> <span class="text-muted"></span>
+		                        </div>
+		                    </div>
+		                </div>
+
+		            <!-- NOTICIAS --><!--
+		            <div class="card-body border-top">
+                        <h5 class="card-title">NOVEDADES</h5>
+                        <div class="alert alert-secondary" role="alert">
+                            <p>NUEVA CONFIGURACIÓN EN PRODUCCION - CONFIG A/1PLAY STORAGE INGETEAM/LP 1PLAY/2 OP</p>
+                            <hr>
+                            <p>NUEVA CONFIGURACIÓN EN PRODUCCION - CONFIG A/1PLAY STORAGE INGETEAM/LP 1PLAY/1 OP</p>
+                        </div>
+                    </div>
+                    <!-- FIN NOTICIAS -->
+	            </div>
+
+	            <div class="col-lg-3 col-md-6">
+		                <div class="card">
+		                    <div class="el-card-item">
+		                    	<a href="{{path('app_area_configuracioneslineas',{'area':'EO'})}}" class="custom-card">
+			                        <div class="el-card-avatar el-overlay-1"> <img src="{{ asset('images/eo.png') }}" alt="user" />
+			                            <div class="el-overlay">
+			                                <ul class="list-style-none el-info">
+			                                    </ul>
+			                            </div>
+			                        </div>
+			                    </a>
+		                        <div class="el-card-content">
+		                            <h4 class="m-b-0">ENERGÍA EÓLICA</h4> <span class="text-muted"></span>
+		                        </div>
+		                    </div>
+		                </div>
+		            <!-- NOTICIAS --><!--
+		            <div class="card-body border-top">
+                        <h5 class="card-title">NOVEDADES</h5>
+                        <div class="alert alert-secondary" role="alert">
+                            <p>NUEVA CONFIGURACIÓN EN PRODUCCION - CONFIG A/1PLAY STORAGE INGETEAM/LP 1PLAY/2 OP</p>
+                            <hr>
+                            <p>NUEVA CONFIGURACIÓN EN PRODUCCION - CONFIG A/1PLAY STORAGE INGETEAM/LP 1PLAY/1 OP</p>
+                        </div>
+                    </div>
+                    <!-- FIN NOTICIAS -->
+	            </div>
+
+	            <div class="col-lg-3 col-md-6">
+		                <div class="card">
+		                    <div class="el-card-item">
+		                    	<a href="{{path('app_area_configuracioneslineas',{'area':'ME'})}}" class="custom-card">
+			                        <div class="el-card-avatar el-overlay-1"> <img src="{{ asset('images/me.png') }}" alt="user" />
+			                            <div class="el-overlay">
+			                                <ul class="list-style-none el-info">
+			                                </ul>
+			                            </div>
+			                        </div>
+			                    </a>
+		                        <div class="el-card-content">
+		                            <h4 class="m-b-0">MOVILIDAD ELÉCTRICA</h4> <span class="text-muted"></span>
+		                        </div>
+		                    </div>
+		                </div>
+
+		            <!-- NOTICIAS --><!--
+		            <div class="card-body border-top">
+                        <h5 class="card-title">NOVEDADES</h5>
+                        <div class="alert alert-secondary" role="alert">
+                            <p>NUEVA CONFIGURACIÓN EN PRODUCCION - CONFIG A/1PLAY STORAGE INGETEAM/LP 1PLAY/2 OP</p>
+                            <hr>
+                            <p>NUEVA CONFIGURACIÓN EN PRODUCCION - CONFIG A/1PLAY STORAGE INGETEAM/LP 1PLAY/1 OP</p>
+                        </div>
+                    </div>
+                    <!-- FIN NOTICIAS -->
+	            </div>
+
+	            <div class="col-lg-3 col-md-6">
+		                <div class="card">
+		                    <div class="el-card-item">
+		                    	<a href="{{path('app_area_configuracioneslineas',{'area':'PVT'})}}" class="custom-card">
+			                        <div class="el-card-avatar el-overlay-1"> <img src="{{ asset('images/pvt.png') }}" alt="user" />
+			                            <div class="el-overlay">
+			                                <ul class="list-style-none el-info">
+			                                </ul>
+			                            </div>
+			                        </div>
+			                    </a>
+		                        <div class="el-card-content">
+		                            <h4 class="m-b-0">POSTVENTA</h4> <span class="text-muted"></span>
+		                        </div>
+		                    </div>
+		                </div>
+
+		            <!-- NOTICIAS --><!--
+		            <div class="card-body border-top">
+                        <h5 class="card-title">NOVEDADES</h5>
+                        <div class="alert alert-secondary" role="alert">
+                            <p>NUEVA CONFIGURACIÓN EN PRODUCCION - CONFIG A/1PLAY STORAGE INGETEAM/LP 1PLAY/2 OP</p>
+                            <hr>
+                            <p>NUEVA CONFIGURACIÓN EN PRODUCCION - CONFIG A/1PLAY STORAGE INGETEAM/LP 1PLAY/1 OP</p>
+                        </div>
+                    </div>
+                    <!-- FIN NOTICIAS -->
+	            </div>
+
+	    	</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

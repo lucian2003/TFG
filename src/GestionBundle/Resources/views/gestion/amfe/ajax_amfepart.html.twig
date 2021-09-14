@@ -1,0 +1,44 @@
+<script type="text/javascript">
+    function actualizarIdAmfe(id) {
+          $('input[name=idAmfe]').val(id);
+        }
+  </script>
+
+<div id="ajax_amfePart">
+  <form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu">
+    <P>TAREA SELECCIONADA:<span><font style="color:blue;" size="2"> {{nombre_tarea|upper}}</font></span></P>
+    
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th scope="col"><strong>PROCESOS CRÍTICOS</strong></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for amfe in amfes %}
+          <tr>
+            <td class="align-middle">{{amfe.nombre}}</td>
+            <td></td>
+            <td></td>
+            <td width="40%">
+              <input type="submit" class="btn btn-warning waves-effect waves-light" value="{% trans %}desglosar{% endtrans %}" onclick ="actualizarIdAmfe({{amfe.id}});this.form.action = '{{ path('app_edit_amfepart')}}'"/>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    <input type="hidden" name='idAmfe' id="idAmfe"  value="">
+    <input type="hidden" name='tarea' id="tarea"  value="{{tarea}}">
+    <input type="hidden" name='area' id="area"  value="{{area}}">
+    <input type="hidden" name='modelo' id="modelo"  value="{{modelo}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+    <input type="hidden" name='listado' id="listado"  value="{{listado}}">
+
+  </form>
+</div>

@@ -1,0 +1,93 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}asignar_consideracion{% endtrans %}</h2>
+  <br>
+  <br>
+
+  <form method="post" action="{{ path('app_create_asignarconsideracion')}}" enctype="multipart/form-data" name="modelosubmodelo" id="modelosubmodelo">
+  <div class="card border-dark">
+  <table class="table table-borderless">
+        <tr>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <select class="form-control input sm" name="opbasica" id="opbasica" required="">
+              <option value="" disabled selected>{% trans %}opbasica{% endtrans %}</option>
+              {% for opbasica in opbasicas %}
+              <option value="{{ opbasica.id }}">{{ opbasica.nombreES }}</option>
+              {% endfor %}
+              </select>
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+                  <select class="form-control input sm" name="consideracion" id="consideracion" required="">
+                        <option value="" disabled selected>{% trans %}conscalidad{% endtrans %}</option>
+                        <option title="" value=""></option>
+                  </select>
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <input type="submit" id="add" value="{% trans %}+{% endtrans %}" class="btn btn-success"/>
+            </div>
+          </th>
+        </tr>
+    </table>
+  </div>
+  </form>
+
+  <div id="ajax">
+  </div>
+  <br>
+  <br>
+
+</div>
+</div>
+
+<script type="text/javascript">  
+  $(document).ready(function(){
+
+    $('#opbasica').on('change', function(){
+       //console.log("hmm its change");
+      var opbasica_id=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch_asignarconsideracion')}}',
+        data:{'id':opbasica_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            //console.log(bbb);
+            options += '<option value="0" selected disabled>{% trans %}conscalidad{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].descripcion_es+'</option>';
+            }
+    // Append to the html
+    $('#consideracion').empty();
+    $('#consideracion').append(options);
+    $('#ajax').load('{{ path('app_ajax_asignarconsideracion')}}',{opbasica:$('#opbasica').val()});
+   
+      }
+    })
+  });
+
+  setTimeout(function(){
+          $("div.alert").slideUp(500);
+            }, 5000 ); // 5 secs
+
+});
+
+</script>
+
+<br>
+</div>
+{% endblock %}

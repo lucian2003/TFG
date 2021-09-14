@@ -1,0 +1,40 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+	<div class="content">
+	<br>
+	<h2>&nbsp;&nbsp;{% trans %}editar{% endtrans %} {% trans %}opbasignada{% endtrans %}</h2>
+	<br>
+
+	{{form_start(form)}}
+	{{form_widget(form)}}
+	<input type="hidden" name='idOPBAsignada' id="idOPBAsignada"  value="{{id}}">
+	<input type="hidden" name='idTareaAsignada' id="idTareaAsignada"  value="{{idTareaAsignada}}">
+	<input type="hidden" name='planta' id="planta"  value="{{planta}}">
+	<input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+	<input type="hidden" name='linea' id="linea"  value="{{linea}}">
+	<input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+	<input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso}}">
+	<input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+	{{form_end(form)}}
+
+
+
+	<br>
+	<form method="post" action="{{ path('app_index_operacionasignada')}}" enctype="multipart/form-data" name="back" id="back">
+	  <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+	  <input type="hidden" name='idTareaAsignada' id="idTareaAsignada"  value="{{idTareaAsignada}}">
+	  <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+	  <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+	  <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+	  <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+	  <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso}}">
+	  <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+	</form></a>
+	<br>
+	<br>
+	</div>
+</div>
+{% endblock %}

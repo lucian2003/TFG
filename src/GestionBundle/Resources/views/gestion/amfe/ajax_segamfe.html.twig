@@ -1,0 +1,127 @@
+<div id="ajax_segAmfe">
+	<P>SUBMODELO SELECCIONADO:<span><font style="color:blue;" size="2"> {{submodelo.nombre}}</font></span></P>
+    	<input class="form-control" id="myInput" type="text" placeholder="Buscar..">
+        <br>
+      <table class="table table-sm table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col"><strong>TAREA</strong></th>
+            <th scope="col"><strong>AMFE</strong></th>
+            <th scope="col"><strong>MODO DE FALLO</strong></th>
+            <th scope="col"><strong>ACCIÓN</strong></th>
+            <th scope="col"><strong>RESPONSABLE</strong></th>
+            <th scope="col"><strong>F_ESTIMADA</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>REALIZADA</strong></th>
+            <th scope="col"><strong>F_REALIZADA</strong></th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for dato in datos %}
+          <tr>
+            <td class="align-middle">{{dato.tarea}}</td>
+            <td class="align-middle">{{dato.amfe}}</td>
+            <td class="align-middle">{{dato.modo_fallo}}</td>
+            <td class="align-middle">{{dato.accion}}</td>
+            <td class="align-middle" id="responsable" style="max-width: 300px; width:300px;">{{dato.responsable}}</td>
+            {% if (dato.fecha_estimada != '0000-00-00') %}
+            <td class="align-middle" id="fecha_estimada" style="max-width: 120px; width:120px;">{{dato.fecha_estimada}}</td>
+            {% else %}
+            <td class="align-middle" id="fecha_estimada" style="max-width: 120px; width:120px;"></td>
+            {% endif %}
+            <td class="text-center align-middle" id="realizada">{{dato.realizada}}</td>
+            {% if (dato.fecha_realizado != '0000-00-00') %}
+            <td class="align-middle" id="fecha_realizada" style="max-width: 120px; width:120px;">{{dato.fecha_realizado}}</td>
+            {% else %}
+            <td class="align-middle" id="fecha_realizada" style="max-width: 120px; width:120px;"></td>
+            {% endif %}
+            <td class="text-center align-middle"><button type="button" class="btn-sm btn-secondary waves-effect waves-light" id="boton" style="background-color:#6c757d; border-color: #6c757d; color: white;" onclick ="edit(this);">✎</button></td>
+            <td style="display:none;" id="modo_fallo">{{dato.id_detalleamfe}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+<input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo.id}}">
+
+<script type="text/javascript"> 
+  $(document).ready(function() {
+
+    $("#myInput").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+
+  });
+
+  function edit(element){
+
+            var tr = jQuery(element).parent().parent();
+                if(!tr.hasClass("editing")) {
+                    tr.addClass("editing");
+
+                        var value_responsable = jQuery(tr.find("td[id='responsable']")).text();
+                        jQuery(tr.find("td[id='responsable']")).text("");
+                        jQuery(tr.find("td[id='responsable']")).append('<input type="text" style="width: 290px;" value="'+value_responsable+'"/>');
+
+                        var value_fecha_estimada = jQuery(tr.find("td[id='fecha_estimada']")).text();
+                        jQuery(tr.find("td[id='fecha_estimada']")).text("");
+                        jQuery(tr.find("td[id='fecha_estimada']")).append('<input type="date" style="width: 115px;" value="'+value_fecha_estimada+'"/>');
+
+                        var value_realizada = jQuery(tr.find("td[id='realizada']")).text();
+                        jQuery(tr.find("td[id='realizada']")).text("");
+                        if (value_realizada == "SI") {
+                          jQuery(tr.find("td[id='realizada']")).append('<input type="checkbox" checked/>');
+                        } else {
+                          jQuery(tr.find("td[id='realizada']")).append('<input type="checkbox"/>');
+                        }
+
+                        var value_fecha_realizada = jQuery(tr.find("td[id='fecha_realizada']")).text();
+                        jQuery(tr.find("td[id='fecha_realizada']")).text("");
+                        jQuery(tr.find("td[id='fecha_realizada']")).append('<input type="date" style="width: 115px;" value="'+value_fecha_realizada+'"/>');
+
+                      jQuery(tr.find("button[id='boton']")).text("✔");                   
+              
+                } else {
+                    tr.removeClass("editing");
+
+                        var value_responsable = jQuery(tr.find("td[id='responsable']")).find("INPUT").val();
+
+                        jQuery(tr.find("td[id='responsable']")).text(value_responsable);
+                        jQuery(tr.find("td[id='responsable']")).find("INPUT").remove();
+
+                        var value_fecha_estimada = jQuery(tr.find("td[id='fecha_estimada']")).find("INPUT").val();
+
+                        jQuery(tr.find("td[id='fecha_estimada']")).text(value_fecha_estimada);
+                        jQuery(tr.find("td[id='fecha_estimada']")).find("INPUT").remove();
+
+                        var value_realizada = jQuery(tr.find("td[id='realizada']")).find("INPUT").is(':checked');
+
+                        if(value_realizada == true){
+                          value_realizada = "SI";
+                        } else {
+                          value_realizada = "NO";
+                        }
+
+                        jQuery(tr.find("td[id='realizada']")).text(value_realizada);
+                        jQuery(tr.find("td[id='realizada']")).find("INPUT").remove();
+
+                        var value_fecha_realizada = jQuery(tr.find("td[id='fecha_realizada']")).find("INPUT").val();
+
+                        jQuery(tr.find("td[id='fecha_realizada']")).text(value_fecha_realizada);
+                        jQuery(tr.find("td[id='fecha_realizada']")).find("INPUT").remove();
+
+                        var submodelo = $('input[name="submodelo"]').val();
+                        var detalle_amfe = jQuery(tr.find("td[id='modo_fallo']")).text();
+
+
+                        $('#ajax_segAmfe').load('{{ path('app_edit_segamfe')}}',{'value_responsable': value_responsable, 'value_fecha_estimada': value_fecha_estimada, 'submodelo': submodelo, 'value_fecha_realizada': value_fecha_realizada, 'value_realizada': value_realizada, 'detalle_amfe': detalle_amfe});
+                        
+                    jQuery(tr.find("button[id='boton']")).text("✎");      
+                
+            }
+        }
+  
+</script>

@@ -1,0 +1,53 @@
+<script type="text/javascript">
+  function actualizarIdConfiguracionLinea(id) {
+        $('input[name=idConfiguracionLinea]').val(id);
+      }
+</script>
+
+{% set eqsem = 0.0 %}
+{% set tack = 0.0 %}
+<div id="ajax_configuracionLinea">
+<form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu"> 
+    <div class="container-fluid" style="margin-top: 20px;">
+    <div class="row justify-content-center">
+    <div class="col-md-12 col-md-offset-12">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th class="text-left" scope="col"><h2>{% trans %}nombre_configuracion{% endtrans %}</h2></th>
+            <th class="text-center" scope="col"><h2>{% trans %}num_op{% endtrans %}</h2></th>
+            <th class="text-center" scope="col"><h2>{% trans %}eq_sem{% endtrans %}</h2></th>
+            <th class="text-center" scope="col"><h2>TACK</h2></th>
+            <th class="text-center" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for configuracionlinea in configuracionlineas %}
+          <tr>
+            <td class="text-left align-left"><h3>{{ configuracionlinea.nombre }}</h3></td>
+            <td class="text-center align-middle"><h3>{{ configuracionlinea.operarios }}</h3></td>
+            {% set eqsem = configuracionlinea.eqSemana * productividad %}
+            <td class="text-center align-middle"><h3>{{ eqsem|round(1, 'ceil') }}</h3></td>
+            {% set tack = configuracionlinea.tackTeorico / productividad %}
+            {% set tack = tack|round %}
+            <td class="text-center align-middle"><h3>{{ tack|date('H:i:s', '+00:00 GMT') }}</h3></td>
+            <td class="align-middle">
+            <input type="submit" class="btn btn-success" value="{% trans %}ver{% endtrans %}" onclick ="actualizarIdConfiguracionLinea({{configuracionlinea.id}});this.form.action = '{{ path('app_details_configuracioneslineas')}}'"/></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <input type="hidden" name='idConfiguracionLinea' id="idConfiguracionLinea"  value="">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+    <input type="hidden" name='area' id="area"  value="{{area}}">
+    <input type="hidden" name='gama' id="gama"  value="{{gama.id}}">
+    
+
+    </div>
+  </div>
+</form>
+</div>

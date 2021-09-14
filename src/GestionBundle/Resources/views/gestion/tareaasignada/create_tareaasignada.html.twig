@@ -1,0 +1,166 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <script type="text/javascript">
+    function actualizarIdTareaAsignada(id) {
+          $('input[name=idTareaAsignada]').val(id);
+        }
+  </script>
+
+
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}listado_tareas{% endtrans %}</h2>
+
+  <br>
+  <form action="{{ path('app_index_tareaasignada')}}" method="post">
+    <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+    <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+  </form></a>
+  <br>
+  <br>
+
+  <p style="color:blue;">&nbsp;&nbsp;{{asignarproceso.IdSubmodelo.nombre}} / {{asignarproceso.IdLinea.nombre}} / {{asignarproceso.IdProceso.nombre}} / {% trans %}version{% endtrans %} {{asignarprocesoversion.version.nombre}}</p>
+
+  <br> {#
+  {% if permiso == 1 %} 
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success waves-effect waves-light text-center" data-toggle="modal"  data-target = "#modalNewTarea" align-middle> + {% trans %}aniadir{% endtrans %} {% trans %}tarea{% endtrans %}</button></div>
+  {% endif %}
+#}
+
+  <div class="card border-dark">
+      <form method="post" action="{{ path('app_create_tareaasignada')}}" enctype="multipart/form-data" name="nuevatarea" id="nuevatarea"> 
+      {% if permiso == 1 %}  
+          <table class="table table-borderless">
+                <tr>
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <h4>{% trans %}aniadir{% endtrans %} {% trans %}tarea{% endtrans %}</h4>
+                    </div>
+                  </th>
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <label for="tareaES">NOMBRE TAREA*</label>
+                      <input type="text" name="tareaES" id="tareaES" value="" required/>
+                    </div>
+                  </th>
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <label for="tareaES">TASK NAME</label>
+                      <input type="text" name="tareaEN" id="tareaEN" value=""/>
+                    </div>
+                  </th>
+                  {% if lote == 1 %}
+                  <th class="align-middle" scope="col" width="15%">
+                      <div class="form-group">
+                          <a><strong>{% trans %}lote{% endtrans %}:</strong></a>
+                          <input type="number" name='lote' id="lote" value="" min="1" max="999" style="width: 4em;" required=""/>
+                      </div>
+                    </th>
+                  {% endif %}
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <input type="submit" id="add" value="{% trans %}aniadir{% endtrans %}" class="btn btn-success"/>
+                    </div>
+                  </th>
+                </tr>
+            </table>
+    {% endif %}
+        <input type="hidden" name='planta' id="planta"  value="1">
+        <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+        <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+        <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+        <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso.id}}">
+        <input type="hidden" name='asignarprocesoversion' id="asignarprocesoversion"  value="{{asignarprocesoversion.id}}">
+        <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+
+      </form>
+  </div>
+
+{# <!-- ACTIVAR ESTE MODAL PARA AÑADIR TAREAS CON AMFE DESDE MODAL -->
+<!--Modal: modalNewTarea-->
+<div class="modal fade" id="modalNewTarea" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-md modal-notify modal-notify" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading"><h4>AÑADIR TAREA</h4></p>
+      </div>
+        <form method="post" action="{{ path('app_create_tareaasignada')}}" enctype="multipart/form-data" name="nuevo_menu2" id="nuevo_menu2">
+          <!--Body-->
+          <div class="modal-body" style="text-align: left;">
+
+            
+              <label for="tareaES">NOMBRE TAREA</label><br>
+              <input type="text" name="tareaES" id="tareaES" value="" size="55" required/><br><br>
+            
+              <label for="tareaES">TASK NAME</label><br>
+              <input type="text" name="tareaEN" id="tareaEN" value="" size="55"/><br><br>
+
+              {% if lote == 1 %}
+              <a><strong>{% trans %}lote{% endtrans %}:</strong></a>
+              <input type="number" name='lote' id="lote" value="" min="1" max="999" style="width: 4em;" required=""/><br><br>
+              {% endif %}
+
+            <p><strong>AMFE: </STRONG>(seleccione una o varias opciones si aplica)</p>
+            {% for amfe in amfes %}
+            <label><input type="checkbox" value="{{ amfe.id }}" name="amfe[]"> {{ amfe.nombre }}</label><br>
+            {% endfor %}
+          </div>
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <input type="submit" class="btn btn-outline-success" value="{% trans %}aniadir{% endtrans %}"/>
+            <a type="button" class="btn  btn-secondary waves-effect" data-dismiss="modal">CANCELAR</a>
+          </div>
+
+          <input type="hidden" name='planta' id="planta"  value="1">
+          <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+          <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+          <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+          <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso.id}}">
+          <input type="hidden" name='asignarprocesoversion' id="asignarprocesoversion"  value="{{asignarprocesoversion.id}}">
+          <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+
+        </form>
+      </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalNewTarea-->
+#}
+
+  <div id="ajax_asignarTarea">
+  </div>
+
+  <br>
+  <br>
+  <br>
+</div>
+</div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+           var asignarproceso = $('input[name="asignarproceso"]').val();
+           var asignarprocesoversion = $('input[name="asignarprocesoversion"]').val();
+           var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+           var planta = $('input[name="planta"]').val();
+           var submodelo = $('input[name="submodelo"]').val();
+           var linea = $('input[name="linea"]').val();
+           var proceso = $('input[name="proceso"]').val();
+           $('#ajax_asignarTarea').load('{{ path('app_ajax_tareaasignada')}}',{'asignarprocesoversion': asignarprocesoversion, 'idAsignarprocesoversion': idAsignarprocesoversion, 'asignarproceso': asignarproceso, 'planta': planta, 'submodelo': submodelo, 'linea': linea, 'proceso': proceso});
+          
+           $(".select2").select2();
+
+          });
+
+    </script>
+</div>
+{% endblock %}

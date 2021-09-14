@@ -1,0 +1,84 @@
+{% extends 'AppBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <script type="text/javascript">
+  	
+    function actualizarOperario(i) {
+          $('input[name=operarios]').val(i);
+        }
+  </script>
+
+  <br>
+
+  <h2>&nbsp;&nbsp;{% trans %}configuracion_linea{% endtrans %}</h2>
+  <br>
+  <br>
+  <p style="color:blue;">&nbsp;&nbsp;{{submodelo_entity.nombre}} / {{linea_entity.nombre}}</p>
+  <br>
+
+  <form method="post" enctype="multipart/form-data" name="tabla_op" id="tabla_op">
+    <h4>&nbsp;&nbsp;{% trans %}seleccion_op{% endtrans %}:</h4>
+    <br>
+    <div class="container-fluid">
+    <div class="card border-dark">
+      <div class="row justify-content-center">
+        <table class="table table-sm table-borderless">
+                
+                  
+              {% for i in 1..operarios %}            
+                <th scope="col" width="" class="text-center align-middle">
+                      <br>
+                			<input type="button" class="btn btn-secondary btn-lg" id="enviar" value="{% trans %}operario{% endtrans %} {{ i }}" onclick="actualizarOperario({{i}});"/>
+    				      
+                </th>
+              {% endfor %}
+                 
+                
+              </table>
+
+       <input type="hidden" name='operarios' id="operarios"  value="">
+       <input type="hidden" name='idConfiguracionLinea' id="idConfiguracionLinea"  value="{{idConfiguracionLinea}}">
+
+      </div>
+    </div>
+  </div>
+  </form>
+
+
+  <div id="ajax_ConfiguracionesLineas">
+  </div>
+
+
+  <br>
+  <form action="{{ path('app_gama_configuracioneslineas')}}" method="post">
+    <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+    <input type="hidden" name='area' id="area"  value="{{area}}">
+    <input type="hidden" name='gama' id="gama"  value="{{gama.id}}">
+  </form></a>
+  <br>
+  <br>
+
+  </div>
+</div>
+	<script type="text/javascript">  
+	  $(document).ready(function(){		
+	  			$(document).on('click','#enviar',function(){
+					var idConfiguracionLinea = $('input[name="idConfiguracionLinea"]').val();
+					var operarios = document.getElementById("operarios").value;
+					$('#ajax_ConfiguracionesLineas').load('{{ path('app_ajax_configuracioneslineas')}}',{'idConfiguracionLinea': idConfiguracionLinea, 'operarios': operarios});
+				});
+
+});
+
+	  function goBack() {
+  			window.history.back();
+			}
+	</script>
+
+{% endblock %}

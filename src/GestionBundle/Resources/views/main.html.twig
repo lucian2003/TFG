@@ -1,0 +1,397 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+
+    <link href="{{ asset('assets/libs/flot/css/float-chart.css') }}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ asset('dist/css/style.min.css') }}" rel="stylesheet">
+
+    <!-- multiselect -->
+    <link href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+    
+
+{% endblock %}
+{% block javascripts %}
+
+    <script src="{{ asset('assets/libs/jquery/dist/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jquery/dist/jquery-ui.min.js') }}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{{ asset('assets/libs/popper.js/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <!--Wave Effects -->
+    <script src="{{ asset('dist/js/waves.js') }}"></script>
+    <!--Menu sidebar -->
+    <script src="{{ asset('dist/js/sidebarmenu.js') }}"></script>
+    <!--Custom JavaScript -->
+    <script src="{{ asset('dist/js/custom.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/flot/excanvas.js') }}"></script>
+    <script src="{{ asset('assets/libs/flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('assets/libs/flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('assets/libs/flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ asset('assets/libs/flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('assets/libs/flot/jquery.flot.crosshair.js') }}"></script>
+    <script src="{{ asset('assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
+    <script src="{{ asset('dist/js/pages/chart/chart-page-init.js') }}"></script>
+
+    <script src="{{ asset('bootstrap.min.js') }}"></script>
+
+    <!-- multiselect -->
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
+
+    <!-- script para el boton de volver arriba -->
+    <script type="text/javascript">
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }          
+        }
+
+        function topFunction() {
+         
+             $('html, body').animate({scrollTop:0}, 'slow');
+        }
+    </script>
+{% endblock %}
+{% block body %}
+
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+        <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" data-navbarbg="skin5">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <div class="navbar-header" data-logobg="skin5">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <a class="navbar-brand" href="{{ path('app_consultas_index')}}">
+                        <!-- Logo icon -->
+                        <b class="logo-icon p-l-10">
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="{{ asset('images/logo.jpg') }}" alt="INICIO" class="light-logo" />
+                           
+                        </b>
+                        <!--End Logo icon -->
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <!-- ============================================================== -->
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-left mr-auto">
+                        <li class="nav-item d-none d-md-block"><a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-right">
+                        <!-- ============================================================== -->
+                        <!-- Messages -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown" title="{% trans %}notificaciones{% endtrans %}">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="font-24 mdi mdi-comment-processing"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown" aria-labelledby="2">
+                                <ul class="list-style-none">
+                                    <li>
+                                        <div class="">
+                                             <!-- Message -->
+                                            <a href="javascript:void(0)" class="link border-top">
+                                                <div class="d-flex no-block align-items-center p-10">
+                                                    <span class="btn btn-success btn-circle"><i class="ti-info-alt"></i></span>
+                                                    <div class="m-l-10">
+                                                        <h5 class="m-b-0">Notificaciones:</h5> 
+                                                        <span class="mail-desc">No hay notificaciones</span> 
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- End Messages -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- Translate -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown" title="ES/EN">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="font-24 mdi mdi-translate"></i>
+                            </a>
+                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a href="{{ path('app_consultas_lang_es')}}"><img src="/estandarizacion/web/images/spain.png" alt="Spanish" align="" width=""></a>
+                                <a href="{{ path('app_consultas_lang_en')}}"><img src="/estandarizacion/web/images/english.png" alt="English" align="" width=""></a>
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- End Translate -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- Gestion -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item" title="{% trans %}gestion{% endtrans %}">
+                            <a class="nav-link waves-effect waves-dark" href="{{ path('app_gestion')}}"><i class="font-24 mdi mdi-settings"></i></a>
+                            </a>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- End Gestion -->
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar" data-sidebarbg="skin5">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav" class="p-t-30">
+
+                        {% if is_granted('ROLE_INGENIERIA') %}
+                            {% if (navplanta is defined or navlinea is defined) %}
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-factory"></i><span class="hide-menu">{% trans %}gestion{% endtrans %} {% trans %}planta{% endtrans %}</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    <li class="sidebar-item"><a {% if navplanta is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_planta')}}" class="sidebar-link"><i class="mdi mdi-factory"></i><span class="hide-menu">{% trans %}plantas{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a {% if navlinea is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_linea')}}" class="sidebar-link"><i class="mdi mdi-file-tree"></i><span class="hide-menu">{% trans %}lineas{% endtrans %}</span></a></li>
+
+                                </ul>
+                            </li>
+                            {% else %}
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-factory"></i><span class="hide-menu">{% trans %}gestion{% endtrans %} {% trans %}planta{% endtrans %}</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_planta')}}" class="sidebar-link"><i class="mdi mdi-factory"></i><span class="hide-menu">{% trans %}plantas{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_linea')}}" class="sidebar-link"><i class="mdi mdi-file-tree"></i><span class="hide-menu">{% trans %}lineas{% endtrans %}</span></a></li>
+
+                                </ul>
+                            </li>
+                            {% endif %}
+
+
+                            {% if (navmodelo is defined or navsubmodelo is defined or navmodelosubmodelo is defined) %}
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-cube"></i><span class="hide-menu">{% trans %}gestion{% endtrans %} {% trans %}modelos{% endtrans %}</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    <li class="sidebar-item"><a {% if navmodelo is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_modelo')}}" class="sidebar-link"><i class="mdi mdi-cube"></i><span class="hide-menu">{% trans %}modelos{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a {% if navsubmodelo is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_submodelo')}}" class="sidebar-link"><i class="mdi mdi-cube-outline"></i><span class="hide-menu">{% trans %}submodelos{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a {% if navmodelosubmodelo is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_modelosubmodelo')}}" class="sidebar-link"><i class="mdi mdi-webpack"></i><span class="hide-menu">{% trans %}modelo{% endtrans %}-{% trans %}submodelo{% endtrans %}</span></a></li>
+
+
+                                </ul>
+                            </li>
+                            {% else %}
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-cube"></i><span class="hide-menu">{% trans %}gestion{% endtrans %} {% trans %}modelos{% endtrans %}</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_modelo')}}" class="sidebar-link"><i class="mdi mdi-cube"></i><span class="hide-menu">{% trans %}modelos{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_submodelo')}}" class="sidebar-link"><i class="mdi mdi-cube-outline"></i><span class="hide-menu">{% trans %}submodelos{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_modelosubmodelo')}}" class="sidebar-link"><i class="mdi mdi-webpack"></i><span class="hide-menu">{% trans %}modelo{% endtrans %}-{% trans %}submodelo{% endtrans %}</span></a></li>
+
+
+                                </ul>
+                            </li>
+                            {% endif %}
+
+
+                            {% if (navproceso is defined or navasignarproceso is defined or navopbasica is defined) %}
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-settings"></i><span class="hide-menu">{% trans %}gestion{% endtrans %} {% trans %}procesos{% endtrans %}</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    <li class="sidebar-item"><a {% if navproceso is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_proceso')}}" class="sidebar-link"><i class="mdi mdi-settings"></i><span class="hide-menu">{% trans %}procesos{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a {% if navasignarproceso is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_asignarproceso')}}" class="sidebar-link"><i class="mdi mdi-repeat"></i><span class="hide-menu">{% trans %}asignar_procesos{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a {% if navopbasica is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_opbasica')}}" class="sidebar-link"><i class="mdi mdi-settings-box"></i><span class="hide-menu">{% trans %}opbasicas{% endtrans %}</span></a></li>
+
+
+                                </ul>
+                            </li>
+                            {% else %}
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-settings"></i><span class="hide-menu">{% trans %}gestion{% endtrans %} {% trans %}procesos{% endtrans %}</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_proceso')}}" class="sidebar-link"><i class="mdi mdi-settings"></i><span class="hide-menu">{% trans %}procesos{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_asignarproceso')}}" class="sidebar-link"><i class="mdi mdi-repeat"></i><span class="hide-menu">{% trans %}asignar_procesos{% endtrans %}</span></a></li>
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_opbasica')}}" class="sidebar-link"><i class="mdi mdi-settings-box"></i><span class="hide-menu">{% trans %}opbasicas{% endtrans %}</span></a></li>
+
+
+                                </ul>
+                            </li>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if navtareaasignada is defined %}
+                        <li class="sidebar-item"><a href="{{ path('app_index_tareaasignada')}}" style='font-weight: bold;' class="sidebar-link waves-effect waves-dark sidebar-link active" aria-expanded="false"><i class="mdi mdi-format-list-numbers"></i><span class="hide-menu">{% trans %}listado_tareas{% endtrans %}</span></a></li>
+                        {% else %}
+                        <li class="sidebar-item"><a href="{{ path('app_index_tareaasignada')}}" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-format-list-numbers"></i><span class="hide-menu">{% trans %}listado_tareas{% endtrans %}</span></a></li>
+                        {% endif %}
+
+
+                        {% if navconfiguracionlinea is defined %}
+                        <li class="sidebar-item"><a href="{{ path('app_index_configuracionlinea')}}" style='font-weight: bold;' class="sidebar-link waves-effect waves-dark sidebar-link active" aria-expanded="false"><i class="mdi mdi-format-list-bulleted-type"></i><span class="hide-menu">{% trans %}configuraciones{% endtrans %}</span></a></li>
+                        {% else %}
+                        <li class="sidebar-item"><a href="{{ path('app_index_configuracionlinea')}}" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-format-list-bulleted-type"></i><span class="hide-menu">{% trans %}configuraciones{% endtrans %}</span></a></li>
+                        {% endif %}
+
+                        <!-- CALIDAD -->
+                        {% if (navconscalidad is defined or navasignarconsideracion is defined) %}
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">{% trans %}calidad{% endtrans %}</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+
+                                <li class="sidebar-item"><a {% if navconscalidad is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_conscalidad')}}" class="sidebar-link"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">{% trans %}consideraciones_calidad{% endtrans %}</span></a></li>
+
+                                <li class="sidebar-item"><a {% if navasignarconsideracion is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_asignarconsideracion')}}" class="sidebar-link"><i class="mdi mdi-shuffle-variant"></i><span class="hide-menu">{% trans %}asign_cons{% endtrans %}</span></a></li>
+
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">{% trans %}calidad{% endtrans %}</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+
+                                <li class="sidebar-item"><a href="{{ path('app_index_conscalidad')}}" class="sidebar-link"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">{% trans %}consideraciones_calidad{% endtrans %}</span></a></li>
+
+                                <li class="sidebar-item"><a href="{{ path('app_index_asignarconsideracion')}}" class="sidebar-link"><i class="mdi mdi-shuffle-variant"></i><span class="hide-menu">{% trans %}asign_cons{% endtrans %}</span></a></li>
+
+                            </ul>
+                        </li>
+                        {% endif %}
+
+
+                        <!--
+                        {% if navamfe is defined %}
+                        <li class="sidebar-item"><a href="{{ path('app_index_amfe')}}" style='font-weight: bold;' class="sidebar-link waves-effect waves-dark sidebar-link active" aria-expanded="false"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">AMFE</span></a></li>
+                        {% else %}
+                        <li class="sidebar-item"><a href="{{ path('app_index_amfe')}}" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">AMFE</span></a></li>
+                        {% endif %} -->
+
+
+                        <!-- AMFE -->
+                        {% if (navamfe is defined or navamfepart is defined or navsegamfe is defined) %}
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">AMFE</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+
+                                <li class="sidebar-item"><a {% if navamfe is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_amfe')}}" class="sidebar-link"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">PROCESOS CRÍTICOS</span></a></li>
+
+                                <li class="sidebar-item"><a {% if navamfepart is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_amfepart')}}" class="sidebar-link"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">MODO DE FALLO x TAREA</span></a></li>
+
+                                <li class="sidebar-item"><a {% if navsegamfe is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_segamfe')}}" class="sidebar-link"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">SEGUIMIENTO DE AMFE</span></a></li>
+
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">AMFE</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+
+                                <li class="sidebar-item"><a href="{{ path('app_index_amfe')}}" class="sidebar-link"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">PROCESOS CRÍTICOS</span></a></li>
+
+                                <li class="sidebar-item"><a href="{{ path('app_index_amfepart')}}" class="sidebar-link"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">MODO DE FALLO x TAREA</span></a></li>
+
+                                <li class="sidebar-item"><a href="{{ path('app_index_segamfe')}}" class="sidebar-link"><i class="mdi mdi-playlist-check"></i><span class="hide-menu">SEGUIMIENTO DE AMFE</span></a></li>
+
+                            </ul>
+                        </li>
+                        {% endif %}
+
+
+                        <!-- CONSULTAS -->
+                            {% if navopbasicas is defined or navopbasicasconf is defined %}
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">{% trans %}consultas{% endtrans %}</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    <li class="sidebar-item"><a {% if navopbasicas is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_operacionesbasicas')}}" class="sidebar-link"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">OPB's x LT</span></a></li>
+
+                                    <li class="sidebar-item"><a {% if navopbasicasconf is defined %} style='font-weight: bold;' {% endif %} href="{{ path('app_index_operacionesbasicasconf')}}" class="sidebar-link"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">OPB's x CONFIG</span></a></li>
+
+                                </ul>
+                            </li>
+                            {% else %}
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">{% trans %}consultas{% endtrans %}</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_operacionesbasicas')}}" class="sidebar-link"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">OPB's x LT</span></a></li>
+
+                                    <li class="sidebar-item"><a href="{{ path('app_index_operacionesbasicasconf')}}" class="sidebar-link"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">OPB's x CONFIG</span></a></li>
+
+                                </ul>
+                            </li>
+                            {% endif %}
+            
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+{% block contenido %}
+
+{% endblock %}
+
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer text-center">
+        <div class="row">
+            <div class="col-sm-6">
+             <button onclick="topFunction()" id="myBtn" title="Go to top">&nbsp;↑&nbsp;</button>
+            </div>
+            <div class="col-sm-6 text-right">
+                <STRONG>ESTANDARIZACION APP</STRONG> - VER. 1.0.3 | DESIGNED BY <a href="#"><STRONG>IPT PANELES</STRONG></a> &copy; 2021
+            </div>
+        </div>
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+
+{% endblock %}

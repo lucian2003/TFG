@@ -1,0 +1,55 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <br>
+
+  <h2>&nbsp;&nbsp;CONFIGURACIÓN LINEA</h2>
+  <br>
+  <form action="{{ path('app_index_configuracionlinea')}}" method="post">
+    <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+    <input type="hidden" name='modelo' id="modelo"  value="{{modelo.id}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo.id}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea.id}}">
+  </form></a>
+  <br>
+  <br>
+  <p style="color:blue;">&nbsp;&nbsp;{{modelo.nombre}} / {{submodelo.nombre}} / {{linea.nombre}} / {{proceso.nombre}} / NºEST: {{configuracionlinea.estaciones}} / NºOPS: {{configuracionlinea.operarios}}</p>
+
+  <div id="ajax_ConfiguracionLinea">
+  </div>
+
+  <input type="hidden" name='configuracionlinea' id="configuracionlinea"  value="{{configuracionlinea.id}}">
+
+  <br>
+  <form action="{{ path('app_index_configuracionlinea')}}" method="post">
+    <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+    <input type="hidden" name='modelo' id="modelo"  value="{{modelo.id}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo.id}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea.id}}">
+  </form></a>
+  <br>
+  <br>
+</div>
+</div>
+            
+	<script type="text/javascript"> 
+	  $(document).ready(function(){
+
+	    var idConfiguracionLinea = $('input[name="configuracionlinea"]').val();
+	    $('#ajax_ConfiguracionLinea').load('{{ path('app_ajax_configuracionlinea')}}',{'idConfiguracionLinea': idConfiguracionLinea});
+	    });
+
+	  setTimeout(function(){
+	          $("div.alert").slideUp(500);
+	            }, 5000 ); // 5 secs
+
+	    function goBack() {
+        window.history.back();
+      }
+
+	</script>
+</div>
+{% endblock %}

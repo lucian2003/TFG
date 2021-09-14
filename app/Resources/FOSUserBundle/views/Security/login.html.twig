@@ -1,0 +1,10 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block fos_user_content %}
+
+
+<div style="margin: auto; width: 20%; padding: 200px;">
+	<a href="#"><img src="/estandarizacion/web/images/login.png" alt="Iniciar Sesión" align="center" width="200px"></a>
+    {{ include('@FOSUser/Security/login_content.html.twig') }}
+</div>
+{% endblock fos_user_content %}

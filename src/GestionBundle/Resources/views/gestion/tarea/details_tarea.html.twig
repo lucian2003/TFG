@@ -1,0 +1,37 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="content">
+<br>
+<h2>{% trans %}tarea{% endtrans %}</h2>
+<br>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">ID</th>
+        	<th scope="col">{% trans %}planta{% endtrans %}</th>
+        	<th scope="col">{% trans %}nombreES{% endtrans %}</th>
+        	<th scope="col">{% trans %}nombreEN{% endtrans %}</th>
+        	<th scope="col"></th>
+        	<th scope="col"></th>
+      	</tr>
+    </thead>
+    <tbody>
+        <tr>
+        	<th scope="row">{{tarea.id}}</th>
+          	<td>{{tarea.idPlanta.nombre}}</td>
+          	<td>{{tarea.nombreES}}</td>
+          	<td>{{tarea.nombreES}}</td>
+          	<td></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<a class="btn btn-info" href="{{ path('app_index_tarea')}}">{% trans %}volver{% endtrans %}</a>
+<br>
+<br>
+</div>
+{% endblock %}

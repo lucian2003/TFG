@@ -1,0 +1,22 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+	<div class="content">
+	<br>
+	<h2>&nbsp;&nbsp;{% trans %}aniadir{% endtrans %} MODO DE FALLO x TAREA</h2>
+	<br>
+
+	{{form_start(form)}}
+	{{form_widget(form)}}
+	<input type="hidden" name='tarea' id="tarea"  value="{{tarea}}">
+	{{form_end(form)}}
+
+	<br>
+	<a class="btn btn-secondary" href="{{ path('app_index_amfepart')}}">{% trans %}volver{% endtrans %}</a>
+	<br>
+	<br>
+	</div>
+</div>
+{% endblock %}

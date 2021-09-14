@@ -1,0 +1,167 @@
+<script type="text/javascript">
+  function actualizarIdAsignarprocesoversion(id) {
+        $('input[name=idAsignarprocesoversion]').val(id);
+      }
+</script>
+
+<div id="ajax_editlt_tareaAsignada">
+
+  <input type="hidden" name='submodelo_aux' id="submodelo_aux"  value="{{submodelo}}">
+  <input type="hidden" name='proceso_aux' id="proceso_aux"  value="{{proceso}}">
+
+  <form method="post" action="{{ path('app_lt_tareaasignada')}}" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-md-offset-12">
+        <table class="table table-sm table-hover table-bordered" id="tab1">
+          <thead>
+            <tr>
+              <th scope="col" width="" class="text-center align-middle"><strong>POS</strong></th>
+              <th scope="col" width="20%"><strong>{% trans %}nombre_lt{% endtrans %}</strong></th>
+              <th scope="col" width="" class="text-center align-middle"><strong>VER</strong></th>
+              <th scope="col">{% trans %}estado{% endtrans %}</th>
+              <th scope="col">{% trans %}std+desp{% endtrans %}</th>
+              <th scope="col">STD</th>
+              <th scope="col">{% trans %}fecha_inicio{% endtrans %}</th>
+              <th scope="col" width="20%">{% trans %}comentario{% endtrans %}</th>
+              <th scope="col" width="7%" class="text-center align-middle">{% trans %}editar{% endtrans %}</th>
+              <th scope="col" width=""></th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for asignarprocesore in asignarprocesores %}
+              <tr>
+                <td id="position" class="text-center align-middle">{{ asignarprocesore[loop.index0].position }}</td>
+                <td class="align-middle" id="nombre">{{ asignarprocesore[loop.index0].idAsignarprocesoversion.nombreLt }}</td>
+                <td class="text-center align-middle"><strong>{{ asignarprocesore[loop.index0].idAsignarprocesoversion.version.nombre }}</strong></td>
+                {% if asignarprocesore[loop.index0].idAsignarprocesoversion.estado == "PRODUCCION" %}
+                <td class="align-middle" style="background-color:#58D68D"><strong>{{ asignarprocesore[loop.index0].idAsignarprocesoversion.estado }}</strong></td>
+                {% elseif asignarprocesore[loop.index0].idAsignarprocesoversion.estado == "PRE-PRODUCCION" %}
+                <td class="align-middle" style="background-color:#D5F5E3"><strong>{{ asignarprocesore[loop.index0].idAsignarprocesoversion.estado }}</strong></td>
+                {% elseif asignarprocesore[loop.index0].idAsignarprocesoversion.estado == "OBSOLETO" %}
+                <td class="align-middle" style="background-color:#F5B7B1"><strong>{{ asignarprocesore[loop.index0].idAsignarprocesoversion.estado }}</strong></td>
+                {% else %}
+                <td class="align-middle" style="background-color:#D5DBDB"><strong>{{ asignarprocesore[loop.index0].idAsignarprocesoversion.estado }}</strong></td>
+                {% endif %}
+                <td class="align-middle"><strong>{{ asignarprocesore[loop.index0].idAsignarprocesoversion.tiempoStddesp|date('H:i:s', '+00:00 GMT')}}</strong></td>
+                <td class="align-middle"><strong>{{ asignarprocesore[loop.index0].idAsignarprocesoversion.tiempoStd|date('H:i:s', '+00:00 GMT')}}</strong></td>
+                <td class="align-middle"><strong>{{ asignarprocesore[loop.index0].idAsignarprocesoversion.fechaInicio|date('d/m/Y')}}</strong></td>
+                <td class="align-middle" id="comentario">{{ asignarprocesore[loop.index0].idAsignarprocesoversion.comentario }}</td>
+                <td class="text-center align-middle"><button type="button" class="btn btn-sm btn-secondary waves-effect waves-light text-center" id="boton" onclick="edit(this);actualizarIdAsignarprocesoversion({{asignarprocesore[loop.index0].idAsignarprocesoversion.id}});this.form.action">{% trans %}editar{% endtrans %}</button></td>
+                <td class="align-middle">
+                  <input type="submit" class="btn btn-sm btn-info waves-effect waves-light" value="{% trans %}desglosar{% endtrans %}" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesore[loop.index0].idAsignarprocesoversion.id}});this.form.action = '{{ path('app_drag_tareaasignada')}}'"/>
+                
+                  <input type="submit" class="btn btn-sm btn-primary waves-effect waves-light" value="{% trans %}oficializar{% endtrans %}" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesore[loop.index0].idAsignarprocesoversion.id}});this.form.action = '{{ path('app_oficializar_tareaasignada')}}'"/>
+                
+                  {#<input type="submit" class="btn btn-sm btn-success waves-effect waves-light" value="+" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesoversion.id}});this.form.action = '{{ path('app_version_tareaasignada')}}'"/>#}
+
+                  <button type="button" class="btn btn-sm btn-success waves-effect waves-light text-center" data-toggle="modal"  data-target = "#modalNewLT" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesore[loop.index0].idAsignarprocesoversion.id}})" align-middle>+</button>
+
+                  <button type="button" class="btn btn-sm btn-danger waves-effect waves-light text-center" data-toggle="modal"  data-target = "#modalConfirmDelete" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesore[loop.index0].idAsignarprocesoversion.id}})" align-middle>-</button></td>
+            </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+
+      <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+      <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+      <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="">
+
+
+<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">{% trans %}eliminar?{% endtrans %}</p>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+        <i class="fas fa-times fa-4x animated rotateIn"></i>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <input type="submit" class="btn btn-outline-danger" value="{% trans %}si{% endtrans %}" onclick ="this.form.action = '{{ path('app_deletelt_tareaasignada')}}'"/>
+        <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+        <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+        <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmDelete-->
+
+
+    </div>
+  </form>
+</div>
+
+<br>
+
+
+  <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+  <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+
+  </form>
+</div>
+
+{% block javascripts %}
+
+<script type="text/javascript"> 
+
+        function edit(element){
+            var tr = jQuery(element).parent().parent();
+                if(!tr.hasClass("editing")) {
+                    tr.addClass("editing");
+                    
+                    
+                     // if(!jQuery(tr.find("td[id='estacion']")).hasClass("action")){
+                          var value_nombre = jQuery(tr.find("td[id='nombre']")).text();
+                          jQuery(tr.find("td[id='nombre']")).text("");
+                          jQuery(tr.find("td[id='nombre']")).append('<input type="text" value="'+value_nombre+'"/>');
+                      //}
+                          var value_comentario = jQuery(tr.find("td[id='comentario']")).text();
+                          jQuery(tr.find("td[id='comentario']")).text("");
+                          jQuery(tr.find("td[id='comentario']")).append('<input type="text" value="'+value_comentario+'"/>');
+
+
+                      jQuery(tr.find("button[id='boton']")).text("{% trans %}crear{% endtrans %}");
+                      
+                    
+              
+                } else {
+                    tr.removeClass("editing");
+                    
+                    
+                        var value_nombre = jQuery(tr.find("td[id='nombre']")).find("INPUT").val();
+
+                        var value_comentario = jQuery(tr.find("td[id='comentario']")).find("INPUT").val();
+                        
+                        jQuery(tr.find("td[id='nombre']")).text(value_nombre);
+                        jQuery(tr.find("td[id='nombre']")).find("INPUT").remove();
+
+                        jQuery(tr.find("td[id='comentario']")).text(value_comentario);
+                        jQuery(tr.find("td[id='comentario']")).find("INPUT").remove();
+
+                        var planta = $('input[name="planta_aux"]').val();
+                        var submodelo = $('input[name="submodelo_aux"]').val();
+                        var linea = $('input[name="linea_aux"]').val();
+                        var proceso = $('input[name="proceso_aux"]').val();
+                        var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+
+                        $('#ajax_tareaAsignada').load('{{ path('app_edit2_tareaasignada')}}',{'idAsignarprocesoversion': idAsignarprocesoversion, 'value_nombre': value_nombre, 'value_comentario': value_comentario, 'planta': planta, 'submodelo': submodelo, 'linea': linea, 'proceso': proceso});
+                        
+                    
+                    jQuery(tr.find("button[id='boton']")).text("{% trans %}editar{% endtrans %}");
+                    
+                
+            }
+        }
+
+</script>
+{% endblock %}

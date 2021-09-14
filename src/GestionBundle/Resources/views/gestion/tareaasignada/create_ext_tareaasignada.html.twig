@@ -1,0 +1,41 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}listado_tareas{% endtrans %}</h2>
+  <br>
+  <br>
+  <p style="color:blue;">&nbsp;&nbsp;{{asignarproceso.IdSubmodelo.nombre}} / {{asignarproceso.IdLinea.nombre}} / {{asignarproceso.IdProceso.nombre}} / {% trans %}version{% endtrans %} {{asignarprocesoversion.version.nombre}}</p>
+  <br>
+
+<input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+
+<div id="ajax_extTareaAsignada">
+</div>
+
+<br>
+  <form action="{{ path('app_index_tareaasignada')}}" method="post">
+    <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+    <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+  </form></a>
+  <br>
+  <br>
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+           var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+           $('#ajax_extTareaAsignada').load('{{ path('app_ajax_ext_tareaasignada')}}',{'idAsignarprocesoversion': idAsignarprocesoversion}); 
+           });  
+</script>
+</div>
+</div>
+
+{% endblock %}

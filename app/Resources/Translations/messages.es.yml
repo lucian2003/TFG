@@ -1,0 +1,130 @@
+consultas: CONSULTAS
+consulta1: CONSULTA 1
+consulta2: CONSULTA 2
+consulta3: CONSULTA 3
+consulta4: CONSULTA 4
+consulta5: CONSULTA 5
+consulta6: CONSULTA 6
+gestion: GESTIÓN
+planta: PLANTA
+plantas: PLANTAS
+modelo: MODELO 
+modelos: MODELOS
+submodelo: SUBMODELO 
+submodelos: SUBMODELOS
+modelo_submodelo: MODELO-SUBMODELO
+linea: LÍNEA 
+lineas: LÍNEAS
+proceso: PROCESO
+procesos: PROCESOS
+opbasica: OPERACION BÁSICA 
+opbasicas: OPERACIONES BÁSICAS
+opbasignada: OPERACIÓN BÁSICA ASIGNADA
+conscalidad: CONSIDERACIÓN DE CALIDAD
+conscalidads: CONSIDERACIONES DE CALIDAD
+asignar_procesos: ASIGNAR PROCESOS
+consideraciones_calidad: CONS. CALIDAD
+tarea: TAREA 
+tareas: TAREAS
+listado_tareas: LISTADOS DE TAREAS 
+configuraciones_linea: CONFIGURACIONES LÍNEA
+configuracion_linea: CONFIGURACION LÍNEA  
+listado_plantas: LISTADO DE PLANTAS
+listado_modelos: LISTADO DE MODELOS
+listado_lineas: LISTADO DE LÍNEAS
+listado_procesos: LISTADO DE PROCESOS
+listado_submodelos: LISTADO DE SUBMODELOS
+listado_opbasicas: LISTADO DE OPERACIONES BÁSICAS
+listado_conscalidad: LISTADO DE CONSIDERACIONES DE CALIDAD
+ver: VER 
+editar: EDITAR 
+eliminar: ELIMINAR 
+volver: VOLVER 
+aniadir: AÑADIR
+nombre: NOMBRE
+nombreES: NOMBRE
+nombreEN: NAME
+crear: GUARDAR
+tipo: TIPO
+INTERNO: INTERNO
+EXTERNO: EXTERNO
+INT: INTERNO
+EXT: EXTERNO
+exito: OPERACIÓN REALIZADA CON ÉXITO 
+error: SE HA PRODUCIDO UN ERROR - OPERACIÓN NO REALIZADA
+descripcion: DESCRIPCIÓN
+descripcionES: DESCRIPCIÓN
+descripcionEN: DESCRIPTION
+tiempo: TIEMPO
+comentario: COMENTARIO
+comentarioES: COMENTARIO
+comentarioEN: COMMENT
+OPB: OPERACIÓN BÁSICA
+DES: DESPERDICIO
+DNEC: DESPERDICIO NECESARIO
+TPROG: TIEMPO PROGRAMA
+hh: HORAS
+mm: MINUTOS
+ss: SEGUNDOS
+cantidad: CANTIDAD
+eliminar?: Estás seguro?
+si: SÍ
+desglosar: DESGLOSAR
+posicion: POSICIÓN
+detalles: DETALLES
+version: VERSIÓN
+versiones: VERSIONES
+versiones_oficiales: VERSIONES OFICIALES
+nueva_version: NUEVA VERSIÓN
+estado: ESTADO
+fecha: FECHA
+configuracion: CONFIGURACIÓN
+estandar: ESTÁNDAR
+std+desp: STD + DESP
+nombre_lt: NOMBRE LT
+fecha_inicio: FECHA INICIO
+fecha_fin: FECHA FIN
+definir: DEFINIR
+crear_lt: CREAR LT
+productividad: PRODUCTIVIDAD
+estaciones: ESTACIONES
+oficializar: OFICIALIZAR
+configuraciones: CONFIGURACIONES
+area: ÁREA
+calidad: CALIDAD
+asign_cons: ASIGNAR CONS.
+asignar_consideracion: ASIGNAR CONSIDERACIÓN
+produccion: PRODUCCIÓN
+inicio: INICIO
+por_modelo: POR MODELO
+por_linea: POR LÍNEA
+nombre_configuracion: NOMBRE CONFIGURACIÓN
+num_op: Nº OPS
+eq_sem: EQ/SEM
+seleccion_op: SELECCIONA TU NÚMERO DE OPERARIO
+operario: OPERARIO
+notificaciones: NOTIFICACIONES
+soporte: Soporte
+modelos_produccion: MODELOS EN PRODUCCIÓN
+submodelos_produccion: SUBMODELOS EN PRODUCCIÓN
+configuraciones_lineas: CONFIGURACIONES DE LÍNEAS
+novedades: NOVEDADES
+buscar: BUSCAR
+buscar..: Buscar..
+nueva_lt: NUEVA LT
+subcontratado: SUBCONTRATADO 
+sin_subcontratar: SIN SUBCONTRATAR
+lt_a_ligar: LT A LIGAR
+elegir_lt_existente: ELEGIR UNA LT EXISTENTE
+elegir_lt: ELEGIR LT
+asignar_lt: ASIGNAR LT
+elegir_fecha_oficializar: ELIGE LA FECHA A OFICIALIZAR
+lote: LOTE
+asignar_listados: ASIGNAR LISTADOS
+editar_listados: EDITAR LISTADOS
+EO: EÓLICO
+FV: FOTOVOLTAICO
+ME: MOVILIDAD ELÉCTRICA
+PVT: POSVENTA
+gama: GAMA
+nueva_lt_copia_existente: AÑADIR NUEVA LT COPIANDO UNA EXISTENTE

@@ -1,0 +1,420 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <script type="text/javascript">
+    function actualizarIdSubmodelo(id) {
+          $('input[name=idSubmodelo]').val(id);
+        }
+  </script>
+
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}configuraciones_linea{% endtrans %}</h2>
+  <br>
+  <br>
+
+  <div class="card border-dark">
+  <table class="table table-borderless">
+        <tr>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <select class="form-control input sm" id="area" id="area" required="">
+                <option value="" disabled selected hidden>{% trans %}area{% endtrans %}</option>
+                <option value="EO">{% trans %}EO{% endtrans %}</option>
+                <option value="FV">{% trans %}FV{% endtrans %}</option>
+                <option value="ME">{% trans %}ME{% endtrans %}</option>
+                <option value="PVT">{% trans %}PVT{% endtrans %}</option>
+              </select>
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <select class="form-control input sm" name="modelo" id="modelo" required="">
+                <option value="" disabled selected hidden>{% trans %}modelo{% endtrans %}</option>
+              </select>
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+                  <select class="form-control input sm" name="submodelo" id="submodelo" required="">
+                        <option value="" disabled selected hidden>{% trans %}submodelo{% endtrans %}</option>
+                  </select>
+            </div>
+          </th>
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+                  <select class="form-control input sm" name="linea" id="linea" required="">
+                        <option value="" disabled selected hidden>{% trans %}linea{% endtrans %}</option>
+                  </select>
+            </div>
+          </th>
+
+          {#<th class="align-middle" scope="col">
+            <div class="form-group">
+                  <select class="form-control input sm" name="proceso" id="proceso" required="">
+                        <option value="" disabled selected hidden>{% trans %}proceso{% endtrans %}</option>
+                  </select>
+            </div>
+          </th>#}
+
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <input type="submit" id="aceptar" value="{% trans %}ver{% endtrans %}" class="btn btn-success" />
+            </div> 
+          </th>
+        </tr>
+    </table>
+  </div>
+
+    <input type="hidden" name='planta' id="planta"  value="">
+    <input type="hidden" name='modelo' id="modelo"  value="{{modelo}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    {#<input type="hidden" name='proceso' id="proceso"  value="">#}
+
+  <div class="card border-dark">
+{% if permiso == 1 %}
+  <div id="OPS_EST" style="display:none;">
+        <div id="ajax_lts">
+  </div>
+  <br>
+    <table class="table table-borderless">
+      <tr>
+
+        <th class="align-middle" scope="col">
+            <div class="form-group">
+              <h4>{% trans %}aniadir{% endtrans %} {% trans %}configuracion{% endtrans %}</h4>
+            </div>
+          </th>
+
+        <th class="align-middle" scope="col">
+          <div class="form-group">
+            <select class="form-control input sm" name="estado" id="estado" required="">
+              <option value="" id="estado" disabled selected hidden>ESTADO</option>
+              <option>PRODUCCION</option>
+              <option>PRE-PRODUCCION</option>
+            </select>
+          </div>
+        </th>
+
+        <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="operarios" id="operarios" required="">
+                <option value="" id="operarios" disabled selected hidden>Nº OPERARIOS</option>
+                {% for i in 0..10 %}
+                <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+              </div>
+            </th>
+
+        <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="eq_sem" id="eq_sem" required="">
+                <option value="" id="eq_sem" disabled selected hidden>EQ/SEM</option>
+                {% for i in 0..50 %}
+                <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+              </div>
+            </th>
+
+        <th class="align-middle" scope="col">
+            <div class="form-group">
+              <a data-toggle="tooltip" title="Genera una nueva configuración partiendo del LT en el estado elegido">
+              <input type="submit" id="add" value="{% trans %}aniadir{% endtrans %}" class="btn btn-success" />
+            </a>
+            </div> 
+          </th>
+        </tr>
+    </table>
+  </div>
+{% endif %}
+  </div>
+
+  <br>
+  <div id="ajax_configuracionLinea">
+  </div>
+
+  <br>
+  <br>
+  <br>
+</div>
+</div>
+
+
+<script type="text/javascript">
+    $("#aceptar").click(function(){"{% trans %}ver{% endtrans %}"===$(this).val()?$("#OPS_EST").show():$("#OPS_EST").hide()});
+</script>
+
+<script type="text/javascript"> 
+  $(document).ready(function(){
+
+    $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+
+    var back = {{back}};
+    var planta = $('input[name="planta"]').val();
+    var modelo = $('input[name="modelo"]').val();
+    var submodelo = $('input[name="submodelo"]').val();
+    var linea = $('input[name="linea"]').val();
+
+    if (back == 1) {
+
+     $("#OPS_EST").show();
+
+     $('#ajax_configuracionLinea').load('{{ path('app_search_configuracionlinea')}}',{planta: planta, modelo: modelo, submodelo: submodelo, linea: linea});
+
+      $('#ajax_lts').load('{{ path('app_lts_configuracionlinea')}}',{planta: planta, modelo: modelo, submodelo: submodelo, linea: linea});
+
+    $('#area').on('change', function(){
+      var area=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch_configuracionlinea')}}',
+        data:{'area':area},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}modelo{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    // Append to the html
+    $('#modelo').empty();
+    $('#modelo').append(options);
+
+    if (($('#modelo > option').length-1) == 1) {
+      $('select#modelo option:nth-child(2)').attr('selected', 'selected');
+      $('#modelo').trigger('change');
+      $('#modelo').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#modelo').on('change', function(){
+       //console.log("hmm its change");
+      var modelo_id=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch2_configuracionlinea')}}',
+        data:{'id':modelo_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            //console.log(bbb);
+            options += '<option value="0" selected disabled hidden>{% trans %}submodelo{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    // Append to the html
+    $('#submodelo').empty();
+    $('#submodelo').append(options);
+
+    if (($('#submodelo > option').length-1) == 1) {
+      $('select#submodelo option:nth-child(2)').attr('selected', 'selected');
+      $('#submodelo').trigger('change');
+      $('#submodelo').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#submodelo').on('change', function(){
+       //console.log("hmm its change");
+      var submodelo_id=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch3_configuracionlinea')}}',
+        data:{'id':submodelo_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}linea{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    // Append to the html
+    $('#linea').empty();
+    $('#linea').append(options);
+
+    if (($('#linea > option').length-1) == 1) {
+      $('select#linea option:nth-child(2)').attr('selected', 'selected');
+      $('#linea').trigger('change');
+      $('#linea').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+  $('#aceptar').click(function(){
+    $('#ajax_configuracionLinea').load('{{ path('app_search_configuracionlinea')}}',{planta:$('#planta').val(), modelo:$('#modelo').val(), submodelo:$('#submodelo').val(), linea:$('#linea').val()});
+    });
+
+  $('#aceptar').click(function(){
+    $('#ajax_lts').load('{{ path('app_lts_configuracionlinea')}}',{planta:$('#planta').val(), modelo:$('#modelo').val(), submodelo:$('#submodelo').val(), linea:$('#linea').val()});
+    });
+
+  $('#add').click(function(){
+   if (!$('#estado')[0].value) {
+         estado.focus();
+         } else {
+    $('#ajax_configuracionLinea').load('{{ path('app_create_configuracionlinea')}}',{planta:$('#planta').val(), modelo:$('#modelo').val(), submodelo:$('#submodelo').val(), linea:$('#linea').val(), proceso:$('#proceso').val(), idAsignarproceso:$('#idAsignarproceso').val(), estaciones:$('#estaciones').val(), operarios:$('#operarios').val(), eq_sem:$('#eq_sem').val(), estado:$('#estado').val()});
+  }
+    });
+
+} else {
+
+      //alert(back);
+
+    $('#area').on('change', function(){
+      var area=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch_configuracionlinea')}}',
+        data:{'area':area},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}modelo{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    // Append to the html
+    $('#modelo').empty();
+    $('#modelo').append(options);
+
+    if (($('#modelo > option').length-1) == 1) {
+      $('select#modelo option:nth-child(2)').attr('selected', 'selected');
+      $('#modelo').trigger('change');
+      $('#modelo').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#modelo').on('change', function(){
+       //console.log("hmm its change");
+      var modelo_id=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch2_configuracionlinea')}}',
+        data:{'id':modelo_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            //console.log(bbb);
+            options += '<option value="0" selected disabled hidden>{% trans %}submodelo{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    // Append to the html
+    $('#submodelo').empty();
+    $('#submodelo').append(options);
+
+    if (($('#submodelo > option').length-1) == 1) {
+      $('select#submodelo option:nth-child(2)').attr('selected', 'selected');
+      $('#submodelo').trigger('change');
+      $('#submodelo').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    $('#submodelo').on('change', function(){
+       //console.log("hmm its change");
+      var submodelo_id=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch3_configuracionlinea')}}',
+        data:{'id':submodelo_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}linea{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    // Append to the html
+    $('#linea').empty();
+    $('#linea').append(options);
+
+    if (($('#linea > option').length-1) == 1) {
+      $('select#linea option:nth-child(2)').attr('selected', 'selected');
+      $('#linea').trigger('change');
+      $('#linea').css('background', 'LightGray');
+    }
+   
+      }
+    })
+  });
+
+    /*$('#linea').on('change', function(){
+       //console.log("hmm its change");
+      var linea_id=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch4_configuracionlinea')}}',
+        data:{'id':linea_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled hidden>{% trans %}proceso{% endtrans %}</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+            }
+    // Append to the html
+    $('#proceso').empty();
+    $('#proceso').append(options);
+   
+      }
+    })
+  });*/
+
+
+
+  $('#aceptar').click(function(){
+    $('#ajax_configuracionLinea').load('{{ path('app_search_configuracionlinea')}}',{planta:$('#planta').val(), modelo:$('#modelo').val(), submodelo:$('#submodelo').val(), linea:$('#linea').val()});
+    });
+
+  $('#aceptar').click(function(){
+    $('#ajax_lts').load('{{ path('app_lts_configuracionlinea')}}',{planta:$('#planta').val(), modelo:$('#modelo').val(), submodelo:$('#submodelo').val(), linea:$('#linea').val()});
+    });
+
+  $('#add').click(function(){
+   if (!$('#estado')[0].value) {
+         estado.focus();
+         } else {
+    $('#ajax_configuracionLinea').load('{{ path('app_create_configuracionlinea')}}',{planta:$('#planta').val(), modelo:$('#modelo').val(), submodelo:$('#submodelo').val(), linea:$('#linea').val(), proceso:$('#proceso').val(), idAsignarproceso:$('#idAsignarproceso').val(), estaciones:$('#estaciones').val(), operarios:$('#operarios').val(), eq_sem:$('#eq_sem').val(), estado:$('#estado').val()});
+  }
+    });
+
+}
+});
+  
+</script>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,489 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+    <script type="text/javascript">
+    function actualizarIdAmfe(id) {
+          $('input[name=idAmfe]').val(id);
+        }
+  </script>
+
+    <br>
+    <h2>&nbsp;&nbsp;AMFE - MODOS DE FALLO x TAREA</h2>
+    <br>
+    <br>
+
+    <div class="card border-dark">
+    <table class="table table-borderless">
+          <tr>
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" id="area" id="area" required="">
+                  <option value="" disabled selected hidden>{% trans %}area{% endtrans %}</option>
+                  <option value="EO">{% trans %}EO{% endtrans %}</option>
+                  <option value="FV">{% trans %}FV{% endtrans %}</option>
+                  <option value="ME">{% trans %}ME{% endtrans %}</option>
+                  <option value="PVT">{% trans %}PVT{% endtrans %}</option>
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="modelo" id="modelo" required="">
+                  <option value="" disabled selected hidden>{% trans %}modelo{% endtrans %}</option>
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="submodelo" id="submodelo" required="">
+                  <option value="" disabled selected hidden>{% trans %}submodelo{% endtrans %}</option>
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="linea" id="linea" required="">
+                  <option value="" disabled selected hidden>{% trans %}linea{% endtrans %}</option>
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="proceso" id="proceso" required="">
+                  <option value="" disabled selected hidden>{% trans %}proceso{% endtrans %}</option>
+                </select>
+              </div>
+            </th>
+        </tr>
+    </table>
+    <table class="table table-borderless">
+          <tr>
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="listado" id="listado" required="">
+                  <option value="" disabled selected hidden>{% trans %}listado_tareas{% endtrans %}</option>
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="tarea" id="tarea" required="">
+                  <option value="" disabled selected hidden>{% trans %}tareas{% endtrans %}</option>
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <input type="submit" id="add" value=" + {% trans %}aniadir{% endtrans %} / FILTRAR" class="btn btn-success"/>
+              </div>
+            </th>
+          </tr>
+      </table>
+    </div>
+
+    <input type="hidden" name='tarea' id="tarea"  value="{{tarea}}">
+    <input type="hidden" name='area' id="area"  value="{{area}}">
+    <input type="hidden" name='modelo' id="modelo"  value="{{modelo}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+    <input type="hidden" name='listado' id="listado"  value="{{listado}}">
+    <input type="hidden" name='back' id="back"  value="{{back}}">
+
+
+<div id="ajax_amfePart">
+  </div>
+
+
+  </div>
+</div>
+
+<script type="text/javascript"> 
+  $(document).ready(function(){
+
+    var back = $('input[name="back"]').val();
+    var tarea = $('input[name="tarea"]').val();
+    var area = $('input[name="area"]').val();
+    var modelo = $('input[name="modelo"]').val();
+    var submodelo = $('input[name="submodelo"]').val();
+    var linea = $('input[name="linea"]').val();
+    var proceso = $('input[name="proceso"]').val();
+    var listado = $('input[name="listado"]').val();
+
+    if (back == 1) {
+
+      $('#ajax_amfePart').load('{{ path('app_create_amfepart')}}',{area: area, modelo: modelo, submodelo: submodelo, linea: linea, proceso: proceso, listado:listado, tarea: tarea});
+
+          $('#area').on('change', function(){
+          var area=$(this).val();
+           //console.log(planta_id);
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch_amfepart')}}',
+            data:{'area':area},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" selected disabled hidden>{% trans %}modelo{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+                }
+        // Append to the html
+        $('#modelo').empty();
+        $('#modelo').append(options);
+
+        if (($('#modelo > option').length-1) == 1) {
+          $('select#modelo option:nth-child(2)').attr('selected', 'selected');
+          $('#modelo').trigger('change');
+          $('#modelo').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#modelo').on('change', function(){
+          var modelo_id=$(this).val();
+           //console.log(planta_id);
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch2_amfepart')}}',
+            data:{'id':modelo_id},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" selected disabled hidden>{% trans %}submodelo{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+                }
+        // Append to the html
+        $('#submodelo').empty();
+        $('#submodelo').append(options);
+
+        if (($('#submodelo > option').length-1) == 1) {
+          $('select#submodelo option:nth-child(2)').attr('selected', 'selected');
+          $('#submodelo').trigger('change');
+          $('#submodelo').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#submodelo').on('change', function(){
+          var submodelo_id=$(this).val();
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch3_amfepart')}}',
+            data:{'id':submodelo_id},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" selected disabled hidden>{% trans %}linea{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+                }
+        // Append to the html
+        $('#linea').empty();
+        $('#linea').append(options);
+
+        if (($('#linea > option').length-1) == 1) {
+          $('select#linea option:nth-child(2)').attr('selected', 'selected');
+          $('#linea').trigger('change');
+          $('#linea').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#linea').on('change', function(){
+          var linea_id=$(this).val();
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch4_amfepart')}}',
+            data:{'id':linea_id, 'submodelo': jQuery('#submodelo').val()},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" selected disabled hidden>{% trans %}proceso{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+                }
+        // Append to the html
+        $('#proceso').empty();
+        $('#proceso').append(options);
+
+        if (($('#proceso > option').length-1) == 1) {
+          $('select#proceso option:nth-child(2)').attr('selected', 'selected');
+          $('#proceso').trigger('change');
+          $('#proceso').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#proceso').on('change', function(){
+           //console.log("hmm its change");
+          var proceso_id=$(this).val();
+          //var submodelo_id = $('#submodelo').selected();
+           //console.log(planta_id);
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch5_amfepart')}}',
+            data:{'id':proceso_id, 'submodelo': jQuery('#submodelo').val(), 'linea': jQuery('#linea').val()},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" disabled selected hidden>{% trans %}listado_tareas{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre_lt+'</option>';
+                }
+        // Append to the html
+        $('#listado').empty();
+        $('#listado').append(options);
+
+        if (($('#listado > option').length-1) == 1) {
+          $('select#listado option:nth-child(2)').attr('selected', 'selected');
+          $('#listado').trigger('change');
+          $('#listado').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#listado').on('change', function(){
+           //console.log("hmm its change");
+          var listado_id=$(this).val();
+          //var submodelo_id = $('#submodelo').selected();
+           //console.log(planta_id);
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch6_amfepart')}}',
+            data:{'id':listado_id},
+            success:function(r){
+                var bbb = r.data;
+                console.log(bbb);
+                var options = '';
+                options += '<option value="0" disabled selected hidden>{% trans %}tareas{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre_es+'</option>';
+                }
+        // Append to the html
+        $('#tarea').empty();
+        $('#tarea').append(options);
+
+        if (($('#tarea > option').length-1) == 1) {
+          $('select#tarea option:nth-child(2)').attr('selected', 'selected');
+          $('#tarea').trigger('change');
+          $('#tarea').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+    } else {
+
+        $('#area').on('change', function(){
+          var area=$(this).val();
+           //console.log(planta_id);
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch_amfepart')}}',
+            data:{'area':area},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" selected disabled hidden>{% trans %}modelo{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+                }
+        // Append to the html
+        $('#modelo').empty();
+        $('#modelo').append(options);
+
+        if (($('#modelo > option').length-1) == 1) {
+          $('select#modelo option:nth-child(2)').attr('selected', 'selected');
+          $('#modelo').trigger('change');
+          $('#modelo').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#modelo').on('change', function(){
+          var modelo_id=$(this).val();
+           //console.log(planta_id);
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch2_amfepart')}}',
+            data:{'id':modelo_id},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" selected disabled hidden>{% trans %}submodelo{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+                }
+        // Append to the html
+        $('#submodelo').empty();
+        $('#submodelo').append(options);
+
+        if (($('#submodelo > option').length-1) == 1) {
+          $('select#submodelo option:nth-child(2)').attr('selected', 'selected');
+          $('#submodelo').trigger('change');
+          $('#submodelo').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#submodelo').on('change', function(){
+          var submodelo_id=$(this).val();
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch3_amfepart')}}',
+            data:{'id':submodelo_id},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" selected disabled hidden>{% trans %}linea{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+                }
+        // Append to the html
+        $('#linea').empty();
+        $('#linea').append(options);
+
+        if (($('#linea > option').length-1) == 1) {
+          $('select#linea option:nth-child(2)').attr('selected', 'selected');
+          $('#linea').trigger('change');
+          $('#linea').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#linea').on('change', function(){
+          var linea_id=$(this).val();
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch4_amfepart')}}',
+            data:{'id':linea_id, 'submodelo': jQuery('#submodelo').val()},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" selected disabled hidden>{% trans %}proceso{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre+'</option>';
+                }
+        // Append to the html
+        $('#proceso').empty();
+        $('#proceso').append(options);
+
+        if (($('#proceso > option').length-1) == 1) {
+          $('select#proceso option:nth-child(2)').attr('selected', 'selected');
+          $('#proceso').trigger('change');
+          $('#proceso').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#proceso').on('change', function(){
+           //console.log("hmm its change");
+          var proceso_id=$(this).val();
+          //var submodelo_id = $('#submodelo').selected();
+           //console.log(planta_id);
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch5_amfepart')}}',
+            data:{'id':proceso_id, 'submodelo': jQuery('#submodelo').val(), 'linea': jQuery('#linea').val()},
+            success:function(r){
+                var bbb = r.data;
+                var options = '';
+                options += '<option value="0" disabled selected hidden>{% trans %}listado_tareas{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre_lt+'</option>';
+                }
+        // Append to the html
+        $('#listado').empty();
+        $('#listado').append(options);
+
+        if (($('#listado > option').length-1) == 1) {
+          $('select#listado option:nth-child(2)').attr('selected', 'selected');
+          $('#listado').trigger('change');
+          $('#listado').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+
+        $('#listado').on('change', function(){
+           //console.log("hmm its change");
+          var listado_id=$(this).val();
+          //var submodelo_id = $('#submodelo').selected();
+           //console.log(planta_id);
+          $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch6_amfepart')}}',
+            data:{'id':listado_id},
+            success:function(r){
+                var bbb = r.data;
+                console.log(bbb);
+                var options = '';
+                options += '<option value="0" disabled selected hidden>{% trans %}tareas{% endtrans %}</option>';
+                for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+                options += '<option value="'+bbb[i].id+'">'+bbb[i].nombre_es+'</option>';
+                }
+        // Append to the html
+        $('#tarea').empty();
+        $('#tarea').append(options);
+
+        if (($('#tarea > option').length-1) == 1) {
+          $('select#tarea option:nth-child(2)').attr('selected', 'selected');
+          $('#tarea').trigger('change');
+          $('#tarea').css('background', 'LightGray');
+        }
+       
+          }
+        })
+      });
+
+        $('#add').click(function(){
+        $('#ajax_amfePart').load('{{ path('app_create_amfepart')}}',{area:$('#area').val(), modelo:$('#modelo').val(), submodelo:$('#submodelo').val(), linea:$('#linea').val(), proceso:$('#proceso').val(), listado:$('#listado').val(), tarea:$('#tarea').val()});
+      });
+
+  }
+
+});
+</script>
+
+{% endblock %}

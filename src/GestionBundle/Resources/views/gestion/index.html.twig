@@ -1,0 +1,153 @@
+{% extends 'GestionBundle::main.html.twig' %}
+{% block title %}ESTANDARIZACIÓN INGETEAM{% endblock %}
+{% block contenido %}
+<div class="page-wrapper">
+    <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Sales Cards  -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="box bg-cyan text-center">
+                                <h1 class="font-light"><i class="mdi mdi-cube"></i></h1>
+                                <div class="stat-text"><span class="count">{{modelos}}</span></div>
+                                <div class="stat-heading">{% trans %}modelos_produccion{% endtrans %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="box bg-cyan text-center">
+                                <h1 class="font-light"><i class="mdi mdi-cube"></i></h1>
+                                <div class="stat-text"><span class="count">{{submodelos}}</span></div>
+                                <div class="stat-heading">{% trans %}submodelos_produccion{% endtrans %}</div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="box bg-cyan text-center">
+                                <h1 class="font-light"><i class="mdi mdi-playlist-check"></i></h1>
+                                <div class="stat-text"><span class="count">{{listados}}</span></div>
+                                <div class="stat-heading">{% trans %}listado_tareas{% endtrans %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="box bg-cyan text-center">
+                               <h1 class="font-light"><i class="mdi mdi-playlist-check"></i></h1>
+                                <div class="stat-text"><span class="count">{{configuraciones}}</span></div>
+                                <div class="stat-heading">{% trans %}configuraciones_lineas{% endtrans %}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- Sales chart -->
+                <!-- ============================================================== -->
+            <!--  Traffic  -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2>{% trans %}novedades{% endtrans %}</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card-body">
+                                    <!-- <canvas id="TrafficChart"></canvas>   -->
+                                    <div class="card-body">
+                                        <dl>
+                                            <dd><strong> · Ver. 1.0.3</strong> - La actualización incluye:</dd>      
+                                                <dd>-   implementación de la sección “SEGUIMIENTO DE AMFE” en el apartado "AMFE" que permite realizar el seguimiento de las acciones correctivas por submodelo;</dd>
+                                                <dd>-   mejora de la vista que permite añadir/actualizar los tiempos de los listados de tareas en el caso de procesos externos. (03/06/2021)</dd>
+                                        </dl><br>
+                                        <dl>
+                                            <dd><strong> · Ver. 1.0.2</strong> - La actualización incluye:</dd>      
+                                                <dd>-   implementación de una nueva funcionalidad en "LISTADOS DE TAREAS" que permite añadir una nueva LT  copiando el desglose de una LT que ya existe;</dd>
+                                                <dd>-   la sección “LISTADOS DE TAREAS” pasa del apartado “GESTION” al apartado “PRODUCCION - CONSULTAS”;</dd>
+                                                <dd>-   se deshabilita la opción de “EXPORTAR DATOS” en la sección “LISTADOS DE TAREAS”. (26/05/2021)</dd>
+                                        </dl><br>
+                                        <a><strong> · Ver. 1.0.0</strong> - Lanzamiento oficial de la aplicación. (20/05/2021)</a><br><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card-body">
+        
+                                    
+                                    <h4 align="right" id="digital-clock"></h4>
+                                    <h4 align="right" id="semana"></h4>
+                                    <img src="{{ asset('images/ingeteam_logo.png') }}" width="191" height="41" style="float: right;" alt="INGETEAM" class="light-logo" />
+
+                        <div class="card-body"></div>
+                    </div>
+                </div><!-- /# column -->
+            </div>
+            <!--  /Traffic -->
+            <div class="clearfix"></div>
+            
+        </div>
+        <!-- .animated -->
+    </div>
+    <!-- /.content -->
+</div>
+
+<script type="text/javascript"> 
+  $(document).ready(function(){
+
+   Date.prototype.getWeekNumber = function(){
+    var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+    var dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
+    };
+
+    document.getElementById("semana").innerHTML = "SEMANA ACTUAL: " + new Date().getWeekNumber();
+    
+    function getDateTime() {
+        var now     = new Date(); 
+        var year    = now.getFullYear();
+        var month   = now.getMonth()+1; 
+        var day     = now.getDate();
+        var hour    = now.getHours();
+        var minute  = now.getMinutes();
+        var second  = now.getSeconds(); 
+        if(month.toString().length == 1) {
+             month = '0'+month;
+        }
+        if(day.toString().length == 1) {
+             day = '0'+day;
+        }   
+        if(hour.toString().length == 1) {
+             hour = '0'+hour;
+        }
+        if(minute.toString().length == 1) {
+             minute = '0'+minute;
+        }
+        if(second.toString().length == 1) {
+             second = '0'+second;
+        }   
+        var dateTime = day+'/'+month+'/'+year+' - '+hour+':'+minute+':'+second;   
+         return dateTime;
+    }
+
+    // example usage: realtime clock
+    setInterval(function(){
+        currentTime = getDateTime();
+        document.getElementById("digital-clock").innerHTML = currentTime;
+    }, 1000);
+});
+</script>
+
+{% endblock %}

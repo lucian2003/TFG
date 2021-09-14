@@ -1,0 +1,64 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+
+  <br>
+  <h2>OFICIALIZAR CONFIGURACIÓN</h2>
+  <br>
+  <br>
+  {#<p style="color:blue;">{{asignarproceso.IdSubmodelo.nombre}} / {{asignarproceso.IdLinea.nombre}} / {{asignarproceso.IdProceso.nombre}} / {% trans %}version{% endtrans %} {{asignarprocesoversion.version.nombre}}</p>#}
+
+
+
+  <div class="card border-dark">
+  <form method="post" action="{{ path('app_fecha_configuracionlinea')}}" enctype="multipart/form-data" name="nuevatarea" id="nuevatarea"> 
+  <table class="table table-borderless">
+        <tr>
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <h6><strong>ELIGE LA FECHA A OFICIALIZAR</strong></h6>
+            </div>
+          </th>
+          
+          <th class="align-middle" scope="col">
+              <div class="form-group">
+               <input type="date" id="fecha" name="fecha">
+              </div>
+            </th>
+          
+          <th class="align-middle" scope="col">
+            <div class="form-group">
+              <input type="submit" id="add" value="OFICIALIZAR" class="btn btn-success"/>
+            </div>
+          </th>
+
+        </tr>
+    </table>
+
+    <input type="hidden" name='idConfiguracionLinea' id="idConfiguracionLinea"  value="{{idConfiguracionLinea}}">
+    <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+    <input type="hidden" name='modelo' id="modelo"  value="{{modelo}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+  </form>
+  </div>
+
+  <br>
+  <button onclick="goBack()" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+  <br>
+  <br>
+</div>
+</div>
+<script type="text/javascript">
+
+    function goBack() {
+        window.history.back();
+      }
+
+</script>
+
+{% endblock %}

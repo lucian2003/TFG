@@ -1,0 +1,80 @@
+<script type="text/javascript">
+ var aa;
+ function asignarid(id) {
+        aa=id;
+      }
+
+</script>
+
+<div id="ajax_ListadoTareas">
+
+<br>
+  {% set foo = 1 %}
+
+  <table class="table table-sm table-hover table-bordered">
+    <tr>
+      
+      <th scope="col" width="" class="text-center align-middle"><h4>{% trans %}tareas{% endtrans %}</h4></th>            
+    </tr>
+
+
+  {% for tarea in tareas %}
+
+  <tr>
+    <td>
+    <div class="container-fluid">
+          <button type="button" class="btn btn-lg btn-inline-primary text-left" id="tareas" data-toggle="collapse" value="{{ tarea.id }}" onclick="asignarid({{foo}});"><h4><strong>{{foo}}. {{ tarea.IdTarea.nombreES }}</strong></h4></button>
+          <div class="accordion-body collapse">
+           
+          <h4 class="list-group-item" id="ops{{foo}}" value=""></h4>
+          </div>
+    </div>
+  </td>
+</tr>
+    {% set foo = foo + 1 %}
+
+  {% endfor %}
+</table>
+
+
+</div>
+
+<br>
+
+{#
+<div style="text-align:center;">
+  <form method="post" action="{{ path('app_export_listadotareas')}}">
+
+    <input type="hidden" name='listado' id="listado"  value="{{listado}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type='submit' name='submit' value="EXPORTAR DATOS" class="btn btn-lg btn-info"/> 
+  </form> 
+</div>
+#}
+
+<script type="text/javascript"> 
+
+$('[data-toggle="collapse"]').click(function () {
+  $(this).next('.collapse').collapse('toggle');
+      var tarea=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch4_listadotareas')}}',
+        data:{'id':tarea},
+        success:function(r){
+            var bbb = r.data;
+            var ccc = r.data2;
+            //console.log(bbb);
+            var lis = '';
+            for(var i=0; i<bbb.length; i++) {
+            lis += '<a class="list-group-item" id="ops" value="'+bbb[i].id+'">'+ccc[i].repeticion+' x '+bbb[i][0].nombre_es+' - '+ccc[i].comentario+'</a>';
+            }
+    
+    $('#ops'+aa).empty();
+    $('#ops'+aa).append(lis);
+   
+      }
+    })
+  });
+
+</script>

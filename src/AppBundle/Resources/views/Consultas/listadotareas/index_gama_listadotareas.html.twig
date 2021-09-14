@@ -1,0 +1,45 @@
+{% extends 'AppBundle::main.html.twig' %}
+
+{% block contenido %}
+<div class="page-wrapper">
+  	<div class="content">
+  	<br>
+  	<h2>&nbsp;&nbsp;{% trans %}listado_tareas{% endtrans %}</h2>
+  	<br>
+  	<br>
+  	<h4 style="color:blue;">&nbsp;&nbsp;{{ area|trans }}</h4>
+    <br>
+        <div class="container-fluid">
+            <div class="row el-element-overlay">
+              	{% for gama in gamas %}
+               		<div class="col-md-2 col-sm-5">
+	                   	
+		                    <div class="card">
+		                        <div class="el-card-item">
+		                        	<a href="{{path('app_gama_listadotareas',{'gama': gama.id, 'area': area })}}" class="custom-card">
+			                            <div class="el-card-avatar el-overlay-1"><img src="{{ asset('images/') }}{{ gama.imagen }}"/>
+			                                <div class="el-overlay">
+			                                    <ul class="list-style-none el-info">
+			                                    </ul> 
+			                                </div>
+			                            </div>
+		                        	</a>
+		                            <div class="el-card-content">
+		                                <h4 class="m-b-0">{{ gama.nombre }}</h4> <span class="text-muted"></span>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <input type="hidden" name='area' id="area"  value="{{area}}">
+                  	</div>
+                {% endfor %}
+	        </div>
+	    </div>
+		<br>
+	  	<form action="{{ path('app_index_listadotareas')}}" method="post">
+	    	<button action="{{ path('app_index_listadotareas')}}" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+	  	</form></a>
+	  	<br>
+	  	<br>
+	</div>
+</div>
+{% endblock %}

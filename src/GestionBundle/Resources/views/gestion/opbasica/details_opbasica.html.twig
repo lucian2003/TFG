@@ -1,0 +1,47 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <br>
+  <h2 class="page-header">&nbsp;&nbsp;{% trans %}opbasica{% endtrans %}</h2>
+  <br>
+
+  <table class="table">
+  	<thead>
+  		<tr>
+  			<th scope="col"><strong>ID</strong></th>
+          	<th scope="col"><strong>{% trans %}proceso{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}nombreES{% endtrans %}</strong></th>
+            <th scope="col"><strong>{% trans %}nombreEN{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}descripcionES{% endtrans %}</strong></th>
+            <th scope="col"><strong>{% trans %}descripcionEN{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}tiempo{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}tipo{% endtrans %}</strong></th>
+            <th scope="col"><strong>{% trans %}comentarioES{% endtrans %}</strong></th>
+            <th scope="col"><strong>{% trans %}comentarioEN{% endtrans %}</strong></th>
+        	</tr>
+      </thead>
+      <tbody>
+          <tr>
+          	<th scope="row">{{opbasica.id}}</th>
+            	<td>{{opbasica.idProceso.nombre}}</td>
+            	<td>{{opbasica.nombreES}}</td>
+              <td>{{opbasica.nombreEN}}</td>
+            	<td>{{opbasica.descripcionES}}</td>
+              <td>{{opbasica.descripcionEN}}</td>
+            	<td>{{opbasica.tiempo|date('H:i:s', '+00:00 GMT')}}</td>
+              <td>{{opbasica.tipo}}</td>
+              <td>{{opbasica.comentarioES}}</td>
+              <td>{{opbasica.comentarioEN}}</td>
+          </tr>
+      </tbody>
+  </table>
+
+  <a class="btn btn-secondary" href="{{ path('app_index_opbasica')}}">{% trans %}volver{% endtrans %}</a>
+  <br>
+  <br>
+  </div>
+</div>
+{% endblock %}

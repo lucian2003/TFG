@@ -1,0 +1,21 @@
+
+<div id="ajax">
+   <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col"><strong>{% trans %}modelos{% endtrans %}</strong></th>
+              <th scope="col"><strong>{% trans %}submodelos{% endtrans %}</strong></th>
+              <th scope="col"><strong>{% trans %}cantidad{% endtrans %}</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for modelosubmodelo in modelosubmodelos %}
+            <tr>
+              <td class="align-middle">{{modelosubmodelo.idModelo.nombre}}</td>
+              <td class="align-middle">{{modelosubmodelo.idSubmodelo.nombre}}</td>
+              <td class="align-middle" width="10%">{{modelosubmodelo.cantidad}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+   </table>
+</div>

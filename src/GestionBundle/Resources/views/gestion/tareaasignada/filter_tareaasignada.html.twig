@@ -1,0 +1,663 @@
+<script type="text/javascript">
+  function actualizarIdAsignarprocesoversion(id) {
+        $('input[name=idAsignarprocesoversion]').val(id);
+      }
+</script>
+
+<div id="ajax_tareaAsignada">
+
+  <input type="hidden" name='planta_aux' id="planta_aux"  value="{{planta}}">
+  <input type="hidden" name='submodelo_aux' id="submodelo_aux"  value="{{submodelo}}">
+  <input type="hidden" name='linea_aux' id="linea_aux"  value="{{linea}}">
+  <input type="hidden" name='proceso_aux' id="proceso_aux"  value="{{proceso}}">
+  <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+
+  <form method="post" action="{{ path('app_lt_tareaasignada')}}" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-md-offset-12">
+        <table class="table table-sm table-hover table-bordered" id="tab1">
+          <thead>
+            <tr>
+              <th scope="col" width="" class="text-center align-middle"><strong>POS</strong></th>
+              <th scope="col" width="20%"><strong>{% trans %}nombre_lt{% endtrans %}</strong></th>
+              <th scope="col" width="" class="text-center align-middle"><strong>VER</strong></th>
+              <th scope="col"><strong>{% trans %}estado{% endtrans %}</strong></th>
+              <th scope="col"><strong>{% trans %}std+desp{% endtrans %}</strong></th>
+              <th scope="col"><strong>STD</strong></th>
+              <th scope="col"><strong>{% trans %}fecha_inicio{% endtrans %}</strong></th>
+              <th scope="col" width="20%"><strong>{% trans %}comentario{% endtrans %}</strong></th>
+              {% if permiso == 1 %}
+              <th scope="col" width="7%" class="text-center align-middle"><strong>{% trans %}editar{% endtrans %}</strong></th>
+              {% endif %}
+              <th scope="col" width=""></th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for asignarprocesore in asignarprocesores %}
+              <tr data-index='{{ asignarprocesore.id }}' data-position='{{ asignarprocesore.position }}'>
+                <td id="position" class="text-center align-middle">{{ asignarprocesore.position }}</td>
+                <td class="align-middle" id="nombre">{{ asignarprocesore.idAsignarprocesoversion.nombreLt }}</td>
+                <td class="text-center align-middle"><strong>{{ asignarprocesore.idAsignarprocesoversion.version.nombre }}</strong></td>
+                {% if asignarprocesore.idAsignarprocesoversion.estado == "PRODUCCION" %}
+                <td class="align-middle" style="background-color:#58D68D"><strong>{{ asignarprocesore.idAsignarprocesoversion.estado }}</strong></td>
+                {% elseif asignarprocesore.idAsignarprocesoversion.estado == "PRE-PRODUCCION" %}
+                <td class="align-middle" style="background-color:#D5F5E3"><strong>{{ asignarprocesore.idAsignarprocesoversion.estado }}</strong></td>
+                {% elseif asignarprocesore.idAsignarprocesoversion.estado == "OBSOLETO" %}
+                <td class="align-middle" style="background-color:#F5B7B1"><strong>{{ asignarprocesore.idAsignarprocesoversion.estado }}</strong></td>
+                {% else %}
+                <td class="align-middle" style="background-color:#D5DBDB"><strong>{{ asignarprocesore.idAsignarprocesoversion.estado }}</strong></td>
+                {% endif %}
+                <td class="align-middle"><strong>{{ asignarprocesore.idAsignarprocesoversion.tiempoStddesp|date('H:i:s', '+00:00 GMT')}}</strong></td>
+                <td class="align-middle"><strong>{{ asignarprocesore.idAsignarprocesoversion.tiempoStd|date('H:i:s', '+00:00 GMT')}}</strong></td>
+                <td class="align-middle"><strong>{{ asignarprocesore.idAsignarprocesoversion.fechaInicio|date('d/m/Y')}}</strong></td>
+                <td class="align-middle" id="comentario">{{ asignarprocesore.idAsignarprocesoversion.comentario }}</td>
+                {% if permiso == 1 %}
+                <td class="text-center align-middle"><button type="button" class="btn btn-sm btn-secondary waves-effect waves-light text-center" id="boton" onclick="edit(this);actualizarIdAsignarprocesoversion({{asignarprocesore.idAsignarprocesoversion.id}});this.form.action">{% trans %}editar{% endtrans %}</button></td>
+                {% endif %}
+                <td class="align-middle">
+                  <input type="submit" class="btn btn-sm btn-warning waves-effect waves-light" value="{% trans %}desglosar{% endtrans %}" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesore.idAsignarprocesoversion.id}});this.form.action = '{{ path('app_drag_tareaasignada')}}'"/>
+                {% if permiso == 1 %}
+                <a data-toggle="tooltip" title="Pasar a estado PRE-PRODUCCION indicando una fecha de implantación. En dicha fecha automáticamente pasará a PRODUCCION">
+                  <input type="submit" class="btn btn-sm btn-info waves-effect waves-light" value="{% trans %}oficializar{% endtrans %}" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesore.idAsignarprocesoversion.id}});this.form.action = '{{ path('app_oficializar_tareaasignada')}}'"/>
+                </a>
+                
+                  {#<input type="submit" class="btn btn-sm btn-success waves-effect waves-light" value="+" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesoversion.id}});this.form.action = '{{ path('app_version_tareaasignada')}}'"/>#}
+
+                <a data-toggle="tooltip" title="Generar una nueva versión, a partir de la actual">
+                  <button type="button" class="btn btn-sm btn-success waves-effect waves-light text-center" data-toggle="modal"  data-target = "#modalNewLT" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesore.idAsignarprocesoversion.id}})" align-middle>+</button>
+                </a>
+
+                <a data-toggle="tooltip" title="Eliminar LT">
+                  <button type="button" class="btn btn-sm btn-danger waves-effect waves-light text-center" data-toggle="modal"  data-target = "#modalConfirmDelete" onclick ="actualizarIdAsignarprocesoversion({{asignarprocesore.idAsignarprocesoversion.id}})" align-middle>-</button>
+                </a>
+                {% endif %}
+                </td>
+            </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+      <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+      <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+      <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+      <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="">
+      <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+
+
+<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">{% trans %}eliminar?{% endtrans %}</p>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+        <i class="fas fa-times fa-4x animated rotateIn"></i>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <input type="submit" class="btn btn-outline-danger" value="{% trans %}si{% endtrans %}" onclick ="this.form.action = '{{ path('app_deletelt_tareaasignada')}}'"/>
+        <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+        <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+        <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+        <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+        <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+        <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmDelete-->
+
+<!--Modal: modalNewLT-->
+<div class="modal fade" id="modalNewLT" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-notify" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">{% trans %}aniadir{% endtrans %} {% trans %}nueva_version{% endtrans %}</p>
+      </div>
+        <form method="post" action="{{ path('app_version_tareaasignada')}}" enctype="multipart/form-data" name="nuevo_menu2" id="nuevo_menu2">
+          <!--Body-->
+          <div class="modal-body">
+            <input type="text" name="comentarioLT" id="comentarioLT" value="" placeholder="{% trans %}comentario{% endtrans %}" class="form-control validate"/>
+          </div>
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <input type="submit" class="btn btn-outline-success" value="{% trans %}si{% endtrans %}" onclick ="this.form.action = '{{ path('app_version_tareaasignada')}}'"/>
+            <a type="button" class="btn  btn-secondary waves-effect" data-dismiss="modal">No</a>
+          </div>
+        </form>
+      </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalNewLT-->
+
+    </div>
+  </form>
+</div>
+
+<br>
+{% if permiso == 1 %}
+
+  <h3>&nbsp;&nbsp;ELIGE UNA DE LAS SIGUIENTES OPCIONES PARA AÑADIR UNA NUEVA LT:</h3>
+  <br>
+
+  <!-- accordion 1 -->
+  <div class="accordion" id="accordionExample">
+    <div class="card m-b-0">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <a class="collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            <i class="m-r-5 fa fa-plus-square" aria-hidden="true"></i>
+            <span>{% trans %}aniadir{% endtrans %} {% trans %}nueva_lt{% endtrans %}</span>
+          </a>
+        </h5>
+      </div>
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" aria-expanded="false">
+        <div class="card-body">
+          <table class="table table-borderless">
+            <tr>
+              <th class="align-middle" scope="col">
+                <div class="form-group">
+                </div>
+              </th>
+
+              <th class="align-middle" scope="col">
+                <div class="form-group">
+                  <h4>{% trans %}aniadir{% endtrans %} {% trans %}nueva_lt{% endtrans %}</h4>
+                </div>
+              </th>
+
+              <th class="align-middle" scope="col" width="20%">
+                <div class="form-group">
+                  <select class="form-control input sm" id="tipoSelected">
+                    <option value="" disabled selected hidden>{% trans %}tipo{% endtrans %}</option>
+                    <option value="1">{% trans %}subcontratado{% endtrans %}</option>
+                    <option value="0">{% trans %}sin_subcontratar{% endtrans %}</option>
+                  </select>
+                </div>
+              </th>
+
+              <th class="align-middle" scope="col" width="65%">
+                <div class="form-group">
+                </div>
+              </th>
+
+            </tr>
+          </table>
+        </div>
+
+        <div class="card border-dark">
+          <div id="sinSub" style="display:none;">
+            <form method="post" action="{{ path('app_lt_tareaasignada')}}" enctype="multipart/form-data" name="tareaasignada" id="tareaasignada"> 
+              <table class="table table-borderless">
+                <tr>
+
+                  <th class="align-middle" scope="col" width="">
+                    <div class="form-group">
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <input type="text" name="nombreLT" id="nombreLT" value="" placeholder="{% trans %}nombre_lt{% endtrans %}" required="" />
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <input type="text" name="comentarioLT" id="comentarioLT" value="" placeholder="{% trans %}comentario{% endtrans %}" required="" />
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col">
+                    <div class="card-body text-center">
+                      <a data-toggle="tooltip" title="Añadir un LT nuevo a la selección actual">
+                      <input type='submit' name='submit' value="+ {% trans %}aniadir{% endtrans %} LT" class="btn btn-lg btn-success"/>
+                    </a>
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col" width="50%">
+                    <div class="form-group">
+                    </div>
+                  </th>
+                  
+                </tr>
+              </table>
+              
+              <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+              <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+              <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+              <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+              <input type="hidden" name='tipo' id="tipo"  value="SIN SUBCONTRATAR">
+              <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+
+            </form>
+          </div>
+        </div>
+
+        <div class="card border-dark">
+          <div id="sub" style="display:none;">
+            <form method="post" action="{{ path('app_lt_tareaasignada')}}" enctype="multipart/form-data" name="tareaasignada2" id="tareaasignada2"> 
+              <table class="table table-borderless">
+                <tr>
+
+                  <th class="align-middle" scope="col" width="">
+                    <div class="form-group">
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <input type="text" name="nombreLT" id="nombreLT" value="" placeholder="{% trans %}nombre_lt{% endtrans %}" required="" />
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <input type="text" name="comentarioLT" id="comentarioLT" value="" placeholder="{% trans %}comentario{% endtrans %}" required="" />
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <select class="form-control input sm" name="ltligada" id="ltligada" required="">
+                        <option value="" disabled selected hidden>{% trans %}lt_a_ligar{% endtrans %}</option>
+                        {% for lt in lts %}
+                        <option value="{{ lt.nombre_lt }}">{{ lt.nombre_lt }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col">
+                    <div class="form-group">
+                      <select class="form-control input sm" name="estado" id="estado" required="">
+                        <option value="" disabled selected hidden>{% trans %}estado{% endtrans %}</option>
+                        <option title="" value=""></option>
+                      </select>
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col">
+                    <div class="card-body text-center">
+                      <input type='submit' name='submit' value="+ {% trans %}aniadir{% endtrans %} LT" class="btn btn-lg btn-success"/>
+                    </div>
+                  </th>
+
+                  <th class="align-middle" scope="col" width="10%">
+                    <div class="form-group">
+                    </div>
+                  </th>
+                  
+                </tr>
+              </table>
+              
+              <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+              <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+              <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+              <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+              <input type="hidden" name='tipo' id="tipo"  value="SUBCONTRATADO">
+              <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+  <!-- accordion 2 -->
+  <div class="card m-b-0 border-top">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          <i class="m-r-5 fa fa-plus-square" aria-hidden="true"></i>
+          <span>{% trans %}elegir_lt_existente{% endtrans %}</span>
+        </a>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body">
+        <form method="post" action="{{ path('app_asignar_tareaasignada')}}" enctype="multipart/form-data" name="tareaasignada3" id="tareaasignada3"> 
+        <table class="table table-borderless">
+          <tr>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <h4>{% trans %}elegir_lt_existente{% endtrans %}</h4>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="ltligada2" id="ltligada2" required="">
+                  <option value="" disabled selected hidden>{% trans %}elegir_lt{% endtrans %}</option>
+                  {% for lts in lts2 %}
+                  <option value="{{ lts.nombre_lt }}">{{ lts.nombre_lt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="estado2" id="estado2" required="">
+                  <option value="" disabled selected hidden>{% trans %}estado{% endtrans %}</option>
+                  <option title="" value=""></option>
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="card-body text-center">
+                <a data-toggle="tooltip" title="Añadir a la selección actual, otro LT que ya existe">
+                <input type='submit' name='submit' value="{% trans %}asignar_lt{% endtrans %}" class="btn btn-lg btn-success"/>
+              </a>
+              </div>
+            </th>
+
+        </tr>
+      </table>
+
+      <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+      <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+      <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+      <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+      <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+
+      </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- accordion 3 -->
+  <div class="card m-b-0 border-top">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0">
+        <a class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          <i class="m-r-5 fa fa-plus-square" aria-hidden="true"></i>
+          <span>{% trans %}nueva_lt_copia_existente{% endtrans %}</span>
+        </a>
+      </h5>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+        <form method="post" action="{{ path('app_new_copy_lt_tareaasignada')}}" enctype="multipart/form-data" name="tareaasignada3" id="tareaasignada3"> 
+        <table class="table table-borderless">
+          <tr>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <h4>{% trans %}nueva_lt_copia_existente{% endtrans %}</h4>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+                <div class="form-group">
+                  <input type="text" name="nombre_copyLT" id="nombre_copyLT" value="" placeholder="{% trans %}nombre_lt{% endtrans %}" required="" />
+                </div>
+              </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="lt_copyLT" id="lt_copyLT" required="">
+                  <option value="" disabled selected hidden>{% trans %}elegir_lt{% endtrans %}</option>
+                  {% for lts in lts2 %}
+                  <option value="{{ lts.nombre_lt }}">{{ lts.nombre_lt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="form-group">
+                <select class="form-control input sm" name="estado3" id="estado3" required="">
+                  <option value="" disabled selected hidden>{% trans %}estado{% endtrans %}</option>
+                  <option title="" value=""></option>
+                </select>
+              </div>
+            </th>
+
+            <th class="align-middle" scope="col">
+              <div class="card-body text-center">
+                <a data-toggle="tooltip" title="Añadir una nueva LT copiando el desglose de una LT que ya existe">
+                <input type='submit' name='submit' value="+ {% trans %}aniadir{% endtrans %} LT" class="btn btn-lg btn-success"/>
+              </a>
+              </div>
+            </th>
+
+        </tr>
+      </table>
+
+      <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+      <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+      <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+      <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+      <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endif %}
+
+
+{% block javascripts %}
+
+<script type="text/javascript">
+    $("#tipoSelected").on("change",function(){"1"===$(this).val()?$("#sub").show():$("#sub").hide()});
+    $("#tipoSelected").on("change",function(){"0"===$(this).val()?$("#sinSub").show():$("#sinSub").hide()});
+
+    $('.collapse').on('shown.bs.collapse', function(){
+    $(this).parent().find(".fa-plus-square").removeClass("fa-plus-square").addClass("fa-minus-square");
+    }).on('hidden.bs.collapse', function(){
+    $(this).parent().find(".fa-minus-square").removeClass("fa-minus-square").addClass("fa-plus-square");
+    });
+
+</script>
+
+<script type="text/javascript"> 
+  $(document).ready(function(){
+
+    $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+
+      $('#ltligada').on('change', function(){
+      var ltligada_id=$(this).val();
+       //console.log(planta_id);
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch7_tareaasignada')}}',
+        data:{'id':ltligada_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled>LT A LIGAR</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].estado+'">'+bbb[i].estado+'</option>';
+            }
+    // Append to the html
+    $('#estado').empty();
+    $('#estado').append(options);
+   
+      }
+    })
+  });
+
+      $('#ltligada2').on('change', function(){
+      var ltligada_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch7_tareaasignada')}}',
+        data:{'id':ltligada_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled>ELEGIR LT</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].estado+'">'+bbb[i].estado+'</option>';
+            }
+    // Append to the html
+    $('#estado2').empty();
+    $('#estado2').append(options);
+   
+      }
+    })
+  });
+
+      $('#lt_copyLT').on('change', function(){
+      var ltligada_id=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch7_tareaasignada')}}',
+        data:{'id':ltligada_id},
+        success:function(r){
+            var bbb = r.data;
+            var options = '';
+            options += '<option value="0" selected disabled>ELEGIR LT</option>';
+            for(var i=0; i<bbb.length; i++) { // Loop through the data & construct the options
+            options += '<option value="'+bbb[i].estado+'">'+bbb[i].estado+'</option>';
+            }
+    // Append to the html
+    $('#estado3').empty();
+    $('#estado3').append(options);
+   
+      }
+    })
+  });
+
+});
+
+var permiso = $('input[name="permiso"]').val();
+
+if (permiso == 1) {
+
+  $('#tab1 tbody').sortable({
+               update: function (event, ui) {
+                   $(this).children().each(function (index) {
+                        if ($(this).attr('data-position') != (index+1)) {
+                            $(this).attr('data-position', (index+1)).addClass('updated');
+                        }
+                   });
+
+                  saveNewPositions();
+                  var planta = $('input[name="planta_aux"]').val();
+                  var submodelo = $('input[name="submodelo_aux"]').val();
+                  var linea = $('input[name="linea_aux"]').val();
+                  var proceso = $('input[name="proceso_aux"]').val();
+ 
+           $('#ajax_tareaAsignada').load('{{ path('app_filter_tareaasignada')}}',{'planta': planta, 'submodelo': submodelo, 'linea': linea, 'proceso': proceso});
+               }
+           });
+
+
+        function saveNewPositions() {
+
+            var positions = [];
+            var planta = $('input[name="planta_aux"]').val();
+            var submodelo = $('input[name="submodelo_aux"]').val();
+            var linea = $('input[name="linea_aux"]').val();
+            var proceso = $('input[name="proceso_aux"]').val();
+
+            $('.updated').each(function () {
+               positions.push([$(this).attr('data-index'), $(this).attr('data-position')]);
+               $(this).removeClass('updated');
+            });
+
+            $.ajax({
+               url:'{{ path('app_sort2_tareaasignada')}}',
+               method: 'POST',
+               dataType: 'text',
+               data: {
+                   update: 1,
+                   positions: positions,
+                   planta: planta,
+                   submodelo: submodelo,
+                   linea: linea,
+                   proceso: proceso
+               }, success: function (response) {
+                //document.location.reload(true);
+               }
+            });
+        }
+    }
+
+        function edit(element){
+            var tr = jQuery(element).parent().parent();
+                if(!tr.hasClass("editing")) {
+                    tr.addClass("editing");
+                    
+                    
+                     // if(!jQuery(tr.find("td[id='estacion']")).hasClass("action")){
+                          var value_nombre = jQuery(tr.find("td[id='nombre']")).text();
+                          jQuery(tr.find("td[id='nombre']")).text("");
+                          jQuery(tr.find("td[id='nombre']")).append('<input type="text" value="'+value_nombre+'"/>');
+                      //}
+                          var value_comentario = jQuery(tr.find("td[id='comentario']")).text();
+                          jQuery(tr.find("td[id='comentario']")).text("");
+                          jQuery(tr.find("td[id='comentario']")).append('<input type="text" value="'+value_comentario+'"/>');
+
+
+                      jQuery(tr.find("button[id='boton']")).text("{% trans %}crear{% endtrans %}");
+                      
+                    
+              
+                } else {
+                    tr.removeClass("editing");
+                    
+                    
+                        var value_nombre = jQuery(tr.find("td[id='nombre']")).find("INPUT").val();
+
+                        var value_comentario = jQuery(tr.find("td[id='comentario']")).find("INPUT").val();
+                        
+                        jQuery(tr.find("td[id='nombre']")).text(value_nombre);
+                        jQuery(tr.find("td[id='nombre']")).find("INPUT").remove();
+
+                        jQuery(tr.find("td[id='comentario']")).text(value_comentario);
+                        jQuery(tr.find("td[id='comentario']")).find("INPUT").remove();
+
+                        var planta = $('input[name="planta_aux"]').val();
+                        var submodelo = $('input[name="submodelo_aux"]').val();
+                        var linea = $('input[name="linea_aux"]').val();
+                        var proceso = $('input[name="proceso_aux"]').val();
+                        var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+
+                        $('#ajax_tareaAsignada').load('{{ path('app_edit2_tareaasignada')}}',{'idAsignarprocesoversion': idAsignarprocesoversion, 'value_nombre': value_nombre, 'value_comentario': value_comentario, 'planta': planta, 'submodelo': submodelo, 'linea': linea, 'proceso': proceso});
+                        
+                    
+                    jQuery(tr.find("button[id='boton']")).text("{% trans %}editar{% endtrans %}");
+                    
+                
+            }
+        }
+  
+
+</script>
+{% endblock %}

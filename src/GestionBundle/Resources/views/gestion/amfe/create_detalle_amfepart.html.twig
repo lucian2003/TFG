@@ -1,0 +1,40 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+	<div class="content">
+	<br>
+	<h2>&nbsp;&nbsp;{% trans %}aniadir{% endtrans %} MODO DE FALLO</h2>
+	<br>
+
+	{{form_start(form)}}
+	{{form_widget(form)}}
+	<input type="hidden" name='amfe' id="amfe"  value="{{amfe}}">
+	<input type="hidden" name='idDetalleamfe' id="idDetalleamfe"  value="{{idDetalleamfe}}">
+	<input type="hidden" name='tarea' id="tarea"  value="{{tarea}}">
+    <input type="hidden" name='area' id="area"  value="{{area}}">
+    <input type="hidden" name='modelo' id="modelo"  value="{{modelo}}">
+    <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+    <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+    <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+    <input type="hidden" name='listado' id="listado"  value="{{listado}}">
+	{{form_end(form)}}
+
+	<br>
+		<form action="{{ path('app_edit_amfepart')}}" method="post">
+		  <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+		  <input type="hidden" name='idAmfe' id="idAmfe"  value="{{amfe}}">
+		  <input type="hidden" name='tarea' id="tarea"  value="{{tarea}}">
+		  <input type="hidden" name='area' id="area"  value="{{area}}">
+		  <input type="hidden" name='modelo' id="modelo"  value="{{modelo}}">
+		  <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+		  <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+		  <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+		  <input type="hidden" name='listado' id="listado"  value="{{listado}}">
+		</form></a>
+	<br>
+	<br>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}proceso{% endtrans %}</h2>
+  <br>
+
+  <table class="table">
+  	<thead>
+  		<tr>
+  			<th scope="col"><strong>ID</strong></th>
+          	<th scope="col"><strong>{% trans %}planta{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}proceso{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}tipo{% endtrans %}</strong></th>
+          	<th scope="col"></th>
+          	<th scope="col"></th>
+        	</tr>
+      </thead>
+      <tbody>
+          <tr>
+          	<th scope="row">{{proceso.id}}</th>
+            	<td>{{proceso.idPlanta.nombre}}</td>
+            	<td>{{proceso.nombre}}</td>
+            	<td>{{proceso.tipo|trans}}</td>
+            	<td></td>
+          </tr>
+      </tbody>
+  </table>
+
+  <a class="btn btn-secondary" href="{{ path('app_index_proceso')}}">{% trans %}volver{% endtrans %}</a>
+  <br>
+  <br>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,130 @@
+consultas: QUERYS
+consulta1: QUERY 1
+consulta2: QUERY 2
+consulta3: QUERY 3
+consulta4: QUERY 4
+consulta5: QUERY 5
+consulta6: QUERY 6
+gestion: MANAGEMENT
+planta: PLANT
+plantas: PLANTS
+modelo: MODEL
+modelos: MODELS
+submodelo: SUBMODEL 
+submodelos: SUBMODELS
+modelo_submodelo: MODEL-SUBMODEL 
+linea: LINE
+lineas: LINES
+proceso: PROCESS
+procesos: PROCESSES
+opbasica: BASIC OPERATION
+opbasicas: BASIC OPERATIONS
+opbasignada: ASSIGNED BASIC OPERATION
+conscalidad: QUALITY CONSIDERATION
+conscalidads: QUALITY CONSIDERATIONS
+asignar_procesos: ASSIGN PROCESSES
+consideraciones_calidad: QLTY. CONSIDERATIONS
+tarea: TASK
+tareas: TASKS 
+listado_tareas: LIST OF TASKS 
+configuraciones_linea: LINE CONFIGURATIONS
+configuracion_linea: LINE CONFIGURATION
+listado_plantas: LIST OF PLANTS
+listado_modelos: LIST OF MODELS
+listado_lineas: LIST OF LINES
+listado_procesos: LIST OF PROCESSES
+listado_submodelos: LIST OF SUBMODELS
+listado_opbasicas: LIST OF BASIC OPERATIONS
+listado_conscalidad: LIST OF QUALITY CONSIDERATIONS
+ver: VIEW 
+editar: MODIFY
+eliminar: REMOVE 
+volver: GO BACK
+aniadir: ADD
+nombre: NAME
+nombreES: NOMBRE
+nombreEN: NAME
+crear: SAVE
+tipo: TYPE
+INTERNO: INTERNAL
+EXTERNO: EXTERNAL
+INT: INTERNAL
+EXT: EXTERNAL
+exito: SUCCESSFUL OPERATION 
+error: AN ERROR HAS OCCURRED - OPERATION NOT PERFORMED
+descripcion: DESCRIPTION
+descripcionES: DESCRIPCIÓN
+descripcionEN: DESCRIPTION
+tiempo: TIME
+comentario: COMMENT
+comentarioES: COMENTARIO
+comentarioEN: COMMENT
+OPB: BASIC OPERATION
+DES: WASTE
+DNEC: NECESSARY WASTE
+TPROG: PROGRAM TIME
+hh: HOURS
+mm: MINUTES
+ss: SECONDS
+cantidad: QUANTITY
+eliminar?: Are you sure?
+si: YES
+desglosar: BREAK DOWN
+posicion: POSITION
+detalles: DETAILS
+version: VERSION
+versiones: VERSIONS
+versiones_oficiales: OFFICIAL VERSIONS
+nueva_version: NEW VERSION
+estado: STATUS
+fecha: DATE
+configuracion: CONFIGURATION
+estandar: STANDARD
+std+desp: STD + WASTE
+nombre_lt: LT NAME
+fecha_inicio: START DATE
+fecha_fin: END DATE
+definir: DEFINE
+crear_lt: CREATE LT
+productividad: PRODUCTIVITY
+estaciones: WORK STATIONS
+oficializar: TO OFFICIAL
+configuraciones: CONFIGURATIONS
+area: AREA
+calidad: QUALITY
+asign_cons: CONS. ASSIGN
+asignar_consideracion: ASSIGN CONSIDERATION
+produccion: PRODUCTION
+inicio: HOME
+por_modelo: BY MODEL
+por_linea: BY LINE
+nombre_configuracion: CONFIGURATION NAME
+num_op: OP No.
+eq_sem: PROD./WEEK
+seleccion_op: SELECT YOUR OPERATOR NUMBER
+operario: OPERATOR
+notificaciones: NOTIFICATIONS
+soporte: Support
+modelos_produccion: MODELS IN PRODUCTION
+submodelos_produccion: SUBMODELS IN PRODUCTION
+configuraciones_lineas: LINES CONFIGURATIONS
+novedades: NEWS
+buscar: SEARCH
+buscar..: Search..
+nueva_lt: NEW LT
+subcontratado: SUBCONTRACTED
+sin_subcontratar: WITHOUT SUBCONTRACTING
+lt_a_ligar: LT TO BIND
+elegir_lt_existente: CHOOSE AN EXISTING LT
+elegir_lt: CHOOSE LT
+asignar_lt: ASSIGN LT
+elegir_fecha_oficializar: CHOOSE THE DATE TO OFFICIALIZE
+lote: LOT
+asignar_listados: ASSIGN LISTINGS
+editar_listados: EDIT LISTINGS
+EO: WIND
+FV: PHOTOVOLTAIC
+ME: ELECTRICAL MOBILITY
+PVT: AFTER SALES
+gama: RANGE
+nueva_lt_copia_existente: ADD A NEW LT BY COPYING AN EXISTING ONE

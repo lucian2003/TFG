@@ -1,0 +1,27 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="content">
+<br>
+<br>
+<br>
+
+<div class="card bg-danger">
+    <div class="card-body text-center">
+      <h4>{% trans %}error{% endtrans %}</h4>
+    </div>
+</div>
+
+<div class="card bg-light">
+    <div class="card-body text-center">
+      <h4 class="page-header" align="center">{{ message }}</h4>
+    </div>
+</div>
+
+
+<br>
+<br>
+<br>
+</div>
+{% endblock %}

@@ -1,0 +1,1 @@
+C:\php74\php.exe -f C:\Servers\Apache244\htdocs\estandarizacion\web\tasks\Estandarizacion_oficializar.php

@@ -1,0 +1,321 @@
+<script type="text/javascript">
+  function actualizarIdTareaAsignada(id) {
+        $('input[name=idTareaAsignada]').val(id);
+      }
+</script>
+
+<div id="ajax_asignarTarea">
+<form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu">
+  	<div class="container-fluid" style="margin-top: 20px;">
+      <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
+      <br>
+    		<div class="row justify-content-center">
+    			<div class="col-md-12 col-md-offset-12">
+    				<table class="table table-sm table-hover table-bordered">
+    					<thead>
+    						<tr>
+                  <th scope="col" width="" class="text-center align-middle"><strong>POS</strong></th>
+                  <th scope="col" width=""><strong>NOMBRE TAREA</strong></th>
+                  {% if permiso == 1 %} 
+                  <th scope="col" width="" class="text-center align-middle"><strong>{% trans %}editar{% endtrans %}</strong></th>
+                  {% endif %}
+                  {#<th scope="col" width=""><strong>TASK NAME</strong></th>#}
+                  <th scope="col" width="" class="text-center align-middle"><strong>{% trans %}tiempo{% endtrans %}</strong></th>
+                  {% if lote == 1 %}
+                  <th scope="col" width="" class="text-center align-middle"><strong>{% trans %}lote{% endtrans %}</strong></th>
+                  {% endif %}
+                  <th scope="col" width="" class="text-center align-middle"><strong>{% trans %}desglosar{% endtrans %}</strong></th>
+                  <th scope="col" width="" class="text-center align-middle"><strong>AMFE</strong></th>
+                  {% if permiso == 1 %} 
+                  <th scope="col" width="" class="text-center align-middle"><strong>{% trans %}eliminar{% endtrans %}</strong></th>
+                  {% endif %}
+    						</tr>
+    					</thead>
+    					<tbody id="myTable">
+    						{% for tareaasignada in tareaasignadas %}
+                          <tr data-index='{{ tareaasignada.id }}' data-position='{{ tareaasignada.position }}'>
+                              <td id="position" class="text-center align-middle">{{ tareaasignada.position }}</td>
+                              <td id="nombre" class="text-left align-middle">{{ tareaasignada.idTarea.nombreES }}</td>
+                              {% if permiso == 1 %} 
+                              <td class="text-center align-middle"><button type="button" class="btn btn-sm btn-secondary waves-effect waves-light text-center" id="boton" onclick="edit(this);"><strong>{% trans %}editar{% endtrans %}</strong></button></td>
+                              {% endif %}
+                              {#<td class="text-left align-middle">{{ tareaasignada.idTarea.nombreEN }}</td>#}
+                              <td class="text-center align-middle"><strong>{{ tareaasignada.tiempo|date('H:i:s', '+00:00 GMT') }}</strong></td>
+                              {% if lote == 1 %}
+                              <td class="text-center align-middle"><strong>{{ tareaasignada.lote }}</strong></td>
+                              {% endif %}
+                              <td class="text-center align-middle"><input type="submit" class="btn btn-sm btn-warning waves-effect waves-light" value="{% trans %}desglosar{% endtrans %}" onclick ="actualizarIdTareaAsignada({{tareaasignada.id}});this.form.action = '{{ path('app_index_operacionasignada')}}'"/></td>
+
+                              {% if amfes[loop.index0] == 1 %}
+                              <td class="text-center align-middle"><button class="amfeButton" type="button" class="btn btn-secondary waves-effect waves-light" data-toggle="modal" data-target = "#modalAmfe" style="background-color:#6c757d; border-color: #6c757d; color: white;" onclick ="actualizarIdTareaAsignada({{tareaasignada.id}});this.form.action">✎</button></td>
+                              {% elseif amfes[loop.index0] == 2 %}
+                              <td class="text-center align-middle"><button class="amfeButton" type="button" class="btn btn-secondary waves-effect waves-light" data-toggle="modal" data-target = "#modalAmfe" style="background-color:#27ae60; border-color: #27ae60; color: white;" onclick ="actualizarIdTareaAsignada({{tareaasignada.id}});this.form.action">✎</button></td>
+                              {% else %}
+                              <td class="text-center align-middle"><button class="amfeButton" type="button" class="btn btn-secondary waves-effect waves-light" data-toggle="modal" data-target = "#modalAmfe" style="background-color:#e74c3c; border-color: #e74c3c; color: white;" onclick ="actualizarIdTareaAsignada({{tareaasignada.id}});this.form.action">✎</button></td>
+                              {% endif %}
+
+                              {% if permiso == 1 %} 
+                              <td class="text-center align-middle"><button type="button" class="btn btn-sm btn-danger waves-effect waves-light text-center" data-toggle="modal"  data-target = "#modalConfirmDelete" onclick ="actualizarIdTareaAsignada({{tareaasignada.id}})" align-middle>{% trans %}eliminar{% endtrans %}</button></td>
+                              {% endif %}
+                          </tr>
+                			{% endfor %}
+    					</tbody>
+    				</table>
+    			</div>
+
+          
+      <input type="hidden" name='idTareaAsignada' id="idTareaAsignada"  value="">
+      <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+      <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+      <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+      <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+      <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso.id}}">
+      <input type="hidden" name='asignarprocesoversion' id="asignarprocesoversion"  value="{{asignarprocesoversion.id}}">
+      <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+      <input type="hidden" name='permiso' id="permiso"  value="{{permiso}}">
+
+
+<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">{% trans %}eliminar?{% endtrans %}</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+
+        <i class="fas fa-times fa-4x animated rotateIn"></i>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <input type="submit" class="btn btn-outline-danger" value="{% trans %}si{% endtrans %}" onclick ="this.form.action = '{{ path('app_delete_tareaasignada')}}'"/>
+        <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmDelete-->
+
+<!--Modal: modalAmfe-->
+<div class="modal fade" id="modalAmfe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-md modal-notify modal-notify" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading"><h4>AMFE</h4></p>
+      </div>
+        <form method="post" action="{{ path('app_create_tareaasignada')}}" enctype="multipart/form-data" name="nuevo_menu2" id="nuevo_menu2">
+          <!--Body-->
+          <div class="modal-body" style="text-align: left;">
+
+            <p><strong>AMFE: </STRONG>(seleccione una o varias opciones si aplica)</p>
+
+            <div id="box"></div>
+            
+          </div>
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <input id="aaaa" type="submit" class="btn btn-outline-success" value="ACTUALIZAR" onclick ="this.form.action = '{{ path('app_setamfes_tareaasignada')}}'"/>
+            <a type="button" class="btn  btn-secondary waves-effect" data-dismiss="modal">CANCELAR</a>
+          </div>
+
+          <input type="hidden" name='planta' id="planta"  value="1">
+          <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+          <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+          <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+          <input type="hidden" name='asignarproceso' id="asignarproceso"  value="{{asignarproceso.id}}">
+          <input type="hidden" name='asignarprocesoversion' id="asignarprocesoversion"  value="{{asignarprocesoversion.id}}">
+          <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+
+        </form>
+      </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalNewTarea-->
+
+  		</div>
+  	</div>
+  </form>
+</div>
+
+<br>
+<form action="{{ path('app_index_tareaasignada')}}" method="post">
+  <button type="submit" class="btn btn-secondary">{% trans %}volver{% endtrans %}</button>
+  <input type="hidden" name='planta' id="planta"  value="{{planta}}">
+  <input type="hidden" name='submodelo' id="submodelo"  value="{{submodelo}}">
+  <input type="hidden" name='linea' id="linea"  value="{{linea}}">
+  <input type="hidden" name='proceso' id="proceso"  value="{{proceso}}">
+</form></a>
+<br>
+<br>
+
+
+{% block javascripts %}
+<script type="text/javascript">
+
+          $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+          });
+
+          $( ".amfeButton" ).click(function() {
+            var tareaAsignada = $('input[name=idTareaAsignada]').val();
+
+            $('#box').empty();
+            
+            $.ajax({
+            type:'get',
+            url:'{{ path('app_fetch8_tareaasignada')}}',
+            data:{'tareaAsignada':tareaAsignada},
+            success:function(r){
+                var bbb = r.data;
+                var ccc = r.data2;
+
+                for(var i=0; i<bbb.length; i++){
+                  if (ccc[i] == 1) {
+                    var $chk = $('<input type="checkbox" value="'+bbb[i].id+'" name="bbb[]" checked=""/> '+bbb[i].nombre+'<br>');
+                  }else{
+                    var $chk = $('<input type="checkbox" value="'+bbb[i].id+'" name="bbb[]"/> '+bbb[i].nombre+'<br>');
+                  }
+
+
+                $("#box").append($chk);
+              }
+        }
+    })
+  });
+
+    var permiso = $('input[name="permiso"]').val();
+
+    if (permiso == 1) {
+          
+           $('table tbody').sortable({
+               update: function (event, ui) {
+                   $(this).children().each(function (index) {
+                        if ($(this).attr('data-position') != (index+1)) {
+                            $(this).attr('data-position', (index+1)).addClass('updated');
+                        }
+                   });
+
+                   saveNewPositions();
+                   var asignarproceso = $('input[name="asignarproceso"]').val();
+                   var asignarprocesoversion = $('input[name="asignarprocesoversion"]').val();
+                   var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+                   var planta = $('input[name="planta"]').val();
+                   var submodelo = $('input[name="submodelo"]').val();
+                   var linea = $('input[name="linea"]').val();
+                   var proceso = $('input[name="proceso"]').val();
+           $('#ajax_asignarTarea').load('{{ path('app_ajax_tareaasignada')}}',{'asignarprocesoversion': asignarprocesoversion, 'idAsignarprocesoversion': idAsignarprocesoversion, 'asignarproceso': asignarproceso, 'planta': planta, 'submodelo': submodelo, 'linea': linea, 'proceso': proceso});
+               }
+           });
+
+           setTimeout(function(){
+            $("div.alert").slideUp(500);
+              }, 5000 ); // 5 secs
+
+
+
+        function saveNewPositions() {
+          
+            var positions = [];
+            var planta = $('input[name="planta"]').val();
+            var submodelo = $('input[name="submodelo"]').val();
+            var linea = $('input[name="linea"]').val();
+            var proceso = $('input[name="proceso"]').val();
+            var asignarproceso = $('input[name="asignarproceso"]').val();
+            var asignarprocesoversion = $('input[name="asignarprocesoversion"]').val();
+            var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+            $('.updated').each(function () {
+               positions.push([$(this).attr('data-index'), $(this).attr('data-position')]);
+               $(this).removeClass('updated');
+            });
+
+            $.ajax({
+               url:'{{ path('app_sort_tareaasignada')}}',
+               method: 'POST',
+               dataType: 'text',
+               data: {
+                   update: 1,
+                   positions: positions,
+                   planta: planta,
+                   submodelo: submodelo,
+                   linea: linea,
+                   proceso: proceso,
+                   asignarproceso: asignarproceso,
+                   asignarprocesoversion: asignarprocesoversion,
+                   idAsignarprocesoversion: idAsignarprocesoversion
+               }, success: function (response) {
+                //document.location.reload(true);
+               }
+            });
+        }
+
+    } //endif permiso    
+
+
+        function edit(element){
+            var tr = jQuery(element).parent().parent();
+                if(!tr.hasClass("editing")) {
+                    tr.addClass("editing");
+                    
+                    
+                     // if(!jQuery(tr.find("td[id='estacion']")).hasClass("action")){
+                          var value_nombre = jQuery(tr.find("td[id='nombre']")).text();
+                          jQuery(tr.find("td[id='nombre']")).text("");
+                          jQuery(tr.find("td[id='nombre']")).append('<input type="text" value="'+value_nombre+'" size="100"/>');
+                      //}
+
+
+                      jQuery(tr.find("button[id='boton']")).text("{% trans %}crear{% endtrans %}");
+                      
+                    
+              
+                } else {
+                    tr.removeClass("editing");
+                    
+                    
+                        var value_nombre = jQuery(tr.find("td[id='nombre']")).find("INPUT").val();
+
+                        var value_position = jQuery(tr.find("td[id='position']")).text();
+                        
+                        jQuery(tr.find("td[id='nombre']")).text(value_nombre);
+                        jQuery(tr.find("td[id='nombre']")).find("INPUT").remove();
+
+
+                        console.log(value_nombre);
+                        
+                        console.log(value_position);
+
+                        var planta = $('input[name="planta"]').val();
+                        var submodelo = $('input[name="submodelo"]').val();
+                        var linea = $('input[name="linea"]').val();
+                        var proceso = $('input[name="proceso"]').val();
+                        var asignarproceso = $('input[name="asignarproceso"]').val();
+                        var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+
+                        $('#ajax_asignarTarea').load('{{ path('app_edit_tareaasignada')}}',{'idAsignarprocesoversion': idAsignarprocesoversion, 'value_nombre': value_nombre, 'value_position': value_position, 'planta': planta, 'submodelo': submodelo, 'linea': linea, 'proceso': proceso, 'asignarproceso': asignarproceso});
+                        
+                    
+                    jQuery(tr.find("button[id='boton']")).text("{% trans %}editar{% endtrans %}");
+                    
+                
+            }
+        }
+        
+    </script>
+{% endblock %}

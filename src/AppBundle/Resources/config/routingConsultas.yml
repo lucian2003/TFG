@@ -1,0 +1,122 @@
+app_consultas_index:
+    path: /lang/{_locale}
+    controller: AppBundle\Controller\ConfiguracionesLineasController::indexAction
+
+app_consultas_lang:
+    path: /lang/{_locale}
+    controller: AppBundle\Controller\DefaultController::langAction
+
+app_consultas_lang_en:
+    path: /lang/en
+    controller: AppBundle\Controller\DefaultController::langAction
+app_consultas_lang_es:
+    path: /lang/es
+    controller: AppBundle\Controller\DefaultController::langAction
+
+# listadotareas por configuraciones lineas
+app_index_configuracioneslineas:
+    path: /app_index_configuracioneslineas/lang/{_locale}/
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::indexAction}
+
+app_fetch_configuracioneslineas:
+    path: /getConfSubmodelos
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::getConfSubmodelos}
+    methods: [GET]
+
+app_fetch2_configuracioneslineas:
+    path: /getConfLineas
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::getConfLineas}
+    methods: [GET]
+
+app_search_configuracioneslineas:
+    path: /searchConfiguracion
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::searchAction}
+
+app_details_configuracioneslineas:
+    path: /detailsConfiguracion
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::detailsAction}
+
+app_ajax_configuracioneslineas:
+    path: /ajaxConfiguracionn
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::ajaxAction}
+
+app_ajax_ops_configuracioneslineas:
+    path: /ajax_opsConfiguracion
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::ajaxOpsAction}
+
+app_fetch3_configuracioneslineas:
+    path: /getOps
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::getOps}
+    methods: [GET]
+
+app_fetch4_configuracioneslineas:
+    path: /getConfAreaModelos
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::getConfAreaModelos}
+    methods: [GET]
+
+app_fetch5_configuracioneslineas:
+    path: /getConfProcesos
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::getConfProcesos}
+    methods: [GET]
+
+app_fetch6_configuracioneslineas:
+    path: /getConfAreaLineas
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::getConfAreaLineas}
+    methods: [GET]
+
+app_area_configuracioneslineas:
+    path: /app_area_configuracioneslineas
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::areaAction}
+
+app_gama_configuracioneslineas:
+    path: /app_gama_configuracioneslineas
+    defaults: { _controller: AppBundle\Controller\ConfiguracionesLineasController::gamaAction}
+
+
+
+
+# listadotareas por LT'S
+app_index_listadotareas:
+    path: /app_index_listadotareas/lang/{_locale}/
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::indexAction}
+
+app_fetch_listadotareas:
+    path: /getListSubmodelos
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::getListSubmodelos}
+    methods: [GET]
+
+app_fetch2_listadotareas:
+    path: /getListLineas
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::getListLineas}
+    methods: [GET]
+
+app_fetch3_listadotareas:
+    path: /getListListados
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::getListListados}
+    methods: [GET]
+
+app_filter_listadotareas:
+    path: /filterListadoTareas
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::filterAction}
+
+app_fetch4_listadotareas:
+    path: /getOpsList
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::getOpsList}
+    methods: [GET]
+
+app_export_listadotareas:
+    path: /exportListadoTareas
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::exportAction}
+
+app_fetch5_listadotareas:
+    path: /getListProcesos
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::getListProcesos}
+    methods: [GET]
+
+app_area_listadotareas:
+    path: /app_area_listadotareas
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::areaAction}
+
+app_gama_listadotareas:
+    path: /app_gama_listadotareas
+    defaults: { _controller: AppBundle\Controller\ListadoTareasController::gamaAction}

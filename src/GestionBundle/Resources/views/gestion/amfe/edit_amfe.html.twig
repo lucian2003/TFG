@@ -1,0 +1,138 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+	<div class="content">
+		<script type="text/javascript">
+	    function actualizarIdDetalleamfe(id) {
+	          $('input[name=idDetalleamfe]').val(id);
+	        }
+	  </script>
+
+	<br>
+	<h2>&nbsp;&nbsp;EDITAR PROCESO CRÍTICO</h2>
+	<br>
+    <br>
+
+	<form action="{{ path('app_create_detalle_amfe')}}" method="post">
+	    <button type="submit" class="btn btn-success"> + {% trans %}aniadir{% endtrans %} MODO DE FALLO</button>
+	    <input type="hidden" name='amfe' id="amfe"  value="{{amfe.id}}">
+	</form></a>
+
+
+    <br>
+	<br>
+	<p style="color:blue;">&nbsp;&nbsp;{{amfe.nombre|upper}}</p>
+
+    <form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu">
+      <table class="table table-sm table-hover table-bordered">
+        <thead>
+          <tr>
+           <th scope="col"><strong>MODOS DE FALLO</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>G</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>F</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>D</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>NPR</strong></th>
+            <th scope="col"><strong>ACCIÓN</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>G_T</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>F_T</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>D_T</strong></th>
+            <th scope="col" class="text-center align-middle"><strong>NPR_T</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for detalleamfe in detalleamfes %} 
+          <tr>
+            
+            {% if (detalleamfe.npr > 200) and (detalleamfe.nuevoNpr == null or detalleamfe.nuevoNpr > 200) %}
+
+                <td class="align-middle" style="color:#FF0000">{{detalleamfe.modoFallo}}</td>
+                <td class="text-center align-middle" style="color:#FF0000">{{detalleamfe.gravedad}}</td>
+                <td class="text-center align-middle" style="color:#FF0000">{{detalleamfe.frecuencia}}</td>
+                <td class="text-center align-middle" style="color:#FF0000">{{detalleamfe.deteccion}}</td>
+                <td class="text-center align-middle" style="color:#FF0000">{{detalleamfe.npr}}</td>
+                <td class="align-middle" style="color:#FF0000">{{detalleamfe.accion}}</td>
+                <td class="text-center align-middle" style="color:#FF0000">{{detalleamfe.gravedadT}}</td>
+                <td class="text-center align-middle" style="color:#FF0000">{{detalleamfe.frecuenciaT}}</td>
+                <td class="text-center align-middle" style="color:#FF0000">{{detalleamfe.deteccionT}}</td>
+                <td class="text-center align-middle" style="color:#FF0000">{{detalleamfe.nuevoNpr}}</td>
+                
+
+            {% elseif (detalleamfe.npr > 200) and (detalleamfe.nuevoNpr < 200) %}
+
+                <td class="align-middle">{{detalleamfe.modoFallo}}</td>
+                <td class="text-center align-middle">{{detalleamfe.gravedad}}</td>
+                <td class="text-center align-middle">{{detalleamfe.frecuencia}}</td>
+                <td class="text-center align-middle">{{detalleamfe.deteccion}}</td>
+                <td class="text-center align-middle">{{detalleamfe.npr}}</td>
+                <td class="align-middle">{{detalleamfe.accion}}</td>
+                <td class="text-center align-middle">{{detalleamfe.gravedadT}}</td>
+                <td class="text-center align-middle">{{detalleamfe.frecuenciaT}}</td>
+                <td class="text-center align-middle">{{detalleamfe.deteccionT}}</td>
+                <td class="text-center align-middle">{{detalleamfe.nuevoNpr}}</td>
+
+            {% else %}
+
+                <td class="align-middle">{{detalleamfe.modoFallo}}</td>
+                <td class="text-center align-middle">{{detalleamfe.gravedad}}</td>
+                <td class="text-center align-middle">{{detalleamfe.frecuencia}}</td>
+                <td class="text-center align-middle">{{detalleamfe.deteccion}}</td>
+                <td class="text-center align-middle">{{detalleamfe.npr}}</td>
+                <td class="align-middle">{{detalleamfe.accion}}</td>
+                <td class="text-center align-middle">{{detalleamfe.gravedadT}}</td>
+                <td class="text-center align-middle">{{detalleamfe.frecuenciaT}}</td>
+                <td class="text-center align-middle">{{detalleamfe.deteccionT}}</td>
+                <td class="text-center align-middle">{{detalleamfe.nuevoNpr}}</td>
+
+            {% endif %}
+            
+            <td width="">
+              <button type="submit" class="btn btn-secondary waves-effect waves-light" onclick ="actualizarIdDetalleamfe({{detalleamfe.id}});this.form.action = '{{ path('app_edit_detalle_amfe')}}'"/>✎</button>
+              <button type="button" class="btn btn-danger waves-effect waves-light" data-toggle="modal"  data-target = "#modalConfirmDelete" onclick ="actualizarIdDetalleamfe({{detalleamfe.id}})">-</button>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    <input type="hidden" name='idDetalleamfe' id="idDetalleamfe"  value="">
+
+    <!--Modal: modalConfirmDelete-->
+  <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+      <!--Content-->
+      <div class="modal-content text-center">
+        <!--Header-->
+        <div class="modal-header d-flex justify-content-center">
+          <p class="heading">{% trans %}eliminar?{% endtrans %}</p>
+        </div>
+
+        <!--Body-->
+        <div class="modal-body">
+
+          <i class="fas fa-times fa-4x animated rotateIn"></i>
+
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+          <input type="submit" class="btn  btn-outline-danger" value="{% trans %}si{% endtrans %}" onclick ="this.form.action = '{{ path('app_delete_detalle_amfe')}}'"/>
+          <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+  <!--Modal: modalConfirmDelete-->
+
+  </form>
+
+
+	<br>
+	<a class="btn btn-secondary" href="{{ path('app_index_amfe')}}">{% trans %}volver{% endtrans %}</a>
+	<br>
+	<br>
+	</div>
+</div>
+{% endblock %}

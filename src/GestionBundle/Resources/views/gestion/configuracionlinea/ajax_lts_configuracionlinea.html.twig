@@ -1,0 +1,21 @@
+
+<div id="ajax_lts">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse1" style="text-decoration: underline;"><span data-toggle="tooltip" title="Pinchar para desplegar las LTs seleccionadas para este modelo y línea">LTS SELECCIONADAS</span></a>
+        </h4>
+      </div>
+
+
+      <div id="collapse1" class="panel-collapse collapse">
+        <ul class="list-group">
+          {% for asignarprocesoversion in asignarprocesoversions %}
+          <li class="list-group-item">{{ asignarprocesoversion.nombre_lt }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

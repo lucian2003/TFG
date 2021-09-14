@@ -1,0 +1,93 @@
+<div id="ajax_extTareaAsignada">
+	<div> 
+	    <table class="table table-sm table-hover table-bordered">
+	      <thead>
+	          <tr>
+	            <th scope="col" style="border-right: 0px;"><h3>SIN SUBCONTRATAR</h3></th>
+	            <th style="border-left: 0px;"></th>
+	            <th scope="col" style="border-right: 0px;"><h3>SUBCONTRATADO</h3></th>
+	            <th style="border-right: 0px;"></th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <tr>
+	            <td class="align-middle" width="40%"><h4>TIEMPO STD + DESP</h4></td>
+	            <td class="align-middle" id="t1"><h4>{{t1|date('H:i:s', '+00:00 GMT')}}</h4></td>
+	            <td class="align-middle" width="40%"><h4>TIEMPO STD + DESP SUB</h4></td>
+	            <td class="align-middle" id="t3"><h4>{{t3|date('H:i:s', '+00:00 GMT')}}</h4></td>
+	          </tr>
+	          <tr>
+	            <td class="align-middle" width="40%"><h4>TIEMPO ESTÁNDAR</h4></td>
+	            <td class="align-middle" id="t2"><h4>{{t2|date('H:i:s', '+00:00 GMT')}}</h4></td>
+	            <td class="align-middle" width="40%"><h4>TIEMPO ESTÁNDAR SUB</h4></td>
+	            <td class="align-middle" id="t4"><h4>{{t4|date('H:i:s', '+00:00 GMT')}}</h4></td>
+	          </tr>
+	        </tbody>
+	    </table>
+	    <input type="hidden" name='idAsignarprocesoversion' id="idAsignarprocesoversion"  value="{{idAsignarprocesoversion}}">
+    <div align="center">
+        <br>
+        <button onclick="edit(this);" type="submit" id="boton" value="INSERTAR TIEMPOS" class="btn btn-success">
+         INSERTAR / ACTUALIZAR TIEMPOS  ✎ </button>
+    </div>
+</div>
+
+<script type="text/javascript"> 
+
+  function edit(element){
+
+            var tr = jQuery(element).parent().parent();
+                if(!tr.hasClass("editing")) {
+                    tr.addClass("editing");
+
+                        var value_t1 = jQuery(tr.find("td[id='t1']")).text();
+                        jQuery(tr.find("td[id='t1']")).text("");
+                        jQuery(tr.find("td[id='t1']")).append('<input type="time" style="width: 100px;" value="'+value_t1+'"/>');
+
+                        var value_t2 = jQuery(tr.find("td[id='t2']")).text();
+                        jQuery(tr.find("td[id='t2']")).text("");
+                        jQuery(tr.find("td[id='t2']")).append('<input type="time" style="width: 100px;" value="'+value_t2+'"/>');
+
+                        var value_t3 = jQuery(tr.find("td[id='t3']")).text();
+                        jQuery(tr.find("td[id='t3']")).text("");
+                        jQuery(tr.find("td[id='t3']")).append('<input type="time" style="width: 100px;" value="'+value_t3+'"/>');
+
+                        var value_t4 = jQuery(tr.find("td[id='t4']")).text();
+                        jQuery(tr.find("td[id='t4']")).text("");
+                        jQuery(tr.find("td[id='t4']")).append('<input type="time" style="width: 100px;" value="'+value_t4+'"/>');
+
+                      jQuery(tr.find("button[id='boton']")).text("INSERTAR / ACTUALIZAR TIEMPOS  ✔");                   
+              
+                } else {
+                    tr.removeClass("editing");
+
+                        var value_t1 = jQuery(tr.find("td[id='t1']")).find("INPUT").val();
+
+                        jQuery(tr.find("td[id='t1']")).text(value_t1);
+                        jQuery(tr.find("td[id='t1']")).find("INPUT").remove();
+
+                        var value_t2 = jQuery(tr.find("td[id='t2']")).find("INPUT").val();
+
+                        jQuery(tr.find("td[id='t2']")).text(value_t2);
+                        jQuery(tr.find("td[id='t2']")).find("INPUT").remove();
+
+                        var value_t3 = jQuery(tr.find("td[id='t3']")).find("INPUT").val();
+
+                        jQuery(tr.find("td[id='t3']")).text(value_t3);
+                        jQuery(tr.find("td[id='t3']")).find("INPUT").remove();
+
+                        var value_t4 = jQuery(tr.find("td[id='t4']")).find("INPUT").val();
+
+                        jQuery(tr.find("td[id='t4']")).text(value_t4);
+                        jQuery(tr.find("td[id='t4']")).find("INPUT").remove();
+
+                        var idAsignarprocesoversion = $('input[name="idAsignarprocesoversion"]').val();
+
+                        $('#ajax_extTareaAsignada').load('{{ path('app_create_ext_tareaasignada')}}',{'idAsignarprocesoversion': idAsignarprocesoversion, 'value_t1': value_t1, 'value_t2': value_t2, 'value_t3': value_t3, 'value_t4': value_t4});
+                        
+                    jQuery(tr.find("button[id='boton']")).text(" INSERTAR / ACTUALIZAR TIEMPOS  ✎");      
+                
+            }
+        }
+  
+</script>

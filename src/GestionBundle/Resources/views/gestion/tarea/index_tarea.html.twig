@@ -1,0 +1,148 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="content">
+
+<script type="text/javascript">
+  function actualizarIdTarea(id) {
+        $('input[name=idTarea]').val(id);
+      }
+</script>
+
+<br>
+<h2>{% trans %}listado_tareas{% endtrans %}</h2>
+<br>
+<br>
+
+<table class="table table-borderless">
+      <tr>
+        <th class="align-middle" scope="col" width="50%"><a class="btn btn-success" href="{{ path('app_create_tarea')}}"> + {% trans %}aniadir{% endtrans %} {% trans %}tarea{% endtrans %}</a></th>
+
+        <th class="align-middle" scope="col">
+          <div>
+                <select id="selectedPlanta" class="browser-default custom-select" searchable="">
+                      <option value="" disabled selected>{% trans %}planta{% endtrans %}</option>
+                    {% for planta in plantas %}
+                      <option title="" value="{{ planta.id }}">{{ planta.nombre }}</option>
+                    {% endfor %}
+                </select>
+          </div>
+        </th>
+        <th class="align-middle" scope="col">
+          <div>
+            <input type="submit" id="aceptar" value="BUSCAR" class="btn btn-primary" />
+          </div> 
+        </th>
+      </tr>
+  </table>
+
+<div id="ajax">
+<form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu"> 
+  <div id="lista_nombres">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">TAREAS</th>
+        <th scope="col">TASKS</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for tarea in tareas %}
+      <tr>
+        <td class="align-middle">{{tarea.nombreES}}</td>
+        <td class="align-middle">{{tarea.nombreEN}}</td>
+        <td></td>
+        <td width="40%">
+          <input type="submit" class="btn btn-success waves-effect waves-light" value="{% trans %}ver{% endtrans %}" onclick ="actualizarIdTarea({{tarea.id}});this.form.action = '{{ path('app_details_tarea')}}'"/>
+          <input type="submit" class="btn btn-secondary waves-effect waves-light" value="{% trans %}editar{% endtrans %}" onclick ="actualizarIdTarea({{tarea.id}});this.form.action = '{{ path('app_edit_tarea')}}'"/>
+          <button type="button" class="btn btn-danger waves-effect waves-light" data-toggle="modal"  data-target = "#modalConfirmDelete" onclick ="actualizarIdTarea({{tarea.id}})">{% trans %}eliminar{% endtrans %}</button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+  <input type="hidden" name='idTarea' id="idTarea"  value="">
+
+  <!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">{% trans %}eliminar?{% endtrans %}</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+
+        <i class="fas fa-times fa-4x animated rotateIn"></i>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <input type="submit" class="btn  btn-outline-danger" value="{% trans %}si{% endtrans %}" onclick ="this.form.action = '{{ path('app_delete_tarea')}}'"/>
+        <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmDelete-->
+
+</form>
+
+<br>
+<br>
+
+
+
+<script type="text/javascript"> 
+  $(document).ready(function() {    
+  setTimeout(function(){
+        $("div.alert").slideUp(500);
+    }, 5000 ); // 5 secs 
+
+  $('#aceptar').click(function(){
+    $('#ajax').load('{{ path('app_filter_tarea')}}',{planta:$('#selectedPlanta').val()});
+    });
+
+  $('.mdb-select').materialSelect();
+  });
+
+  
+</script>
+
+
+<br>
+
+<ul class="pagination justify-content-center">
+  {% if(page==1) %}
+
+  {% else %}
+    {% set page = page-1 %}
+  {% endif %}
+
+  <li class="pagination pg-blue"><a class="page-link" href="{{ path('app_index_tarea', {"page":page}) }}">&laquo;</a></li>
+  {% for i in 1..pagesCount %}
+    <li class="pagination pg-blue"><a class="page-link" href="{{ path('app_index_tarea', {"page":i}) }}">{{i}}</a></li>
+  {% endfor %}
+
+  {% if(page_m==pagesCount)%}
+
+  {% else %}
+    {% set page_m = page+1 %}
+  {% endif %}
+  <li class="pagination pg-blue"><a class="page-link" href="{{ path('app_index_tarea', {"page":page_m}) }}">&raquo;</a></li>
+</ul>
+
+<br>
+</div>
+
+{% endblock %}

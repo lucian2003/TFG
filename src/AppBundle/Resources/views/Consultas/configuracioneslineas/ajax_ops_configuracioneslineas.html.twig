@@ -1,0 +1,75 @@
+<script type="text/javascript">
+ var aa;
+ function asignarid(id) {
+        aa=id;
+      }
+
+</script>
+
+<div id="ajax_ops">
+  <h4>{% trans %}tareas{% endtrans %} {% trans %}operario{% endtrans %} {{ operario }}:</h4>
+  <br>
+  {% set foo = 1 %}
+
+  <table class="table table-sm table-hover table-bordered">
+    <tr>
+      <th scope="col" width="5%" class="text-center align-middle"><span><font size="5">✔</font></span></th>
+      <th scope="col" width="10%" class="text-center align-middle"><strong>{% trans %}estaciones{% endtrans %}</strong></th>
+      <th scope="col" width="" class="text-center align-middle"><strong>{% trans %}tareas{% endtrans %}</strong></th>            
+    </tr>
+
+
+  {% for detalleconfiguracion in detalleconfiguracions %}
+
+  <tr>
+    <td class="text-center align-middle"><input type="checkbox"/>&nbsp;</td>
+    <td id="" class="text-center align-middle"><strong>E{{ detalleconfiguracion.estacion }}</strong></td>
+    <td>
+    <div class="container-fluid">
+          <button type="button" class="btn btn-lg btn-inline-primary text-left" id="tareas" data-toggle="collapse" value="{{ detalleconfiguracion.id }}" onclick="asignarid({{foo}});"><h6><strong>{{foo}}. {{ detalleconfiguracion.idTareaAsignada.idTarea.nombreES }}</strong><span><font size="3"> - {{ detalleconfiguracion.idTareaAsignada.idAsignarprocesoversion.nombreLT }}</font></span></h6></button>
+          <div class="accordion-body collapse">
+           
+          <h6 class="list-group-item" id="ops{{foo}}" value=""></h6>
+          </div>
+    </div>
+  </td>
+</tr>
+    {% set foo = foo + 1 %}
+  {% endfor %}
+</table>
+
+  <input type="hidden" name='operario' id="operario"  value="">
+</div>
+
+<style>
+input[type=checkbox] {
+    transform: scale(2);
+}
+</style>
+
+<script type="text/javascript"> 
+
+$('[data-toggle="collapse"]').click(function () {
+  $(this).next('.collapse').collapse('toggle');
+
+      var detalleconfiguracion=$(this).val();
+      $.ajax({
+        type:'get',
+        url:'{{ path('app_fetch3_configuracioneslineas')}}',
+        data:{'id':detalleconfiguracion},
+        success:function(r){
+            var bbb = r.data;
+            var ccc = r.data2;
+            var lis = '';
+            for(var i=0; i<bbb.length; i++) {
+            lis += '<a class="list-group-item" id="ops" value="'+bbb[i].id+'">'+ccc[i].repeticion+' x '+bbb[i][0].nombre_es+' - '+ccc[i].comentario+'</a>';
+            }
+    $('#ops'+aa).empty();
+    $('#ops'+aa).append(lis);
+   
+      }
+    })
+  });
+
+</script>
+

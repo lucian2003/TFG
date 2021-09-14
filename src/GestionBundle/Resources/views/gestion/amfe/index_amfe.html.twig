@@ -1,0 +1,67 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+    <script type="text/javascript">
+    function actualizarIdAmfe(id) {
+          $('input[name=idAmfe]').val(id);
+        }
+  </script>
+
+    <br>
+    <h2>&nbsp;&nbsp;AMFE - PROCESOS CRÍTICOS</h2>
+    <br>
+    <br>
+    <a class="btn btn-success" href="{{ path('app_create_amfe')}}"> + {% trans %}aniadir{% endtrans %} PROCESO CRÍTICO</a>
+    <br>
+    <br>
+
+    <form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu">
+      <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
+      <br>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th scope="col"><strong>PROCESOS CRÍTICOS</strong></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for amfe in amfes %}
+          <tr>
+            <td class="align-middle">{{amfe.nombre}}</td>
+            <td></td>
+            <td></td>
+            <td width="40%">
+              <button type="submit" class="btn btn-warning waves-effect waves-light" onclick ="actualizarIdAmfe({{amfe.id}});this.form.action = '{{ path('app_edit_amfe')}}'"/>{% trans %}desglosar{% endtrans %}</button>
+              <button type="submit" class="btn btn-secondary waves-effect waves-light" onclick ="actualizarIdAmfe({{amfe.id}});this.form.action = '{{ path('app_edit_nombre_amfe')}}'"/>{% trans %}editar{% endtrans %}</button>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    <input type="hidden" name='idAmfe' id="idAmfe"  value="">
+
+  </form>
+
+  </div>
+</div>
+
+<script type="text/javascript"> 
+  $(document).ready(function() {
+
+    $("#myInput").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+
+  });
+</script>
+
+{% endblock %}

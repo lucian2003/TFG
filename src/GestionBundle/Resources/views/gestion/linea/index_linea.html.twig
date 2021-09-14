@@ -1,0 +1,136 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <script type="text/javascript">
+    function actualizarIdLinea(id) {
+          $('input[name=idLinea]').val(id);
+        }
+  </script>
+
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}listado_lineas{% endtrans %}</h2>
+  <br>
+  <br>
+
+  <table class="table table-borderless">
+        <tr>
+          <th class="align-middle" scope="col" width="50%"><a class="btn btn-success" href="{{ path('app_create_linea')}}"> + {% trans %}aniadir{% endtrans %} {% trans %}linea{% endtrans %}</a></th>
+
+          <th class="align-middle" scope="col">
+            <div>
+                  <select id="selectedPlanta" class="browser-default custom-select" searchable="">
+                        <option value="" disabled selected>{% trans %}planta{% endtrans %}</option>
+                      {% for planta in plantas %}
+                        <option title="" value="{{ planta.id }}">{{ planta.nombre }}</option>
+                      {% endfor %}
+                  </select>
+            </div>
+          </th>
+          <th class="align-middle" scope="col">
+            <div>
+              <input type="submit" id="aceptar" value="{% trans %}buscar{% endtrans %}" class="btn btn-success" />
+            </div> 
+          </th>
+        </tr>
+    </table>
+
+  <div id="ajax">
+  <form method="post" enctype="multipart/form-data" name="nuevo_menu" id="nuevo_menu"> 
+    <div id="lista_nombres">
+      <input class="form-control" id="myInput" type="text" placeholder="{% trans %}buscar..{% endtrans %}">
+        <br>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col"><strong>{% trans %}lineas{% endtrans %}</strong></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+      {% for linea in lineas %}
+        <tr>
+          <td class="align-middle">{{linea.nombre}}</td>
+          <td></td>
+          <td></td>
+          <td width="40%">
+            <button type="submit" class="btn btn-success waves-effect waves-light" onclick ="actualizarIdLinea({{linea.id}});this.form.action = '{{ path('app_details_linea')}}'"/>{% trans %}ver{% endtrans %}</button>
+            <button type="submit" class="btn btn-secondary waves-effect waves-light" onclick ="actualizarIdLinea({{linea.id}});this.form.action = '{{ path('app_edit_linea')}}'"/>{% trans %}editar{% endtrans %}</button>
+            <button type="button" class="btn btn-danger waves-effect waves-light" data-toggle="modal"  data-target = "#modalConfirmDelete" onclick ="actualizarIdLinea({{linea.id}})">{% trans %}eliminar{% endtrans %}</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    <input type="hidden" name='idLinea' id="idLinea"  value="">
+
+   <!--Modal: modalConfirmDelete-->
+  <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+      <!--Content-->
+      <div class="modal-content text-center">
+        <!--Header-->
+        <div class="modal-header d-flex justify-content-center">
+          <p class="heading">{% trans %}eliminar?{% endtrans %}</p>
+        </div>
+
+        <!--Body-->
+        <div class="modal-body">
+
+          <i class="fas fa-times fa-4x animated rotateIn"></i>
+
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+          <input type="submit" class="btn  btn-outline-danger" value="{% trans %}si{% endtrans %}" onclick ="this.form.action = '{{ path('app_delete_linea')}}'"/>
+          <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+  <!--Modal: modalConfirmDelete-->
+
+  </form>
+
+  <br>
+  <br>
+
+</div>
+</div>
+</div>
+<script type="text/javascript">
+
+   $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+          });
+
+  $(document).ready(function() {    
+  setTimeout(function(){
+        $("div.alert").slideUp(500);
+    }, 5000 ); // 5 secs 
+
+  $('#aceptar').click(function(){
+    $('#ajax').load('{{ path('app_filter_linea')}}',{planta:$('#selectedPlanta').val()});
+    });
+
+  $('.mdb-select').materialSelect();
+  });
+  
+</script>
+
+</div>
+
+{% endblock %}

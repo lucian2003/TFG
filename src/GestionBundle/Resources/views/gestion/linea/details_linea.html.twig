@@ -1,0 +1,39 @@
+{% extends 'GestionBundle::main.html.twig' %}
+
+{% block contenido %}
+
+<div class="page-wrapper">
+  <div class="content">
+  <br>
+  <h2>&nbsp;&nbsp;{% trans %}linea{% endtrans %}</h2>
+  <br>
+
+  <table class="table">
+  	<thead>
+  		<tr>
+  			<th scope="col"><strong>ID</strong></th>
+          	<th scope="col"><strong>{% trans %}planta{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}linea{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}productividad{% endtrans %}</strong></th>
+          	<th scope="col"><strong>{% trans %}estaciones{% endtrans %}</strong></th>
+          	<th scope="col"></th>
+        	</tr>
+      </thead>
+      <tbody>
+          <tr>
+          	<th scope="row">{{linea.id}}</th>
+            	<td>{{linea.idPlanta.nombre}}</td>
+            	<td>{{linea.nombre}}</td>
+            	<td>{{linea.productividad}}</td>
+            	<td>{{linea.estaciones}}</td>
+          </tr>
+      </tbody>
+  </table>
+
+
+  <a class="btn btn-secondary" href="{{ path('app_index_linea')}}">{% trans %}volver{% endtrans %}</a>
+  <br>
+  <br>
+  </div>
+</div>
+{% endblock %}
