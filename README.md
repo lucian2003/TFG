@@ -1,81 +1,22 @@
-<<<<<<< HEAD
 # TFG
-=======
-Symfony Standard Edition
-========================
+Grado en Ingeniería Informática
+# Aplicación Web para la estandarización de procesos de Ingeteam Power Technology
 
-**WARNING**: This distribution does not support Symfony 4. See the
-[Installing & Setting up the Symfony Framework][15] page to find a replacement
-that fits you best.
+Resumen 
+En este trabajo de fin de estudios se describe el desarrollo de una aplicación web para el departamento de ingeniería de la empresa Ingeteam Power Technology que permite gestionar los estándares ya creados, agilizar la organización de las configuraciones de línea y a futuro sustituir a todo el sistema Excel desarrollado anteriormente en la empresa. 
+El desarrollo se ha realizado en el lenguaje de programación PHP utilizando Symfony, framework diseñado para desarrollar aplicaciones web basado en el patrón Modelo Vista Controlador, y los datos se almacenan en una base de datos SQL.
+Al finalizar el desarrollo se realizan pruebas para garantizar el correcto funcionamiento de la aplicación, el almacenamiento de datos en la base de datos, la usabilidad y accesibilidad.
+Con el desarrollo propuesto se contribuye a la digitalización de la empresa y mejorar la eficiencia y la optimización de los procesos mediante el análisis de datos almacenados.
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+Palabras clave: 
+Aplicación Web, PHP, Symfony, Ingeteam Power Technology, Estandarización de procesos
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
 
-What's inside?
---------------
+Abstract
+This end-of-study work describes the development of a web application for the engineering department of the company Ingeteam Power Technology that allows managing the standards already created, streamlining the organization of line configurations and, in the future, replacing the entire Excel system previously developed in the company.
+The development will be done in the PHP programming language using Symfony, a framework designed to develop web applications based on the Model View Controller pattern, and the data will be stored in a SQL database.
+At the end of the development, tests are carried out to guarantee the correct operation of the application, data storage in the database, usability and accessibility.
+The proposed development contributes to the digitization of the company and to improve the efficiency and optimization of processes through the analysis of stored data.
 
-The Symfony Standard Edition is configured with the following defaults:
-
-  * An AppBundle you can use to start coding;
-
-  * Twig as the only configured template engine;
-
-  * Doctrine ORM/DBAL;
-
-  * Swiftmailer;
-
-  * Annotations enabled for everything.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev env) - Adds code generation
-    capabilities
-
-  * [**WebServerBundle**][14] (in dev env) - Adds commands for running applications
-    using the PHP built-in web server
-
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  https://symfony.com/doc/3.4/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.4/doctrine.html
-[8]:  https://symfony.com/doc/3.4/templating.html
-[9]:  https://symfony.com/doc/3.4/security.html
-[10]: https://symfony.com/doc/3.4/email.html
-[11]: https://symfony.com/doc/3.4/logging.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
-[14]: https://symfony.com/doc/current/setup/built_in_web_server.html
-[15]: https://symfony.com/doc/current/setup.html
->>>>>>> b9bcba2 (Symfony App Upload)
+Keywords: 
+Web application, PHP, Symfony, Ingeteam Power Technology, Process standardization 
