@@ -2,6 +2,7 @@
 
 *Grado en Ingeniería Informática*
 # Aplicación Web para la estandarización de procesos de Ingeteam Power Technology
+*DESARROLLO WEB EN SYMFONY*
 
 Resumen
 
